@@ -1,22 +1,39 @@
 <script setup lang="ts">
-   import type { PlayerStats, Tab } from './types';
-   import { ref } from 'vue';
+   import { onMounted, ref } from 'vue';
+   import type { Tab } from './types';
    import { WINDOW_SIZE } from './CONST';
-   import TabLabel from './Tabs/TabLabel.vue'; // TODO: interpolate values into 'main' styles
-   import Training from './Tabs/Training.vue'; // TODO: interpolate values into 'main' styles
+   import Label from './tabs/Label.vue';
+   import Training from './tabs/Training.vue';
+   import Shop from './tabs/Shop.vue';
+   import useInventory from './stores/inventory';
 
-   let currentTab = ref<number>(0);
+   const inventory = useInventory();
+
+   onMounted(() => {
+      for (let i = 0; i < 10; i++) {
+         if (Math.random() < 0.5) {
+            inventory.addSlot({ id: 1, quantity: 1 });
+         } else {
+            inventory.addSlot(undefined);
+         }
+      }
+   });
+
+   let currentTab = ref<number>(3);
    const switchTab = (to: number): void => {
       currentTab.value = to;
    };
-
-   let playerStats = ref<PlayerStats>({
-      strength: 0,
-      strengthXP: 0
-   });
+   const isCurrent = (component: string) => tabs.value[currentTab.value].label.title === component;
 
    // Starting tabs
    let tabs = ref<Tab[]>([
+      {
+         label: {
+            title: 'hero',
+            onColor: 'hsl(219, 18%, 45%)',
+            offColor: 'hsl(219, 35%, 40%)'
+         }
+      },
       {
          label: {
             title: 'training',
@@ -44,9 +61,17 @@
 <template>
    <main>
       <div class="temp-border">
-         <div class="window" :style="{ height: `${WINDOW_SIZE.HEIGHT}px`, width: `${WINDOW_SIZE.WIDTH}px` }">
+         <div
+            class="window"
+            :style="{
+               height: `${WINDOW_SIZE.HEIGHT}px`,
+               width: `${WINDOW_SIZE.WIDTH}px`,
+               maxHeight: `${WINDOW_SIZE.HEIGHT}px`,
+               maxWidth: `${WINDOW_SIZE.WIDTH}px`
+            }"
+         >
             <div class="tab-label-area">
-               <TabLabel
+               <Label
                   v-for="({ label }, i) in tabs"
                   :title="label.title"
                   :active="currentTab === i"
@@ -56,48 +81,51 @@
                />
             </div>
             <div class="tab-page-area" :style="{ backgroundColor: tabs[currentTab].label.onColor }">
-               <Training v-if="tabs[currentTab].label.title === 'training'" />
+               <Training v-if="isCurrent('training')" />
+               <Shop v-if="isCurrent('shop')" />
             </div>
          </div>
       </div>
    </main>
 </template>
 
-<style lang="sass">
-   @import './styles/base'
+<style lang="scss">
+   @use '@/styles/reset' as *;
+   @use '@/styles/global' as *;
 
-   main
-      @include flex-center
+   main {
+      @include flex-center;
+      height: 100vh;
+      width: 100vw;
+      padding: $s-3;
+   }
 
-      height: 100vh
-      width: 100vw
+   .window {
+      z-index: -1;
+      background-color: $background;
+      display: grid;
+      grid-template-rows: $s-7 auto;
+   }
 
-      padding: $s3
+   .temp-border {
+      z-index: 1;
+      box-sizing: content-box;
+      border-style: solid;
+      border-width: $s-2;
+      border-radius: $s-0;
+      border-color: $white-soft;
+   }
 
-   .window
-      z-index: -1
-      background-color: $background
+   .tab-label-area {
+      display: flex;
+      align-items: end;
+      background-color: $background;
+   }
 
-      display: grid
-      grid-template-rows: $s7 auto
-
-   .temp-border
-      z-index: 1
-      box-sizing: content-box
-
-      border-style: solid
-      border-width: $s2
-      border-radius: $s0
-      border-color: $white-soft
-
-   .tab-label-area
-      display: flex
-      align-items: end
-      background-color: $background
-
-   .tab-page-area
-      @include flex-center
-      width: 100%
-      height: 100%
-      border-top-right-radius: $s3
+   .tab-page-area {
+      @include flex-center;
+      width: 100%;
+      height: 100%;
+      border-top-right-radius: $s-3;
+   }
 </style>

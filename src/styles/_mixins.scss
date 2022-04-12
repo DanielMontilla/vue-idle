@@ -1,0 +1,24 @@
+@use './sizes' as *;
+
+@mixin flex-center {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+@mixin window-default {
+   width: 100%;
+   height: 100%;
+   padding: $s-2;
+
+   display: grid;
+}
+
+@mixin no-interact {
+   user-drag: none;
+   -webkit-user-drag: none;
+   user-select: none;
+   -moz-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+}
