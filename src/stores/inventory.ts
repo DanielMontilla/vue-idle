@@ -1,78 +1,26 @@
 import { items } from '@/CONST';
-import type { ItemData } from '@/types';
+import type { SlotData } from '@/types';
 import { defineStore } from 'pinia';
+import useSlots from './slots';
 
 interface InventoryStoreState {
-   slots: Array<ItemData | undefined>;
-   dragging?: number;
+   slotIndices: number[]; // list of all slot indices that belong to inventory
 }
 
-/**
- * Matains global state on player inventory because HTML drag & drop api is dogshit
- */
 const useInventory = defineStore('inventory', {
    state: (): InventoryStoreState => ({
-      slots: [],
-      dragging: undefined
+      slotIndices: []
    }),
-   getters: {
-      items(state) {
-         return state.slots;
-      }
-   },
+   getters: {},
    actions: {
-      init(slots: Array<ItemData | undefined>) {
-         this.slots = slots;
-      },
-      addSlot(item: ItemData | undefined) {
-         this.slots.push(item);
-      },
-      setDragging(i: number) {
-         this.dragging = i;
-      },
-      clearDragging() {
-         this.dragging = undefined;
-      },
-      setSlot(index: number, data?: ItemData) {
-         this.slots[index] = data;
-      },
-      handleDrop(destIndex: number) {
-         if (this.dragging === undefined) {
-            console.error(`Could not drop because not dragging`);
-            return;
+      init(slots: SlotData[]) {
+         for (const slot of slots) {
+            this.addSlot(slot);
          }
-
-         // Setting relevant source and destination data
-         let srcIndex = this.dragging;
-         let destSlot = this.slots[destIndex];
-         let srcSlot = this.slots[srcIndex];
-
-         if (!destSlot) {
-            destSlot = srcSlot;
-            srcSlot = undefined;
-         } else {
-            if (!srcSlot) return;
-            if (destSlot.id == srcSlot.id) {
-               let stackLimit = items[srcSlot.id].stackLimit;
-               let sum = destSlot.quantity + srcSlot.quantity;
-               if (sum > stackLimit) {
-                  let remainder = sum - stackLimit;
-                  if (destSlot.quantity === stackLimit) {
-                     srcSlot.quantity = stackLimit;
-                     destSlot.quantity = remainder;
-                  } else {
-                     srcSlot.quantity = remainder;
-                     destSlot.quantity = stackLimit;
-                  }
-               } else {
-                  destSlot.quantity = sum;
-                  srcSlot = undefined;
-               }
-            }
-         }
-
-         this.setSlot(srcIndex, srcSlot);
-         this.setSlot(destIndex, destSlot);
+      },
+      addSlot(data: SlotData) {
+         const s = useSlots();
+         this.slotIndices.push(s.add(data));
       }
    }
 });

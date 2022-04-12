@@ -1,11 +1,15 @@
 <script setup lang="ts">
-   defineProps();
+   import Inventory from '../components/Inventory.vue';
+   interface TrainingProps {
+      show: boolean;
+   }
+
+   const { show } = defineProps<TrainingProps>();
 </script>
 
 <template>
-   <div class="training-ctn">
-      TRAINING
-      <div class="barracks-section"></div>
+   <div class="training-ctn" :class="{ hide: !show }">
+      <Inventory />
    </div>
 </template>
 

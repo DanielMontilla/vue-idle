@@ -7,33 +7,31 @@
    import Shop from './tabs/Shop.vue';
    import useInventory from './stores/inventory';
 
+   let currentTab = ref<number>(1);
    const inventory = useInventory();
 
    onMounted(() => {
-      for (let i = 0; i < 10; i++) {
-         if (Math.random() < 0.5) {
-            inventory.addSlot({ id: 1, quantity: 1 });
-         } else {
-            inventory.addSlot(undefined);
-         }
+      for (let i = 0; i < 15 * 5; i++) {
+         inventory.addSlot({
+            type: '',
+            item: Math.random() < 0.5 ? { id: 1, quantity: 1 } : undefined
+         });
       }
    });
 
-   let currentTab = ref<number>(3);
    const switchTab = (to: number): void => {
       currentTab.value = to;
    };
    const isCurrent = (component: string) => tabs.value[currentTab.value].label.title === component;
-
    // Starting tabs
    let tabs = ref<Tab[]>([
-      {
-         label: {
-            title: 'hero',
-            onColor: 'hsl(219, 18%, 45%)',
-            offColor: 'hsl(219, 35%, 40%)'
-         }
-      },
+      // {
+      //    label: {
+      //       title: 'hero',
+      //       onColor: 'hsl(219, 18%, 45%)',
+      //       offColor: 'hsl(219, 35%, 40%)'
+      //    }
+      // },
       {
          label: {
             title: 'training',
@@ -41,13 +39,13 @@
             offColor: 'hsl(219, 35%, 40%)'
          }
       },
-      {
-         label: {
-            title: 'explore',
-            onColor: 'hsl(100, 18%, 40%)',
-            offColor: 'hsl(100, 35%, 25%)'
-         }
-      },
+      // {
+      //    label: {
+      //       title: 'explore',
+      //       onColor: 'hsl(100, 18%, 40%)',
+      //       offColor: 'hsl(100, 35%, 25%)'
+      //    }
+      // },
       {
          label: {
             title: 'shop',
@@ -81,8 +79,8 @@
                />
             </div>
             <div class="tab-page-area" :style="{ backgroundColor: tabs[currentTab].label.onColor }">
-               <Training v-if="isCurrent('training')" />
-               <Shop v-if="isCurrent('shop')" />
+               <Training :show="isCurrent('training')" />
+               <Shop :show="isCurrent('shop')" />
             </div>
          </div>
       </div>

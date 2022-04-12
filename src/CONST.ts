@@ -7,5 +7,10 @@ export const items: Record<number, ItemInfo> = {
       stackLimit: 1,
       type: 'hero',
       imgSrc: `icons/knight`
+   },
+   2: {
+      stackLimit: 1,
+      type: 'hero',
+      imgSrc: `icons/goblin`
    }
 };

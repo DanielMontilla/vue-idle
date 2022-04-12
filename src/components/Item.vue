@@ -1,13 +1,13 @@
 <script setup lang="ts">
    import { items } from '@/CONST';
-   import { ref } from 'vue';
+   import type { ItemData } from '@/types';
 
    interface ItemProps {
-      id: number;
-      quantity: number;
+      data: ItemData;
    }
 
-   let { id, quantity } = defineProps<ItemProps>();
+   let { data } = defineProps<ItemProps>();
+   let { id, quantity } = data;
    let { imgSrc } = items[id];
 </script>
 

@@ -16,3 +16,10 @@ export interface ItemData {
    id: number;
    quantity: number;
 }
+
+export type SlotType = '';
+
+export interface SlotData {
+   type: SlotType;
+   item?: ItemData;
+}

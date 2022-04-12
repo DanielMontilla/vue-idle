@@ -2,12 +2,12 @@
    import useInventory from '@/stores/inventory';
    import Slot from './Slot.vue';
 
-   const inventory = useInventory();
+   let inventory = useInventory();
 </script>
 
 <template>
    <div class="inventory-ctn">
-      <Slot v-for="(slot, i) in inventory.slots" :index="i" />
+      <Slot class="inventory-slot" v-for="index in inventory.slotIndices" :index="index" />
    </div>
 </template>
 
@@ -15,7 +15,10 @@
    @use '@/styles/global' as *;
 
    .inventory-ctn {
-      display: grid;
-      grid-auto-flow: column;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      width: 64 * 9;
+      height: 64 * 5;
    }
 </style>
