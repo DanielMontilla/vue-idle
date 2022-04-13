@@ -1,6 +1,5 @@
-import type { InjectionKey, Ref } from 'vue';
-import type uSlot from './classes/Slot';
-import type { ItemInfo } from './types';
+import type { InjectionKey } from 'vue';
+import type { ItemInfo, SlotRef } from './types';
 
 export const WINDOW_SIZE = { HEIGHT: 900, WIDTH: 1200 };
 
@@ -17,5 +16,4 @@ export const items: Record<number, ItemInfo> = {
    }
 };
 
-// export const INVENTORY = Symbol() as InjectionKey<Ref<uSlot[]>>;
-export const INVENTORY = Symbol() as InjectionKey<Ref<uSlot>[]>;
+export const INVENTORY = Symbol() as InjectionKey<SlotRef[]>;

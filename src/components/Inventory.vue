@@ -1,7 +1,6 @@
 <script setup lang="ts">
    import { INVENTORY } from '@/CONST';
-   import type uSlot from '@/classes/Slot';
-   import { inject, type Ref } from 'vue';
+   import { inject } from 'vue';
    import Slot from './Slot.vue';
    import type { SlotRef } from '@/types';
 
@@ -10,7 +9,7 @@
 
 <template>
    <div class="inventory-ctn">
-      <Slot class="inventory-slot" v-for="slot in slots" :slot="slot" />
+      <Slot class="inventory-slot" v-for="slot in slots" :data="slot" />
    </div>
 </template>
 

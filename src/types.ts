@@ -1,5 +1,4 @@
 import type { Ref } from 'vue';
-import type uSlot from './classes/Slot';
 
 export interface LabelData {
    title: string;
@@ -20,11 +19,13 @@ export interface ItemData {
    quantity: number;
 }
 
-export type SlotRef = Ref<uSlot>;
+export type SlotRef = Ref<SlotData>;
 
 export type SlotType = 'none' | 'rogue';
 
+/** @description contains all necesary slot data to render view */
 export interface SlotData {
    type: SlotType;
+   id: number;
    item?: ItemData;
 }

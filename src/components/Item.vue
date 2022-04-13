@@ -1,11 +1,12 @@
 <script setup lang="ts">
    import { items } from '@/CONST';
+   import { computed } from 'vue';
    interface ItemProps {
       id: number;
       quantity: number;
    }
    let { id, quantity } = defineProps<ItemProps>();
-   let { imgSrc } = items[id];
+   const imgSrc = computed(() => items[id].imgSrc);
 </script>
 
 <template>

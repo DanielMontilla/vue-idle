@@ -5,15 +5,12 @@
    import Label from './tabs/Label.vue';
    import Training from './tabs/Training.vue';
    import Shop from './tabs/Shop.vue';
-   import uSlot from './classes/Slot';
-   //  ref<uSlot[]>(uSlot.Randoms(9 * 6));
-   let inventory: SlotRef[] = [];
+   import useSlots from './classes/SlotManager';
 
-   for (let i = 0; i < 9 * 6; i++) {
-      inventory.push(uSlot.getRandomRef());
-   }
+   // Global State
+   const slots = useSlots();
 
-   provide(INVENTORY, inventory);
+   provide(INVENTORY, slots.addRandoms(50));
 
    let currentTab = ref<number>(1);
 

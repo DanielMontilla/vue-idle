@@ -1,5 +1,5 @@
 <script setup lang="ts">
-   import uSlot from '@/classes/Slot';
+   import useSlots from '@/classes/SlotManager';
    import { defineProps } from 'vue';
    import Inventory from '../components/Inventory.vue';
    import Slot from '../components/Slot.vue';
@@ -8,12 +8,13 @@
       show: boolean;
    }
    const { show } = defineProps<ShopProps>();
+   const slots = useSlots();
 </script>
 
 <template>
    <div class="shop-ctn" :class="{ hide: !show }">
       SHOP
-      <Slot :slot="uSlot.getRandomRef()" />
+      <Slot :data="slots.addEmpty()" />
       <div class="shop-recruitment-area"></div>
       <div class="shop-item-shop-area">
          <Inventory />

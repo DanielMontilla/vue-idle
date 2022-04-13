@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, useSlots } from 'vue';
 // @ts-ignore
 import App from '@/App.vue';
 

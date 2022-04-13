@@ -1,28 +1,20 @@
 <script setup lang="ts">
-   import uSlot from '@/classes/Slot';
+   import useSlots from '@/classes/SlotManager';
    import type { SlotRef } from '@/types';
    import Item from './Item.vue';
 
    interface SlotProps {
-      slot: SlotRef;
+      data: SlotRef;
    }
 
-   const { slot } = defineProps<SlotProps>();
-   const s = slot;
+   const { data: slot } = defineProps<SlotProps>();
+   /** NOTE: for some reason <Item/> component is not acting on state change... this made is work somehow... i have no idea whats happening */
+   let s = slot; // why?
+   const manager = useSlots();
 
-   const onDragStart = () => {
-      uSlot.setDragging(slot.value);
-      // console.log(`pre: slot.item === undefined ${slot.item === undefined}`);
-   };
-
-   const onDrop = () => {
-      uSlot.handleDrop(slot.value);
-   };
-
-   const onDragEnd = () => {
-      uSlot.setDragging(undefined);
-      // console.log(`post: slot.item === undefined ${slot.item === undefined}`);
-   };
+   const onDragStart = () => manager.setDragged(slot);
+   const onDrop = () => manager.handleDrop(slot, true);
+   const onDragEnd = () => manager.clearDragged();
 </script>
 
 <template>
