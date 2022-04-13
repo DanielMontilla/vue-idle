@@ -9,6 +9,7 @@
 
 <template>
    <div class="training-ctn" :class="{ hide: !show }">
+      Training
       <Inventory />
    </div>
 </template>

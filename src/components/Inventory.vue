@@ -1,19 +1,21 @@
 <script setup lang="ts">
-   import useInventory from '@/stores/inventory';
+   import { INVENTORY } from '@/CONST';
+   import type uSlot from '@/classes/Slot';
+   import { inject, type Ref } from 'vue';
    import Slot from './Slot.vue';
+   import type { SlotRef } from '@/types';
 
-   let inventory = useInventory();
+   let slots = inject(INVENTORY) as SlotRef[];
 </script>
 
 <template>
    <div class="inventory-ctn">
-      <Slot class="inventory-slot" v-for="index in inventory.slotIndices" :index="index" />
+      <Slot class="inventory-slot" v-for="slot in slots" :slot="slot" />
    </div>
 </template>
 
 <style lang="scss">
    @use '@/styles/global' as *;
-
    .inventory-ctn {
       display: flex;
       flex-wrap: wrap;

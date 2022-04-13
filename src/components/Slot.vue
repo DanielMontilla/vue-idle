@@ -1,47 +1,44 @@
 <script setup lang="ts">
-   import useSlots from '@/stores/slots';
-   import type { ItemData, SlotData } from '@/types';
-   import { ref } from 'vue';
+   import uSlot from '@/classes/Slot';
+   import type { SlotRef } from '@/types';
    import Item from './Item.vue';
 
    interface SlotProps {
-      index: number;
+      slot: SlotRef;
    }
 
-   const slots = useSlots();
-   const { index } = defineProps<SlotProps>();
+   const { slot } = defineProps<SlotProps>();
+   const s = slot;
 
-   let item = ref<ItemData | undefined>(slots.slots[index].item);
-
-   // TODO: perform more targeted state change. Currently this triggers for each slot on every state change
-   slots.$subscribe((m, s) => {
-      item.value = s.slots[index].item;
-   });
-
-   let onDragStart = ({ dataTransfer }: DragEvent) => {
-      if (!dataTransfer) return;
-      dataTransfer.dropEffect = 'move';
-      dataTransfer.effectAllowed = 'move';
-      slots.setDragging(index);
+   const onDragStart = () => {
+      uSlot.setDragging(slot.value);
+      // console.log(`pre: slot.item === undefined ${slot.item === undefined}`);
    };
-   let onDrop = () => slots.handleDrop(index);
 
-   let onDragEnd = ({ dataTransfer }: DragEvent) => {
-      if (!dataTransfer) return;
-      let { dropEffect } = dataTransfer;
-      if (dropEffect === 'none') slots.clearDragging();
+   const onDrop = () => {
+      uSlot.handleDrop(slot.value);
+   };
+
+   const onDragEnd = () => {
+      uSlot.setDragging(undefined);
+      // console.log(`post: slot.item === undefined ${slot.item === undefined}`);
    };
 </script>
 
 <template>
    <div class="slot-ctn" @drop="onDrop" @dragenter.prevent @dragover.prevent>
-      <Item v-if="item" :data="item" @dragstart="onDragStart" @dragend="onDragEnd" />
+      <Item
+         v-if="s.item"
+         :quantity="s.item.quantity"
+         :id="s.item.id"
+         @dragstart="onDragStart"
+         @dragend="onDragEnd"
+      />
    </div>
 </template>
 
 <style lang="scss">
    @use '@/styles/global' as *;
-
    .slot-ctn {
       @include flex-center;
       display: block;

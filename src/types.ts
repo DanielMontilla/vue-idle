@@ -1,3 +1,6 @@
+import type { Ref } from 'vue';
+import type uSlot from './classes/Slot';
+
 export interface LabelData {
    title: string;
    onColor: string;
@@ -17,7 +20,9 @@ export interface ItemData {
    quantity: number;
 }
 
-export type SlotType = '';
+export type SlotRef = Ref<uSlot>;
+
+export type SlotType = 'none' | 'rogue';
 
 export interface SlotData {
    type: SlotType;

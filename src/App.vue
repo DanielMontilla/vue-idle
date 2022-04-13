@@ -1,23 +1,21 @@
 <script setup lang="ts">
-   import { onMounted, ref } from 'vue';
-   import type { Tab } from './types';
-   import { WINDOW_SIZE } from './CONST';
+   import { provide, ref, type Ref } from 'vue';
+   import type { SlotRef, Tab } from './types';
+   import { WINDOW_SIZE, INVENTORY } from './CONST';
    import Label from './tabs/Label.vue';
    import Training from './tabs/Training.vue';
    import Shop from './tabs/Shop.vue';
-   import useInventory from './stores/inventory';
+   import uSlot from './classes/Slot';
+   //  ref<uSlot[]>(uSlot.Randoms(9 * 6));
+   let inventory: SlotRef[] = [];
+
+   for (let i = 0; i < 9 * 6; i++) {
+      inventory.push(uSlot.getRandomRef());
+   }
+
+   provide(INVENTORY, inventory);
 
    let currentTab = ref<number>(1);
-   const inventory = useInventory();
-
-   onMounted(() => {
-      for (let i = 0; i < 15 * 5; i++) {
-         inventory.addSlot({
-            type: '',
-            item: Math.random() < 0.5 ? { id: 1, quantity: 1 } : undefined
-         });
-      }
-   });
 
    const switchTab = (to: number): void => {
       currentTab.value = to;
@@ -25,13 +23,6 @@
    const isCurrent = (component: string) => tabs.value[currentTab.value].label.title === component;
    // Starting tabs
    let tabs = ref<Tab[]>([
-      // {
-      //    label: {
-      //       title: 'hero',
-      //       onColor: 'hsl(219, 18%, 45%)',
-      //       offColor: 'hsl(219, 35%, 40%)'
-      //    }
-      // },
       {
          label: {
             title: 'training',
@@ -39,13 +30,6 @@
             offColor: 'hsl(219, 35%, 40%)'
          }
       },
-      // {
-      //    label: {
-      //       title: 'explore',
-      //       onColor: 'hsl(100, 18%, 40%)',
-      //       offColor: 'hsl(100, 35%, 25%)'
-      //    }
-      // },
       {
          label: {
             title: 'shop',
