@@ -1,9 +1,9 @@
-import { items } from '@/CONST';
-import type { ItemData, SlotData, SlotRef, SlotType } from '@/types';
-import { rand, randInt } from '@/utilities';
+import { items, SlotTypeArr } from '@/CONST';
+import type { ItemData, SlotData, SlotRef, SlotType, Writeable } from '@/types';
+import { rand, randInt, randArrPick } from '@/utilities';
 import { ref, type Ref } from 'vue';
 
-/** @description global slot manager */
+/** @description global slot/item manager. */
 class SlotManager {
    /** next available unique slot id */
    private static next: number = 0;
@@ -18,25 +18,36 @@ class SlotManager {
       SlotManager.setDragged(undefined);
    }
 
-   public static add(type?: SlotType, item?: ItemData): Ref<SlotData> {
+   public static add(type?: SlotType, item?: ItemData): SlotRef {
       return ref({ id: SlotManager.next++, type: type ? type : 'none', item: item });
    }
 
-   public static addRandom(): Ref<SlotData> {
+   public static addRandom(type?: SlotType, emptyChance: number = 0.5): SlotRef {
+      let tempArr = SlotTypeArr as Writeable<typeof SlotTypeArr>;
+      let randId = randInt(1, 2);
+      let randQuantity = randInt(1, items[randId].stackLimit);
       return this.add(
-         'none',
-         rand() > 0.5 ? { id: randInt(1, 2), quantity: randInt(1, 16) } : undefined
+         type ? type : randArrPick(tempArr),
+         rand() > emptyChance ? { id: randId, quantity: randQuantity } : undefined
       );
    }
 
-   public static addEmpty(): Ref<SlotData> {
-      return this.add('none');
+   public static addRandoms(amount: number, type?: SlotType): SlotRef[] {
+      let arr: SlotRef[] = [];
+      for (let i = 0; i < amount; i++) {
+         arr.push(SlotManager.addRandom(type));
+      }
+      return arr;
    }
 
-   public static addRandoms(amount: number): Ref<SlotData>[] {
-      let arr: Ref<SlotData>[] = [];
+   public static addEmpty(type?: SlotType): SlotRef {
+      return this.add(type);
+   }
+
+   public static addEmpties(amount: number, type?: SlotType): SlotRef[] {
+      let arr: SlotRef[] = [];
       for (let i = 0; i < amount; i++) {
-         arr.push(SlotManager.addRandom());
+         arr.push(SlotManager.addEmpty(type));
       }
       return arr;
    }
@@ -108,6 +119,7 @@ const useSlots = () => ({
    addRandom: SlotManager.addRandom,
    addRandoms: SlotManager.addRandoms,
    addEmpty: SlotManager.addEmpty,
+   addEmpties: SlotManager.addEmpties,
    setDragged: SlotManager.setDragged,
    clearDragged: SlotManager.clearDragged,
    handleDrop: SlotManager.handleDrop

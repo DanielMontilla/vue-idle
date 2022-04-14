@@ -1,7 +1,7 @@
 <script setup lang="ts">
    import { provide, ref, type Ref } from 'vue';
-   import type { SlotRef, Tab } from './types';
-   import { WINDOW_SIZE, INVENTORY } from './CONST';
+   import type { PlayerData, Tab } from '@/types';
+   import { WINDOW_SIZE, INVENTORY, PLAYER } from '@/CONST';
    import Label from './tabs/Label.vue';
    import Training from './tabs/Training.vue';
    import Shop from './tabs/Shop.vue';
@@ -9,10 +9,15 @@
 
    // Global State
    const slots = useSlots();
+   const player = ref<PlayerData>({ wallet: { diamond: 0, gold: 10 } });
 
-   provide(INVENTORY, slots.addRandoms(50));
+   provide(INVENTORY, [
+      slots.add('inventory', { id: 1, quantity: 1 }),
+      ...slots.addEmpties(9 * 6 - 1, 'inventory')
+   ]);
+   provide(PLAYER, player);
 
-   let currentTab = ref<number>(1);
+   let currentTab = ref<number>(0);
 
    const switchTab = (to: number): void => {
       currentTab.value = to;
@@ -40,6 +45,14 @@
 <template>
    <main>
       <div class="temp-border">
+         <div class="wallet-area">
+            <div class="gold-area">
+               <img class="gold-icon" src="src/assets/icons/gold.svg" />
+               <div class="gold-text">
+                  {{ player.wallet.gold }}
+               </div>
+            </div>
+         </div>
          <div
             class="window"
             :style="{
@@ -76,23 +89,41 @@
       @include flex-center;
       height: 100vh;
       width: 100vw;
-      padding: $s-3;
-   }
-
-   .window {
-      z-index: -1;
-      background-color: $background;
-      display: grid;
-      grid-template-rows: $s-7 auto;
    }
 
    .temp-border {
-      z-index: 1;
       box-sizing: content-box;
       border-style: solid;
       border-width: $s-2;
       border-radius: $s-0;
       border-color: $white-soft;
+   }
+
+   .wallet-area {
+      z-index: 1;
+      position: absolute;
+      height: $s-9;
+      right: $s-2;
+      top: $s-0;
+      .gold-area {
+         display: inline-flex;
+         gap: $s-2;
+         align-items: center;
+         height: 100%;
+         .gold-icon {
+            @include square($s-8);
+         }
+         .gold-text {
+            font-size: $s-6;
+         }
+      }
+   }
+
+   .window {
+      z-index: 0;
+      background-color: $background;
+      display: grid;
+      grid-template-rows: $s-9 auto;
    }
 
    .tab-label-area {

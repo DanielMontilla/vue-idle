@@ -1,17 +1,14 @@
 <script setup lang="ts">
-   import { items } from '@/CONST';
-   import { computed } from 'vue';
    interface ItemProps {
-      id: number;
       quantity: number;
+      src: string;
    }
-   let { id, quantity } = defineProps<ItemProps>();
-   const imgSrc = computed(() => items[id].imgSrc);
+   let { quantity, src } = defineProps<ItemProps>();
 </script>
 
 <template>
    <div class="item-ctn" draggable="true">
-      <img :src="`src/assets/${imgSrc}.svg`" />
+      <img :src="`src/assets/${src}.svg`" />
       <div class="item-quantity-text">{{ quantity === 1 ? '' : quantity }}</div>
    </div>
 </template>

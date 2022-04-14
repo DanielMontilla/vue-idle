@@ -1,25 +1,22 @@
 <script setup lang="ts">
-   import useSlots from '@/classes/SlotManager';
-   import { defineProps } from 'vue';
+   import { PLAYER } from '@/CONST';
+   import type { PlayerRef } from '@/types';
+   import { defineProps, inject } from 'vue';
    import Inventory from '../components/Inventory.vue';
-   import Slot from '../components/Slot.vue';
 
    interface ShopProps {
       show: boolean;
    }
    const { show } = defineProps<ShopProps>();
-   const slots = useSlots();
+   const player = inject(PLAYER) as PlayerRef;
 </script>
 
 <template>
    <div class="shop-ctn" :class="{ hide: !show }">
-      SHOP
-      <Slot :data="slots.addEmpty()" />
       <div class="shop-recruitment-area"></div>
-      <div class="shop-item-shop-area">
-         <Inventory />
-      </div>
-      <div class="shop-inventory-area"></div>
+      <!-- <Slot :data="slots.addEmpty()" /> -->
+      <div class="shop-item-store-area"></div>
+      <div class="shop-inventory-area"><Inventory /></div>
    </div>
 </template>
 
@@ -27,6 +24,24 @@
    @use '@/styles/global' as *;
 
    .shop-ctn {
-      @include window-default;
+      @include page-default;
+      display: grid;
+      grid-template-columns: $inv-width auto;
+      grid-template-rows: auto $inv-height;
+      grid-template-areas:
+         'store recruit'
+         'inv   recruit';
+   }
+
+   .shop-recruitment-area {
+      grid-area: recruit;
+   }
+
+   .shop-item-store-area {
+      grid-area: store;
+   }
+
+   .shop-inventory-area {
+      grid-area: inv;
    }
 </style>

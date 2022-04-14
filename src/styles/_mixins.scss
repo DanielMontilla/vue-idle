@@ -6,12 +6,11 @@
    align-items: center;
 }
 
-@mixin window-default {
+@mixin page-default {
+   position: absolute;
    width: 100%;
    height: 100%;
    padding: $s-2;
-
-   display: grid;
 }
 
 @mixin no-interact {
@@ -21,4 +20,14 @@
    -moz-user-select: none;
    -webkit-user-select: none;
    -ms-user-select: none;
+}
+
+@mixin flex-label {
+   display: inline-flex;
+   align-items: center;
+}
+
+@mixin square($size) {
+   height: $size;
+   width: $size;
 }

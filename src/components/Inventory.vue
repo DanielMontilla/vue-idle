@@ -16,10 +16,17 @@
 <style lang="scss">
    @use '@/styles/global' as *;
    .inventory-ctn {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
       gap: 0;
-      width: 64 * 9;
-      height: 64 * 5;
+      grid-template-columns: repeat($inv-cols, $slot-size);
+      grid-template-rows: repeat($inv-rows, $slot-size);
+      width: $inv-width;
+      height: $inv-height;
+      overflow-y: auto;
+      overflow-x: hidden;
+      &::-webkit-scrollbar {
+         // TODO: implement custom scroll functionality
+         // transform: translate(10px);
+      }
    }
 </style>
