@@ -16,6 +16,14 @@ export const mapValue = (
    return b1 + ((value - a1) * (b2 - b1)) / (a2 - a1);
 };
 
-export const getNextDelay = (level: number) => {
-   return 10 + level * 0.8 * 3;
+export const expCalc = (level: number) => Math.round(10 + 1.1 ** (level * 0.5));
+export const recordLength = <T extends string | number | symbol>(record: Record<T, any>) => {
+   let count = 0;
+   for (const key in record) {
+      if (Object.prototype.hasOwnProperty.call(record, key)) count++;
+   }
+   return count;
 };
+// export const durationCalc = (level: number) => {
+//    return 10 + level * 0.8 * 3;
+// };

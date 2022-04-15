@@ -7,7 +7,7 @@ import type ItemData from './ItemData';
 import SlotData from './SlotData';
 
 /** @description global slot/item manager. */
-class SlotManager {
+abstract class SlotManager {
    /** next available unique slot id */
    private static next: number = 0;
    /** if mid-drag, populated by source slot. Otherwise undefined */

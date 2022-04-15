@@ -43,5 +43,8 @@ export interface HeroConfig {
 
 export interface Stat {
    level: number; // Integer level
-   experience: number; // value between 0, 1 indicating progress in training
+   currentExp: number;
+   neededExp: number;
 }
+
+export type uCallback = (dt: number) => any;

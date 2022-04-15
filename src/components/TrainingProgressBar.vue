@@ -1,18 +1,20 @@
 <script setup lang="ts">
+   import { ref } from 'vue';
    interface ProgressBarProps {
-      isGo: boolean;
+      progress: number;
    }
-   let { isGo } = defineProps<ProgressBarProps>();
+
+   let { progress } = defineProps<ProgressBarProps>();
 </script>
 
 <template>
-   <div class="progress-bar-ctn">
+   <div class="training-progress-bar-ctn">
       <div class="off" :style="{ backgroundColor: '#a7f59d' }">
          <div
             class="on"
             :style="{
                backgroundColor: '#2f9e21',
-               animation: isGo ? 'anim 10s linear infinite' : ''
+               width: `${progress}%`
             }"
          ></div>
       </div>
@@ -22,16 +24,7 @@
 <style lang="scss">
    @use '@/styles/global' as *;
 
-   @keyframes anim {
-      0% {
-         width: 0%;
-      }
-      100% {
-         width: 100%;
-      }
-   }
-
-   .progress-bar-ctn {
+   .training-progress-bar-ctn {
       @include fill;
       display: flex;
       align-items: center;
@@ -40,9 +33,9 @@
          height: 50%;
          width: 100%;
          border-radius: $s-4;
+         overflow: hidden;
          .on {
             height: 100%;
-            width: 0%;
             border-radius: $s-4;
          }
       }

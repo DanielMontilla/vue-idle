@@ -2,27 +2,33 @@
    import type Hero from '@/classes/Hero';
    import type ItemData from '@/classes/ItemData';
    import { computed } from '@vue/reactivity';
+   import { randInt } from '@/utilities';
    import { onMounted, ref } from 'vue';
    import Slot from './Slot.vue';
-   import ProgressBar from './ProgressBar.vue';
+   import TrainingProgressBar from './TrainingProgressBar.vue';
+   import useLoop from '@/classes/Loop';
    // interface TrainingStationProps {}
    // const {} = defineProps<TrainingStationProps>();
    const hero = ref<Hero>();
-   const go = ref<boolean>(false);
+   const loop = useLoop();
 
-   let hi = (newItem: ItemData) => {
+   let id: number;
+
+   let enter = (newItem: ItemData) => {
       hero.value = newItem as Hero;
-      go.value = true;
+      id = loop.add(dt => {
+         hero.value?.addExp(dt * 5);
+      });
    };
-   let bye = () => {
+   let leave = () => {
       hero.value = undefined;
-      go.value = false;
+      loop.remove(id);
    };
 </script>
 
 <template>
    <div class="training-station-ctn">
-      <Slot class="slot" data="training" :debug="false" :onEnter="hi" :onLeave="bye" />
+      <Slot class="slot" data="training" :debug="false" :onEnter="enter" :onLeave="leave" />
       <div class="info-area">
          <img v-if="hero" :src="hero.getRaceIcon()" />
          <img v-else :src="`src/assets/icons/stop.svg`" />
@@ -31,11 +37,11 @@
             <p v-else>No Hero</p>
          </div>
          <div class="hero-level">
-            <p v-if="hero">lv. {{ hero.level }}</p>
+            <p v-if="hero">lv. {{ hero.level.level }}</p>
          </div>
       </div>
       <div class="progress-bar-area">
-         <ProgressBar :is-go="go" />
+         <TrainingProgressBar v-if="hero" :progress="hero.progress" />
       </div>
    </div>
 </template>

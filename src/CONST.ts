@@ -26,5 +26,6 @@ export const SlotTypeArr = ['none', 'sell', 'buy', 'inventory', 'training'] as c
 export const ItemTypeArr = ['hero', 'weapon', 'armor', 'consumable'] as const;
 export const HeroClassArr = [`knight`, `archer`, `mage`] as const;
 export const HeroRaceArr = [`human`, `goblin`] as const;
+// export const Skills = [`human`, `goblin`] as const;
 export const INVENTORY = Symbol() as InjectionKey<SlotRef[]>;
 export const PLAYER = Symbol() as InjectionKey<PlayerRef>;

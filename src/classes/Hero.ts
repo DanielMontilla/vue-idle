@@ -1,11 +1,11 @@
 import { HeroClassArr, HeroRaceArr, heros } from '@/CONST';
-import type { HeroClass, HeroConfig, HeroRace } from '@/types';
-import { randArrPick, randInt } from '@/utilities';
+import type { HeroClass, HeroConfig, HeroRace, Stat } from '@/types';
+import { expCalc, mapValue, randArrPick, randInt } from '@/utilities';
 import ItemData from './ItemData';
 import { faker } from '@faker-js/faker';
 
 export default class Hero extends ItemData {
-   public level: number;
+   public level: Stat;
    public name: string;
    public readonly race: HeroRace;
    public readonly class: HeroClass;
@@ -15,7 +15,7 @@ export default class Hero extends ItemData {
          ? config
          : {
               name: faker.name.firstName(),
-              level: randInt(0, 999),
+              level: randInt(0, 5),
               race: randArrPick(HeroRaceArr),
               class: randArrPick(HeroClassArr)
            };
@@ -23,9 +23,29 @@ export default class Hero extends ItemData {
       super(heros[config.race], 1);
 
       this.name = config.name;
-      this.level = config.level;
+      this.level = { level: config.level, currentExp: 0, neededExp: expCalc(config.level) };
       this.race = config.race;
       this.class = config.class;
+   }
+
+   private updateNeededExp() {
+      this.level.neededExp = expCalc(this.level.level);
+   }
+
+   public addExp(amount: number) {
+      let step = amount + this.level.currentExp;
+      if (step >= this.level.neededExp) {
+         let remainder = step - this.level.neededExp;
+         this.level.level++;
+         this.level.currentExp = remainder;
+         this.updateNeededExp();
+      } else {
+         this.level.currentExp = step;
+      }
+   }
+
+   public get progress() {
+      return mapValue([0, this.level.neededExp], [0, 100], this.level.currentExp);
    }
 
    // TODO: streamline

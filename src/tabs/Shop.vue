@@ -1,20 +1,24 @@
 <script setup lang="ts">
+   import useSlots from '@/classes/SlotManager';
    import { PLAYER } from '@/CONST';
    import type { PlayerRef } from '@/types';
    import { defineProps, inject } from 'vue';
    import Inventory from '../components/Inventory.vue';
+   import Slot from '../components/Slot.vue';
 
    interface ShopProps {
       show: boolean;
    }
    const { show } = defineProps<ShopProps>();
+   const slots = useSlots();
    const player = inject(PLAYER) as PlayerRef;
 </script>
 
 <template>
    <div class="shop-ctn" :class="{ hide: !show }">
-      <div class="shop-recruitment-area"></div>
-      <!-- <Slot :data="slots.addEmpty()" /> -->
+      <div class="shop-recruitment-area">
+         <Slot :data="slots.addRandom('buy')" />
+      </div>
       <div class="shop-item-store-area"></div>
       <div class="shop-inventory-area"><Inventory /></div>
    </div>

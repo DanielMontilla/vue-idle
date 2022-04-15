@@ -20,6 +20,14 @@
       <div class="stations-area">
          <TrainingStation />
          <TrainingStation />
+         <TrainingStation />
+         <TrainingStation />
+         <TrainingStation />
+         <TrainingStation />
+         <TrainingStation />
+         <TrainingStation />
+         <TrainingStation />
+         <TrainingStation />
       </div>
       <div class="other-area"></div>
    </div>

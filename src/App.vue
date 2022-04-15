@@ -6,19 +6,18 @@
    import Training from './tabs/Training.vue';
    import Shop from './tabs/Shop.vue';
    import useSlots from './classes/SlotManager';
-   import Hero from './classes/Hero';
 
    // Global State
    const slots = useSlots();
    const player = ref<PlayerData>({ wallet: { diamond: 0, gold: 10 } });
 
    provide(INVENTORY, [
-      slots.add('inventory', new Hero()),
-      ...slots.addRandoms(9 * 6 - 1, 'inventory')
+      // slots.add('inventory', new Hero()),
+      ...slots.addEmpties(9 * 6, 'inventory')
    ]);
    provide(PLAYER, player);
 
-   let currentTab = ref<number>(0);
+   let currentTab = ref<number>(1);
 
    const switchTab = (to: number): void => {
       currentTab.value = to;
