@@ -6,14 +6,15 @@
    import Training from './tabs/Training.vue';
    import Shop from './tabs/Shop.vue';
    import useSlots from './classes/SlotManager';
+   import Hero from './classes/Hero';
 
    // Global State
    const slots = useSlots();
    const player = ref<PlayerData>({ wallet: { diamond: 0, gold: 10 } });
 
    provide(INVENTORY, [
-      slots.add('inventory', { id: 1, quantity: 1 }),
-      ...slots.addEmpties(9 * 6 - 1, 'inventory')
+      slots.add('inventory', new Hero()),
+      ...slots.addRandoms(9 * 6 - 1, 'inventory')
    ]);
    provide(PLAYER, player);
 
@@ -72,7 +73,7 @@
                   :callback="() => switchTab(i)"
                />
             </div>
-            <div class="tab-page-area" :style="{ backgroundColor: tabs[currentTab].label.onColor }">
+            <div class="page-area" :style="{ backgroundColor: tabs[currentTab].label.onColor }">
                <Training :show="isCurrent('training')" />
                <Shop :show="isCurrent('shop')" />
             </div>
@@ -132,7 +133,7 @@
       background-color: $background;
    }
 
-   .tab-page-area {
+   .page-area {
       @include flex-center;
       width: 100%;
       height: 100%;

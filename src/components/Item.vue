@@ -17,13 +17,12 @@
    @use '@/styles/global' as *;
    .item-ctn {
       @include flex-center;
-      width: 100%;
-      height: 100%;
+      @include fill;
       cursor: grab;
       img {
          @include no-interact;
-         height: 75%;
-         width: 75%;
+         height: 85%;
+         width: 85%;
       }
    }
    .item-quantity-text {

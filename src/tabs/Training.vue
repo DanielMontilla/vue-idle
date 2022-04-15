@@ -19,6 +19,7 @@
       </div>
       <div class="stations-area">
          <TrainingStation />
+         <TrainingStation />
       </div>
       <div class="other-area"></div>
    </div>
@@ -42,6 +43,9 @@
 
       .stations-area {
          grid-area: station;
+         display: flex;
+         flex-direction: row;
+         flex-wrap: wrap;
       }
 
       .other-area {

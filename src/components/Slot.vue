@@ -4,14 +4,16 @@
    import type { SlotRef, SlotType } from '@/types';
    import { computed, ref } from 'vue';
    import Item from './Item.vue';
+   import type ItemData from '@/classes/ItemData';
 
    interface SlotProps {
       data?: SlotRef | SlotType;
-      onEnter?: () => any;
+      debug?: boolean;
+      onEnter?: (item: ItemData) => any;
       onLeave?: () => any;
    }
 
-   const { data, onEnter, onLeave } = defineProps<SlotProps>();
+   const { data, debug, onEnter, onLeave } = defineProps<SlotProps>();
    const manager = useSlots();
    let slot: SlotRef;
    if (typeof data === 'string') {
@@ -31,8 +33,8 @@
       manager.setDragged(slot);
    };
    const onDrop = () => {
-      manager.handleDrop(slot, false);
-      if (onEnter) onEnter();
+      manager.handleDrop(slot, debug);
+      if (onEnter) onEnter(item.value as ItemData);
    };
    const onDragEnd = ({ dataTransfer }: DragEvent) => {
       if (!dataTransfer) return;

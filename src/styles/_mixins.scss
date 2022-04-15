@@ -25,9 +25,15 @@
 @mixin flex-label {
    display: inline-flex;
    align-items: center;
+   vertical-align: middle;
 }
 
 @mixin square($size) {
    height: $size;
    width: $size;
+}
+
+@mixin fill {
+   height: 100%;
+   width: 100%;
 }

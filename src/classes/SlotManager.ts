@@ -1,7 +1,10 @@
 import { items, SlotTypeArr } from '@/CONST';
-import type { ItemData, SlotData, SlotRef, SlotType, Writeable } from '@/types';
+import type { SlotRef, SlotType, Writeable } from '@/types';
 import { rand, randInt, randArrPick } from '@/utilities';
 import { ref, type Ref } from 'vue';
+import Hero from './Hero';
+import type ItemData from './ItemData';
+import SlotData from './SlotData';
 
 /** @description global slot/item manager. */
 class SlotManager {
@@ -19,16 +22,16 @@ class SlotManager {
    }
 
    public static add(type?: SlotType, item?: ItemData): SlotRef {
-      return ref({ id: SlotManager.next++, type: type ? type : 'none', item: item });
+      let slot = new SlotData(SlotManager.next++, type ? type : 'none', item);
+      //@ts-ignore typescript complaining for 0 reason
+      return ref<SlotData>(slot);
    }
 
    public static addRandom(type?: SlotType, emptyChance: number = 0.5): SlotRef {
       let tempArr = SlotTypeArr as Writeable<typeof SlotTypeArr>;
-      let randId = randInt(1, 2);
-      let randQuantity = randInt(1, items[randId].stackLimit);
       return this.add(
          type ? type : randArrPick(tempArr),
-         rand() > emptyChance ? { id: randId, quantity: randQuantity } : undefined
+         rand() > emptyChance ? new Hero() : undefined
       );
    }
 
@@ -60,17 +63,37 @@ class SlotManager {
       let desItem = desSlot.item;
       let srcItem = srcSlot.item;
 
-      if (srcSlot.id === desSlot.id) return;
+      if (srcSlot.id === desSlot.id) {
+         // If destination === source
+         if (debug) console.log(`Dropped item into its original slot. Doing Nothing...`);
+         return;
+      }
+
+      if (!srcItem) {
+         // If src has no item... but they how would one drag no item?
+         if (debug) console.log(`How the fuck. Doing Nothing...`);
+         return;
+      }
 
       if (!desItem) {
          // If the destination slot is empty:
+         if (desSlot.notAllowed(srcItem)) {
+            // If source item type is not in destination slot whitelist
+            if (debug)
+               console.log(`Destination slot doesn't allow source item type. Doing nothing...`);
+            return;
+         }
          if (debug) console.log(`Destination Slot is empty. Replacing...`);
          desItem = srcItem;
          srcItem = undefined;
       } else {
          // If the destination slot is NOT empty:
          if (debug) console.log(`Destination Slot NOT Empty`);
-         if (!srcItem) return;
+         // if (desSlot.notAllowed(srcItem) || srcSlot.notAllowed(desItem)) {
+         //    // If item type doesn't match in either slot
+         //    if (debug) console.log(`One of the items is not allows in one of the slots`);
+         //    return;
+         // }
          if (desItem.id === srcItem.id) {
             // If both slots have the same item:
             if (debug) console.log(`Both item's slots are the same (Id)`);
@@ -83,8 +106,9 @@ class SlotManager {
                if (desItem.quantity === stackLimit) {
                   // If destination slot is already full:
                   if (debug) console.log(`Destination slot is already full. Swapping...`);
-                  srcItem.quantity = stackLimit;
-                  desItem.quantity = remainder;
+                  let temp = srcItem;
+                  srcItem = desItem;
+                  desItem = temp;
                } else {
                   // If destination slot can only hold a portion:
                   if (debug) console.log(`Destination slot has space. Splitting...`);
