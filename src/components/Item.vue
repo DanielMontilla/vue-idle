@@ -1,26 +1,40 @@
 <script setup lang="ts">
    import { type Item, Hero } from '@/classes/_index';
    import { getPath } from '@/utilities';
-   import { ref } from 'vue';
+   import { inject, ref } from 'vue';
    import { HeroTooltip } from '@/components/_index';
+   import { computed } from '@vue/reactivity';
+   import { PLAYER } from '@/CONST';
+   import type { PlayerRef } from '@/types';
+   // TODO: pass draggable logic to slot sfc
    interface ItemProps {
       item: Item;
       onDragStart: (e: DragEvent, dragElem: HTMLElement) => any;
       onDragEnd: (e: DragEvent) => any;
    }
+   const player = inject(PLAYER) as PlayerRef;
    const { item, onDragStart, onDragEnd } = defineProps<ItemProps>();
    const dragElem = ref<HTMLElement>();
-   let hover = ref<Boolean>(true);
+   let hover = ref<Boolean>(false);
    let dragging = ref<Boolean>(false);
+
+   const draggable = computed(() => {
+      if (item.isLocked) return false;
+      if (item.slotType === 'buy') {
+         return player.value.wallet.gold >= item.buyPrice;
+      }
+      return true;
+   });
 </script>
 
 <template>
    <div
       class="item-ctn"
       ref="dragElem"
-      draggable="true"
+      :draggable="draggable"
+      :style="{ cursor: draggable ? 'grab' : 'not-allowed' }"
       @dragstart="[onDragStart($event, dragElem), (dragging = true)]"
-      @dragend="[onDragEnd, (dragging = false)]"
+      @dragend="[onDragEnd($event), (dragging = false)]"
       @mouseover="hover = true"
       @mouseleave="hover = false"
    >
@@ -38,7 +52,6 @@
    .item-ctn {
       @include flex-center;
       @include fill;
-      cursor: grab;
       img {
          @include no-interact;
          height: 85%;

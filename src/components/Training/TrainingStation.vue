@@ -1,10 +1,7 @@
 <script setup lang="ts">
    import { ref } from 'vue';
-   // @ts-ignore wtf typescript
-   import { Hero, Item } from '@/classes/_index';
-   // @ts-ignore
+   import type { Hero, Item } from '@/classes/_index';
    import { useLoop } from '@/services/_index';
-   // @ts-ignore
    import { TrainingProgressBar, Slot } from '@/components/_index';
 
    const hero = ref<Hero>();
@@ -12,13 +9,13 @@
 
    let id: number;
 
-   let enter = (newItem: Item) => {
+   const enter = (newItem: Item) => {
       hero.value = newItem as Hero;
       id = loop.add((dt: number) => {
          hero.value?.addExp(dt * 50);
       });
    };
-   let leave = () => {
+   const leave = () => {
       hero.value = undefined;
       loop.remove(id);
    };

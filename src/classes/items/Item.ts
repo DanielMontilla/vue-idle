@@ -1,11 +1,15 @@
 import { ItemTypeArr } from '@/CONST';
 import { items } from '@/data';
-import type { ItemInfo, ItemType } from '@/types';
+import type { ItemInfo, ItemType, SlotType } from '@/types';
 import { randArrPick, randInt, recordLength } from '@/utilities';
-import { Hero, Consumable } from '@/classes/_index';
+import { Hero, Consumable, Slot } from '@/classes/_index';
 
 export default abstract class Item {
    public readonly info: ItemInfo;
+   public slot!: Slot;
+   public buyPrice: number = 100;
+   public sellPrice: number = 120;
+
    constructor(public type: ItemType, public id: number, public quantity: number) {
       this.info = items[this.type][this.id];
    }
@@ -18,11 +22,24 @@ export default abstract class Item {
       return this.info.stackLimit;
    }
 
+   public get slotType(): SlotType {
+      if (!this.slot) {
+         console.error(`NO SLOT!`);
+         return 'none';
+      }
+      return this.slot.type;
+   }
+
+   public get isLocked(): boolean {
+      if (!this.slot) {
+         console.error(`NO SLOT!`);
+         return false;
+      }
+      return this.slot.locked;
+   }
+
    public static random(type?: ItemType): Item {
       type = type ? type : randArrPick(ItemTypeArr);
-      let id = randInt(1, recordLength(items[type]));
-      let itemInfo = items[type][id];
-      let quantity = randInt(1, itemInfo.stackLimit);
 
       switch (type) {
          case 'hero':

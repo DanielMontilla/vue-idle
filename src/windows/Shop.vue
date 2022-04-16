@@ -4,6 +4,7 @@
    import { Slot, Inventory } from '@/components/_index';
    import type { PlayerRef } from '@/types';
    import { defineProps, inject } from 'vue';
+   import type { Item } from '@/classes/_index';
 
    // interface ShopProps {
    //    show: boolean;
@@ -18,12 +19,17 @@
       <div class="shop-recruitment-area">
          <Slot :data="slots.addRandom('buy')" />
       </div>
-      <div class="shop-item-store-area"></div>
+      <div class="shop-item-store-area">
+         <div
+            style="background-color: red; width: 100px; height: 100px"
+            @click="player.wallet.gold += 10"
+         ></div>
+      </div>
       <div class="shop-inventory-area"><Inventory /></div>
    </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
    @use '@/styles/global' as *;
 
    .shop-ctn {

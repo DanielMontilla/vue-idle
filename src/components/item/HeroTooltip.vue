@@ -51,6 +51,7 @@
          grid-template-areas: 'img info level';
          align-items: center;
          line-height: 1;
+         padding-right: $s-3;
 
          $img-size: calc($header-height * 0.9);
 
@@ -91,6 +92,8 @@
             grid-area: level;
             justify-self: end;
             font-size: $img-size;
+            font-weight: 300;
+            margin-left: $s-4;
          }
       }
    }

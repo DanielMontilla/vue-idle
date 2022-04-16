@@ -26,7 +26,7 @@ abstract class Slots {
    }
 
    public static addRandom(type?: SlotType, emptyChance: number = 0.5): SlotRef {
-      return this.add(
+      return Slots.add(
          type ? type : randArrPick(SlotTypeArr),
          rand() > emptyChance ? Item.random() : undefined
       );
@@ -41,7 +41,7 @@ abstract class Slots {
    }
 
    public static addEmpty(type?: SlotType): SlotRef {
-      return this.add(type);
+      return Slots.add(type);
    }
 
    public static addEmpties(amount: number, type?: SlotType): SlotRef[] {
@@ -69,6 +69,12 @@ abstract class Slots {
       if (!srcItem) {
          // If src has no item... but they how would one drag no item?
          if (debug) console.log(`How the fuck. Doing Nothing...`);
+         return;
+      }
+
+      if (srcSlot.locked || desSlot.locked) {
+         // If either slot is locked
+         if (debug) console.log(`Source slot is locked. Can't take or put items in`);
          return;
       }
 

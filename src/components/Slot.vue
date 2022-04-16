@@ -3,9 +3,10 @@ Item
    import { useSlots } from '@/services/_index';
    import type { Item } from '@/classes/_index';
    import { Item as MyItem } from '@/components/_index';
-   import type { SlotRef, SlotType } from '@/types';
-   import { computed } from 'vue';
+   import type { PlayerRef, SlotRef, SlotType } from '@/types';
+   import { computed, inject, ref } from 'vue';
    import { getPath } from '@/utilities';
+   import { PLAYER } from '@/CONST';
 
    interface SlotProps {
       data?: SlotRef | SlotType;
@@ -13,7 +14,7 @@ Item
       onEnter?: (item: Item) => any;
       onLeave?: () => any;
    }
-
+   const player = inject(PLAYER) as PlayerRef;
    const { data, debug, onEnter, onLeave } = defineProps<SlotProps>();
    const manager = useSlots();
    let slot: SlotRef;
@@ -25,9 +26,11 @@ Item
       slot = manager.addEmpty('none');
    }
 
-   let item = computed(() => slot.value.item);
+   const item = computed(() => slot.value.item);
+   const price = ref<number>(); // Price has to be saved onDragStart bc onDrop event happens before onDragEnd
 
    const onDragStart = ({ dataTransfer }: DragEvent, dragElem: HTMLElement) => {
+      // CONTEXT: THE SLOT BEING DRAGGED FROM
       if (!dataTransfer) return;
       dataTransfer.effectAllowed = 'move';
       dataTransfer.dropEffect = 'move';
@@ -44,15 +47,30 @@ Item
          dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
       }
       dataTransfer.setDragImage(document.createElement('div'), 0, 0);
+
+      if (slot.value.type === 'buy') {
+         console.log(price.value);
+         price.value = (item.value as Item).buyPrice;
+         console.log(price.value);
+      }
+
       manager.setDragged(slot);
    };
    const onDrop = () => {
+      // CONTEXT: THE SLOT BEING DROPPED
       manager.handleDrop(slot, debug);
       if (onEnter) onEnter(item.value as Item);
    };
    const onDragEnd = ({ dataTransfer }: DragEvent) => {
+      // CONTEXT: THE SLOT BEING DRAGGED FROM
       if (!dataTransfer) return;
-      if (dataTransfer.dropEffect !== 'none' && onLeave) onLeave();
+      if (dataTransfer.dropEffect !== 'none') {
+         if (price.value) {
+            player.value.wallet.gold -= price.value;
+            price.value = undefined;
+         }
+         if (onLeave) onLeave();
+      }
       manager.clearDragged();
    };
 </script>
@@ -68,7 +86,7 @@ Item
    </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
    @use '@/styles/global' as *;
    .slot-ctn {
       @include flex-center;

@@ -5,14 +5,15 @@
    import { useSlots } from '@/services/_index';
    import { provide, ref } from 'vue';
    import { Hero } from './classes/_index';
+   import { randInt } from './utilities';
 
    // Global State
    const slots = useSlots();
-   const player = ref<PlayerData>({ wallet: { diamond: 0, gold: 10 } });
+   const player = ref<PlayerData>({ wallet: { diamond: 0, gold: randInt(100, 100) } });
 
    provide(INVENTORY, [
       slots.add('inventory', Hero.random()),
-      ...slots.addEmpties(9 * 6, 'inventory')
+      ...slots.addRandoms(9 * 6 - 1, 'inventory')
    ]);
    provide(PLAYER, player);
 
