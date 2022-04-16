@@ -1,20 +1,15 @@
 <script setup lang="ts">
-   import type Hero from '@/classes/Hero';
-   import type ItemData from '@/classes/ItemData';
-   import { computed } from '@vue/reactivity';
-   import { randInt } from '@/utilities';
-   import { onMounted, ref } from 'vue';
-   import Slot from './Slot.vue';
-   import TrainingProgressBar from './TrainingProgressBar.vue';
-   import useLoop from '@/classes/Loop';
-   // interface TrainingStationProps {}
-   // const {} = defineProps<TrainingStationProps>();
+   import type { Item, Hero } from '@/classes/_index';
+   import { Slot, TrainingProgressBar } from '@/components/_index';
+   import { useLoop } from '@/services/_index';
+   import { ref } from 'vue';
+
    const hero = ref<Hero>();
    const loop = useLoop();
 
    let id: number;
 
-   let enter = (newItem: ItemData) => {
+   let enter = (newItem: Item) => {
       hero.value = newItem as Hero;
       id = loop.add(dt => {
          hero.value?.addExp(dt * 5);

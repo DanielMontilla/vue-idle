@@ -1,15 +1,15 @@
+Item
 <script setup lang="ts">
-   import { items } from '@/CONST';
-   import useSlots from '@/classes/SlotManager';
+   import { useSlots } from '@/services/_index';
+   import type { Item } from '@/classes/_index';
+   import { Item as MyItem } from '@/components/_index';
    import type { SlotRef, SlotType } from '@/types';
-   import { computed, ref } from 'vue';
-   import Item from './Item.vue';
-   import type ItemData from '@/classes/ItemData';
+   import { computed } from 'vue';
 
    interface SlotProps {
       data?: SlotRef | SlotType;
       debug?: boolean;
-      onEnter?: (item: ItemData) => any;
+      onEnter?: (item: Item) => any;
       onLeave?: () => any;
    }
 
@@ -34,7 +34,7 @@
    };
    const onDrop = () => {
       manager.handleDrop(slot, debug);
-      if (onEnter) onEnter(item.value as ItemData);
+      if (onEnter) onEnter(item.value as Item);
    };
    const onDragEnd = ({ dataTransfer }: DragEvent) => {
       if (!dataTransfer) return;
@@ -45,9 +45,9 @@
 
 <template>
    <div class="slot-ctn" @drop="onDrop" @dragenter.prevent @dragover.prevent>
-      <Item
+      <MyItem
          v-if="item"
-         :src="items[item.id].imgSrc"
+         :src="item.src"
          :quantity="item.quantity"
          @dragstart="onDragStart"
          @dragend="onDragEnd"

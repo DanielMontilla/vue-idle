@@ -1,11 +1,10 @@
+VIEWPORT_SIZE
 <script setup lang="ts">
-   import { provide, ref, type Ref } from 'vue';
    import type { PlayerData, Tab } from '@/types';
-   import { WINDOW_SIZE, INVENTORY, PLAYER } from '@/CONST';
-   import Label from './tabs/Label.vue';
-   import Training from './tabs/Training.vue';
-   import Shop from './tabs/Shop.vue';
-   import useSlots from './classes/SlotManager';
+   import { VIEWPORT_SIZE, INVENTORY, PLAYER } from '@/CONST';
+   import { Label, Shop, Training } from '@/windows/_index';
+   import { useSlots } from '@/services/_index';
+   import { provide, ref } from 'vue';
 
    // Global State
    const slots = useSlots();
@@ -13,7 +12,7 @@
 
    provide(INVENTORY, [
       // slots.add('inventory', new Hero()),
-      ...slots.addEmpties(9 * 6, 'inventory')
+      ...slots.addRandoms(9 * 6, 'inventory')
    ]);
    provide(PLAYER, player);
 
@@ -56,10 +55,10 @@
          <div
             class="window"
             :style="{
-               height: `${WINDOW_SIZE.HEIGHT}px`,
-               width: `${WINDOW_SIZE.WIDTH}px`,
-               maxHeight: `${WINDOW_SIZE.HEIGHT}px`,
-               maxWidth: `${WINDOW_SIZE.WIDTH}px`
+               height: `${VIEWPORT_SIZE.HEIGHT}px`,
+               width: `${VIEWPORT_SIZE.WIDTH}px`,
+               maxHeight: `${VIEWPORT_SIZE.HEIGHT}px`,
+               maxWidth: `${VIEWPORT_SIZE.WIDTH}px`
             }"
          >
             <div class="tab-label-area">

@@ -1,6 +1,6 @@
 import type { Ref } from 'vue';
-import type SlotData from './classes/SlotData';
-import type { HeroClassArr, HeroRaceArr, ItemTypeArr, SlotTypeArr } from './CONST';
+import type { Slot } from '@/classes/_index';
+import type { HeroClassArr, HeroRaceArr, ItemTypeArr, SlotTypeArr } from '@/CONST';
 
 export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
@@ -13,16 +13,14 @@ export interface LabelData {
 export type Tab = { label: LabelData };
 
 export type ItemType = typeof ItemTypeArr[number];
+export type ItemStackLimit = 1 | 16 | 32 | 64;
 
 export interface ItemInfo {
-   stackLimit: 1 | 16 | 32 | 64;
-   type: ItemType;
-   imgSrc: string;
+   stackLimit: ItemStackLimit;
+   src: string;
 }
 
-// export type ItemRef = Ref<ItemData>;
-
-export type SlotRef = Ref<SlotData>;
+export type SlotRef = Ref<Slot>;
 export type SlotType = typeof SlotTypeArr[number];
 
 export type PlayerRef = Ref<PlayerData>;

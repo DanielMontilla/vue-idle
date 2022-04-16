@@ -1,8 +1,8 @@
 <script setup lang="ts">
    import { INVENTORY } from '@/CONST';
-   import { inject } from 'vue';
-   import Slot from './Slot.vue';
    import type { SlotRef } from '@/types';
+   import { Slot } from '@/components/_index';
+   import { inject } from 'vue';
 
    let slots = inject(INVENTORY) as SlotRef[];
 </script>

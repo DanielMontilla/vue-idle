@@ -1,10 +1,9 @@
 <script setup lang="ts">
-   import useSlots from '@/classes/SlotManager';
+   import { useSlots } from '@/services/_index';
    import { PLAYER } from '@/CONST';
+   import { Slot, Inventory } from '@/components/_index';
    import type { PlayerRef } from '@/types';
    import { defineProps, inject } from 'vue';
-   import Inventory from '../components/Inventory.vue';
-   import Slot from '../components/Slot.vue';
 
    interface ShopProps {
       show: boolean;

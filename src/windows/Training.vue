@@ -1,9 +1,9 @@
 <script setup lang="ts">
    import { PLAYER } from '@/CONST';
    import type { PlayerData, PlayerRef } from '@/types';
+   import { Inventory, TrainingStation } from '@/components/_index';
    import { inject } from 'vue';
-   import Inventory from '../components/Inventory.vue';
-   import TrainingStation from '../components/TrainingStation.vue';
+
    interface TrainingProps {
       show: boolean;
    }

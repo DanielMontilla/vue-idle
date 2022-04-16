@@ -1,10 +1,11 @@
-import { HeroClassArr, HeroRaceArr, heros } from '@/CONST';
+import { HeroClassArr, HeroRaceArr } from '@/CONST';
 import type { HeroClass, HeroConfig, HeroRace, Stat } from '@/types';
 import { expCalc, mapValue, randArrPick, randInt } from '@/utilities';
-import ItemData from './ItemData';
+import { Item } from '@/classes/_index';
 import { faker } from '@faker-js/faker';
+import { heroInfoMap } from '@/data';
 
-export default class Hero extends ItemData {
+export default class Hero extends Item {
    public level: Stat;
    public name: string;
    public readonly race: HeroRace;
@@ -20,7 +21,7 @@ export default class Hero extends ItemData {
               class: randArrPick(HeroClassArr)
            };
 
-      super(heros[config.race], 1);
+      super('hero', heroInfoMap[config.race], 1);
 
       this.name = config.name;
       this.level = { level: config.level, currentExp: 0, neededExp: expCalc(config.level) };

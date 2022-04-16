@@ -1,36 +1,33 @@
-import { items, SlotTypeArr } from '@/CONST';
-import type { SlotRef, SlotType, Writeable } from '@/types';
-import { rand, randInt, randArrPick } from '@/utilities';
-import { ref, type Ref } from 'vue';
-import Hero from './Hero';
-import type ItemData from './ItemData';
-import SlotData from './SlotData';
+import { SlotTypeArr } from '@/CONST';
+import type { SlotRef, SlotType } from '@/types';
+import { rand, randArrPick } from '@/utilities';
+import { Item, Hero, Slot } from '@/classes/_index';
+import { ref } from 'vue';
 
 /** @description global slot/item manager. */
-abstract class SlotManager {
+abstract class Slots {
    /** next available unique slot id */
    private static next: number = 0;
    /** if mid-drag, populated by source slot. Otherwise undefined */
    private static draggedSlot?: SlotRef;
 
    public static setDragged(slot?: SlotRef) {
-      SlotManager.draggedSlot = slot;
+      Slots.draggedSlot = slot;
    }
 
    public static clearDragged() {
-      SlotManager.setDragged(undefined);
+      Slots.setDragged(undefined);
    }
 
-   public static add(type?: SlotType, item?: ItemData): SlotRef {
-      let slot = new SlotData(SlotManager.next++, type ? type : 'none', item);
+   public static add(type?: SlotType, item?: Item): SlotRef {
+      let slot = new Slot(Slots.next++, type ? type : 'none', item);
       //@ts-ignore typescript complaining for 0 reason
-      return ref<SlotData>(slot);
+      return ref<Slot>(slot);
    }
 
    public static addRandom(type?: SlotType, emptyChance: number = 0.5): SlotRef {
-      let tempArr = SlotTypeArr as Writeable<typeof SlotTypeArr>;
       return this.add(
-         type ? type : randArrPick(tempArr),
+         type ? type : randArrPick(SlotTypeArr),
          rand() > emptyChance ? new Hero() : undefined
       );
    }
@@ -38,7 +35,7 @@ abstract class SlotManager {
    public static addRandoms(amount: number, type?: SlotType): SlotRef[] {
       let arr: SlotRef[] = [];
       for (let i = 0; i < amount; i++) {
-         arr.push(SlotManager.addRandom(type));
+         arr.push(Slots.addRandom(type));
       }
       return arr;
    }
@@ -50,13 +47,13 @@ abstract class SlotManager {
    public static addEmpties(amount: number, type?: SlotType): SlotRef[] {
       let arr: SlotRef[] = [];
       for (let i = 0; i < amount; i++) {
-         arr.push(SlotManager.addEmpty(type));
+         arr.push(Slots.addEmpty(type));
       }
       return arr;
    }
 
    public static handleDrop = (desSlotRef: SlotRef, debug?: boolean) => {
-      let srcSlotRef = SlotManager.draggedSlot as SlotRef; // NOTE: its literally impossible for this be undefined
+      let srcSlotRef = Slots.draggedSlot as SlotRef; // NOTE: its literally impossible for this be undefined
 
       let srcSlot = srcSlotRef.value;
       let desSlot = desSlotRef.value;
@@ -97,7 +94,7 @@ abstract class SlotManager {
          if (desItem.id === srcItem.id) {
             // If both slots have the same item:
             if (debug) console.log(`Both item's slots are the same (Id)`);
-            let stackLimit = items[srcItem.id].stackLimit;
+            let stackLimit = desItem.stackLimit;
             let sum = desItem.quantity + srcItem.quantity;
             if (sum > stackLimit) {
                // If the sum of the quantities surpass the stack limit:
@@ -139,14 +136,14 @@ abstract class SlotManager {
  * kinda like a react hook huh :)
  */
 const useSlots = () => ({
-   add: SlotManager.add,
-   addRandom: SlotManager.addRandom,
-   addRandoms: SlotManager.addRandoms,
-   addEmpty: SlotManager.addEmpty,
-   addEmpties: SlotManager.addEmpties,
-   setDragged: SlotManager.setDragged,
-   clearDragged: SlotManager.clearDragged,
-   handleDrop: SlotManager.handleDrop
+   add: Slots.add,
+   addRandom: Slots.addRandom,
+   addRandoms: Slots.addRandoms,
+   addEmpty: Slots.addEmpty,
+   addEmpties: Slots.addEmpties,
+   setDragged: Slots.setDragged,
+   clearDragged: Slots.clearDragged,
+   handleDrop: Slots.handleDrop
 });
 
 export default useSlots;
