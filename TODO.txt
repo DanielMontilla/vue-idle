@@ -1,0 +1,12 @@
+   create resource tab
+      resource gathering stations
+   
+   player class
+   hero stats system
+   drag img fix
+   training station swap fix
+   training statin switching contex menu
+   dynamic hero tooltip position
+   consumable tooltip
+   colors
+   tab shadow

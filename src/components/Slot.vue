@@ -49,9 +49,7 @@ Item
       dataTransfer.setDragImage(document.createElement('div'), 0, 0);
 
       if (slot.value.type === 'buy') {
-         console.log(price.value);
          price.value = (item.value as Item).buyPrice;
-         console.log(price.value);
       }
 
       manager.setDragged(slot);
