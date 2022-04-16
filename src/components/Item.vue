@@ -1,19 +1,39 @@
 <script setup lang="ts">
+   import { type Item, Hero } from '@/classes/_index';
+   import { getPath } from '@/utilities';
+   import { ref } from 'vue';
+   import { HeroTooltip } from '@/components/_index';
    interface ItemProps {
-      quantity: number;
-      src: string;
+      item: Item;
+      onDragStart: (e: DragEvent, dragElem: HTMLElement) => any;
+      onDragEnd: (e: DragEvent) => any;
    }
-   let { quantity, src } = defineProps<ItemProps>();
+   const { item, onDragStart, onDragEnd } = defineProps<ItemProps>();
+   const dragElem = ref<HTMLElement>();
+   let hover = ref<Boolean>(true);
+   let dragging = ref<Boolean>(false);
 </script>
 
 <template>
-   <div class="item-ctn" draggable="true">
-      <img :src="`src/assets/${src}.svg`" />
-      <div class="item-quantity-text">{{ quantity === 1 ? '' : quantity }}</div>
+   <div
+      class="item-ctn"
+      ref="dragElem"
+      draggable="true"
+      @dragstart="[onDragStart($event, dragElem), (dragging = true)]"
+      @dragend="[onDragEnd, (dragging = false)]"
+      @mouseover="hover = true"
+      @mouseleave="hover = false"
+   >
+      <img :src="getPath(item.src)" />
+      <div class="item-quantity-text">{{ item.quantity === 1 ? '' : item.quantity }}</div>
+      <div v-if="hover && !dragging" class="tooltip">
+         <!-- prettier-ignore -->
+         <HeroTooltip v-if="(item instanceof Hero)" :hero="(item as Hero)" />
+      </div>
    </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
    @use '@/styles/global' as *;
    .item-ctn {
       @include flex-center;

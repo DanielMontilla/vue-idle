@@ -67,4 +67,13 @@ export default class Hero extends Item {
 
       return `src/assets/icons/${icon}.svg`;
    }
+
+   public static random() {
+      return new Hero({
+         name: faker.name.firstName(),
+         level: randInt(0, 5),
+         race: randArrPick(HeroRaceArr),
+         class: randArrPick(HeroClassArr)
+      });
+   }
 }

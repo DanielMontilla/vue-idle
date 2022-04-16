@@ -4,16 +4,16 @@
    import { Inventory, TrainingStation } from '@/components/_index';
    import { inject } from 'vue';
 
-   interface TrainingProps {
-      show: boolean;
-   }
+   // interface TrainingProps {
+   //    show: boolean;
+   // }
+   // const { show } = defineProps<TrainingProps>();
 
    let player = inject(PLAYER) as PlayerRef;
-   const { show } = defineProps<TrainingProps>();
 </script>
 
 <template>
-   <div class="training-ctn" :class="{ hide: !show }">
+   <div class="training-ctn">
       <div class="inventory-area">
          <Inventory />
       </div>

@@ -22,8 +22,8 @@
       grid-template-rows: repeat($inv-rows, $slot-size);
       width: $inv-width;
       height: $inv-height;
-      overflow-y: auto;
-      overflow-x: hidden;
+      // overflow-y: auto;
+      // overflow-x: hidden;
       &::-webkit-scrollbar {
          // TODO: implement custom scroll functionality
          // transform: translate(10px);

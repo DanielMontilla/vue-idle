@@ -1,4 +1,4 @@
-import type { HeroRace, ItemInfo, ItemType } from '@/types';
+import type { Consumables, HeroRace, ItemInfo, ItemType } from '@/types';
 
 export const items: Record<ItemType, Record<number, ItemInfo>> = {
    hero: {
@@ -11,17 +11,21 @@ export const items: Record<ItemType, Record<number, ItemInfo>> = {
          src: `heros/goblin`
       }
    },
-   armor: {},
+   // armor: {},
    consumable: {
       1: {
          stackLimit: 16,
          src: `consumables/potion`
       }
-   },
-   weapon: {}
+   }
+   // weapon: {}
 } as const;
 
 export const heroInfoMap: Record<HeroRace, number> = {
    human: 1,
    goblin: 2
-};
+} as const;
+
+export const consumableInfoMap: Record<Consumables, number> = {
+   potion: 1
+} as const;

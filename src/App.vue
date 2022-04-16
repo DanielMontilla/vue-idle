@@ -1,18 +1,18 @@
-VIEWPORT_SIZE
 <script setup lang="ts">
    import type { PlayerData, Tab } from '@/types';
    import { VIEWPORT_SIZE, INVENTORY, PLAYER } from '@/CONST';
    import { Label, Shop, Training } from '@/windows/_index';
    import { useSlots } from '@/services/_index';
    import { provide, ref } from 'vue';
+   import { Hero } from './classes/_index';
 
    // Global State
    const slots = useSlots();
    const player = ref<PlayerData>({ wallet: { diamond: 0, gold: 10 } });
 
    provide(INVENTORY, [
-      // slots.add('inventory', new Hero()),
-      ...slots.addRandoms(9 * 6, 'inventory')
+      slots.add('inventory', Hero.random()),
+      ...slots.addEmpties(9 * 6, 'inventory')
    ]);
    provide(PLAYER, player);
 
@@ -21,7 +21,8 @@ VIEWPORT_SIZE
    const switchTab = (to: number): void => {
       currentTab.value = to;
    };
-   const isCurrent = (component: string) => tabs.value[currentTab.value].label.title === component;
+   const isCurrent = (component: string) =>
+      tabs.value[currentTab.value].label.title === component;
    // Starting tabs
    let tabs = ref<Tab[]>([
       {
@@ -71,9 +72,12 @@ VIEWPORT_SIZE
                   :callback="() => switchTab(i)"
                />
             </div>
-            <div class="page-area" :style="{ backgroundColor: tabs[currentTab].label.onColor }">
-               <Training :show="isCurrent('training')" />
-               <Shop :show="isCurrent('shop')" />
+            <div
+               class="page-area"
+               :style="{ backgroundColor: tabs[currentTab].label.onColor }"
+            >
+               <Training v-show="isCurrent('training')" />
+               <Shop v-show="isCurrent('shop')" />
             </div>
          </div>
       </div>

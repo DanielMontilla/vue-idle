@@ -1,8 +1,11 @@
 <script setup lang="ts">
-   import type { Item, Hero } from '@/classes/_index';
-   import { Slot, TrainingProgressBar } from '@/components/_index';
-   import { useLoop } from '@/services/_index';
    import { ref } from 'vue';
+   // @ts-ignore wtf typescript
+   import { Hero, Item } from '@/classes/_index';
+   // @ts-ignore
+   import { useLoop } from '@/services/_index';
+   // @ts-ignore
+   import { TrainingProgressBar, Slot } from '@/components/_index';
 
    const hero = ref<Hero>();
    const loop = useLoop();
@@ -11,8 +14,8 @@
 
    let enter = (newItem: Item) => {
       hero.value = newItem as Hero;
-      id = loop.add(dt => {
-         hero.value?.addExp(dt * 5);
+      id = loop.add((dt: number) => {
+         hero.value?.addExp(dt * 50);
       });
    };
    let leave = () => {
@@ -23,7 +26,13 @@
 
 <template>
    <div class="training-station-ctn">
-      <Slot class="slot" data="training" :debug="false" :onEnter="enter" :onLeave="leave" />
+      <Slot
+         class="slot"
+         data="training"
+         :debug="false"
+         :onEnter="enter"
+         :onLeave="leave"
+      />
       <div class="info-area">
          <img v-if="hero" :src="hero.getRaceIcon()" />
          <img v-else :src="`src/assets/icons/stop.svg`" />

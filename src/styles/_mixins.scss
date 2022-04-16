@@ -1,4 +1,5 @@
 @use './sizes' as *;
+@use './colors' as *;
 
 @mixin flex-center {
    display: flex;
@@ -36,4 +37,14 @@
 @mixin fill {
    height: 100%;
    width: 100%;
+}
+
+@mixin item-tooltip {
+   position: absolute;
+   z-index: 2;
+   bottom: 26px;
+   left: 0px;
+   border: solid black $s-1;
+   padding: $s-2;
+   background-color: $white-softer;
 }

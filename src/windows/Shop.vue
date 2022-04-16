@@ -5,16 +5,16 @@
    import type { PlayerRef } from '@/types';
    import { defineProps, inject } from 'vue';
 
-   interface ShopProps {
-      show: boolean;
-   }
-   const { show } = defineProps<ShopProps>();
+   // interface ShopProps {
+   //    show: boolean;
+   // }
+   // const { show } = defineProps<ShopProps>();
    const slots = useSlots();
    const player = inject(PLAYER) as PlayerRef;
 </script>
 
 <template>
-   <div class="shop-ctn" :class="{ hide: !show }">
+   <div class="shop-ctn">
       <div class="shop-recruitment-area">
          <Slot :data="slots.addRandom('buy')" />
       </div>

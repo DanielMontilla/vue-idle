@@ -5,6 +5,7 @@ Item
    import { Item as MyItem } from '@/components/_index';
    import type { SlotRef, SlotType } from '@/types';
    import { computed } from 'vue';
+   import { getPath } from '@/utilities';
 
    interface SlotProps {
       data?: SlotRef | SlotType;
@@ -26,10 +27,23 @@ Item
 
    let item = computed(() => slot.value.item);
 
-   const onDragStart = ({ dataTransfer }: DragEvent) => {
+   const onDragStart = ({ dataTransfer }: DragEvent, dragElem: HTMLElement) => {
       if (!dataTransfer) return;
       dataTransfer.effectAllowed = 'move';
       dataTransfer.dropEffect = 'move';
+      if (item.value) {
+         let size = 64 * 0.85;
+         let img = document.createElement('img');
+         img.src = getPath(item.value.src);
+         img.style.width = `${size}px`;
+         img.style.height = `${size}px`;
+         let div = document.createElement('div');
+         div.appendChild(img);
+         div.style.position = 'absolute';
+         document.querySelector('body')?.appendChild(div);
+         dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
+      }
+      dataTransfer.setDragImage(document.createElement('div'), 0, 0);
       manager.setDragged(slot);
    };
    const onDrop = () => {
@@ -47,10 +61,9 @@ Item
    <div class="slot-ctn" @drop="onDrop" @dragenter.prevent @dragover.prevent>
       <MyItem
          v-if="item"
-         :src="item.src"
-         :quantity="item.quantity"
-         @dragstart="onDragStart"
-         @dragend="onDragEnd"
+         :item="item"
+         :onDragStart="onDragStart"
+         :onDragEnd="onDragEnd"
       />
    </div>
 </template>

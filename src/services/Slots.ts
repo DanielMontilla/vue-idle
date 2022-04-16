@@ -21,14 +21,14 @@ abstract class Slots {
 
    public static add(type?: SlotType, item?: Item): SlotRef {
       let slot = new Slot(Slots.next++, type ? type : 'none', item);
-      //@ts-ignore typescript complaining for 0 reason
+      // @ts-ignore typescript complaining for 0 reason
       return ref<Slot>(slot);
    }
 
    public static addRandom(type?: SlotType, emptyChance: number = 0.5): SlotRef {
       return this.add(
          type ? type : randArrPick(SlotTypeArr),
-         rand() > emptyChance ? new Hero() : undefined
+         rand() > emptyChance ? Item.random() : undefined
       );
    }
 
@@ -77,7 +77,9 @@ abstract class Slots {
          if (desSlot.notAllowed(srcItem)) {
             // If source item type is not in destination slot whitelist
             if (debug)
-               console.log(`Destination slot doesn't allow source item type. Doing nothing...`);
+               console.log(
+                  `Destination slot doesn't allow source item type. Doing nothing...`
+               );
             return;
          }
          if (debug) console.log(`Destination Slot is empty. Replacing...`);
@@ -114,7 +116,8 @@ abstract class Slots {
                }
             } else {
                // If sum does NOT surpass stack size:
-               if (debug) console.log(`The sum does NOT surpass the stack-limit. Merging...`);
+               if (debug)
+                  console.log(`The sum does NOT surpass the stack-limit. Merging...`);
                desItem.quantity = sum;
                srcItem = undefined;
             }

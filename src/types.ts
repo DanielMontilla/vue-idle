@@ -1,6 +1,6 @@
 import type { Ref } from 'vue';
-import type { Slot } from '@/classes/_index';
-import type { HeroClassArr, HeroRaceArr, ItemTypeArr, SlotTypeArr } from '@/CONST';
+import type { Hero, Consumable, Item, Slot } from '@/classes/_index';
+import type { ConsumableArr, HeroClassArr, HeroRaceArr, ItemTypeArr, SlotTypeArr } from '@/CONST';
 
 export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
@@ -15,6 +15,7 @@ export type Tab = { label: LabelData };
 export type ItemType = typeof ItemTypeArr[number];
 export type ItemStackLimit = 1 | 16 | 32 | 64;
 
+export type ItemRef = Ref<Item>;
 export interface ItemInfo {
    stackLimit: ItemStackLimit;
    src: string;
@@ -46,3 +47,5 @@ export interface Stat {
 }
 
 export type uCallback = (dt: number) => any;
+
+export type Consumables = typeof ConsumableArr[number];
