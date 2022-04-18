@@ -29,7 +29,7 @@
 
 <template>
    <div
-      class="item-ctn"
+      class="content"
       ref="dragElem"
       :draggable="draggable"
       :style="{ cursor: draggable ? 'grab' : 'not-allowed' }"
@@ -49,7 +49,7 @@
 
 <style scoped lang="scss">
    @use '@/styles/global' as *;
-   .item-ctn {
+   .content {
       @include flex-center;
       @include fill;
       img {

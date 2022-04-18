@@ -19,7 +19,12 @@ export default class Slot {
             // this.whitelistAll();
             break;
 
+         case 'activity':
+            this.addToWhitelist('hero');
+            break;
+
          default:
+            console.warn(`Slot type '${type}' whitelist not specified`);
             this.whitelistAll();
             break;
       }

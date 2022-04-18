@@ -99,7 +99,7 @@ abstract class Slots {
          //    if (debug) console.log(`One of the items is not allows in one of the slots`);
          //    return;
          // }
-         if (desItem.id === srcItem.id) {
+         if (desItem.id === srcItem.id && desItem.type === srcItem.type) {
             // If both slots have the same item:
             if (debug) console.log(`Both item's slots are the same (Id)`);
             let stackLimit = desItem.stackLimit;

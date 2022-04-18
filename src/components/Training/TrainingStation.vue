@@ -10,10 +10,10 @@
    let id: number;
 
    const enter = (newItem: Item) => {
-      hero.value = newItem as Hero;
-      id = loop.add((dt: number) => {
-         hero.value?.addExp(dt * 50);
-      });
+      // hero.value = newItem as Hero;
+      // id = loop.add((dt: number) => {
+      //    hero.value?.addExp(dt * 50);
+      // });
    };
    const leave = () => {
       hero.value = undefined;
@@ -38,11 +38,11 @@
             <p v-else>No Hero</p>
          </div>
          <div class="hero-level">
-            <p v-if="hero">lv. {{ hero.level.level }}</p>
+            <!-- <p v-if="hero">lv. {{ hero.level.level }}</p> -->
          </div>
       </div>
       <div class="progress-bar-area">
-         <TrainingProgressBar v-if="hero" :progress="hero.progress" />
+         <TrainingProgressBar v-if="hero" :progress="0" />
       </div>
    </div>
 </template>

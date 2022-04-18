@@ -42,3 +42,11 @@ export const randRecKeyPick = <T extends string | number | symbol>(
 
 export const getPath = (src: string) => `src/assets/${src}.svg`;
 export const capitalize = (word: string) => `${word[0].toUpperCase()}${word.slice(1)}`;
+export const filledRec = <T extends string | number | symbol, V>(
+   value: V,
+   ...keys: T[]
+): Record<T, V> => {
+   let res = {} as Record<T, V>;
+   keys.forEach(i => (res[i] = value));
+   return res;
+};

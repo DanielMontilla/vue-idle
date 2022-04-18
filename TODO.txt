@@ -10,3 +10,9 @@
    consumable tooltip
    colors
    tab shadow
+
+   player stats component
+   scope all scss
+
+   find better data structure for modeling skill, activities & stat relationships
+   add leveling system for activies

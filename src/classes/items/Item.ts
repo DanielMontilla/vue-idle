@@ -1,5 +1,5 @@
 import { ItemTypeArr } from '@/CONST';
-import { items } from '@/data';
+import { ITEMS } from '@/data';
 import type { ItemInfo, ItemType, SlotType } from '@/types';
 import { randArrPick, randInt, recordLength } from '@/utilities';
 import { Hero, Consumable, Slot } from '@/classes/_index';
@@ -11,7 +11,7 @@ export default abstract class Item {
    public sellPrice: number = 120;
 
    constructor(public type: ItemType, public id: number, public quantity: number) {
-      this.info = items[this.type][this.id];
+      this.info = ITEMS[this.type][this.id];
    }
 
    public get src() {

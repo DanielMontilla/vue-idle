@@ -1,7 +1,6 @@
 <script setup lang="ts">
    import type { Hero } from '@/classes/_index';
    import { getPath, capitalize } from '@/utilities';
-   import { onMounted, ref } from 'vue';
 
    interface HeroToolTip {
       hero: Hero;
@@ -23,7 +22,7 @@
             </div>
          </div>
          <div class="level">
-            {{ hero.level.level }}
+            {{ hero.skills.luck }}
          </div>
       </div>
    </div>
@@ -39,6 +38,7 @@
       display: grid;
       align-items: center;
       width: max-content;
+      height: max-content;
       grid-template-rows: $header-height;
       grid-template-columns: auto;
       grid-template-areas: 'header';
@@ -91,7 +91,7 @@
          .level {
             grid-area: level;
             justify-self: end;
-            font-size: $img-size;
+            font-size: 20px;
             font-weight: 300;
             margin-left: $s-4;
          }
