@@ -33,7 +33,7 @@
    @use '@/styles/global' as *;
 
    .shop-ctn {
-      @include page-default;
+      @include window-default($shop-background);
       display: grid;
       grid-template-columns: $inv-width auto;
       grid-template-rows: auto $inv-height;

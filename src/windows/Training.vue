@@ -37,7 +37,7 @@
    @use '@/styles/global' as *;
 
    .training-ctn {
-      @include page-default;
+      @include window-default();
       display: grid;
       grid-template-columns: $inv-width auto;
       grid-template-rows: auto $inv-height;

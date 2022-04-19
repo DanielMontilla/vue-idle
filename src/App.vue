@@ -5,7 +5,6 @@
    import { useSlots, useLabels } from '@/services/_index';
    import { computed, inject, provide, ref } from 'vue';
    import { Hero } from '@/classes/_index';
-   import { randInt } from '@/utilities';
    import { STARTING_LABELS } from '@/data';
    import Activities from './windows/Activities.vue';
 
@@ -74,7 +73,7 @@
       border-style: solid;
       border-width: $s-2;
       border-radius: $s-0;
-      border-color: $white-soft;
+      border-color: $text-default;
    }
 
    .wallet-area {

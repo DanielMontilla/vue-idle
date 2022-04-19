@@ -13,19 +13,18 @@ import type {
 export const STARTING_LABELS: LabelConfig[] = [
    {
       name: 'shop',
+      color: 'hsla(210, 55%, 20%, 1)',
       icon: `icons/shop`,
-      color: `#797A7E`,
    },
    {
       name: 'activities',
+      color: 'hsla(133, 55%, 20%, 1)',
       icon: '',
-      color: '#797A7E',
    },
-   {
-      name: 'training',
-      icon: `icons/weight`,
-      color: `#797A7E`,
-   },
+   // {
+   //    name: 'training',
+   //    icon: `icons/weight`,
+   // },
 ];
 
 export const ITEMS: Record<ItemType, Record<number, ItemInfo>> = {
@@ -48,6 +47,18 @@ export const ITEMS: Record<ItemType, Record<number, ItemInfo>> = {
    },
    // weapon: {}
 } as const;
+
+export const ACTIVITY_ICONS: Record<Activity, string> = {
+   fishing: 'icons/fishing_rod',
+   mining: '',
+   woodcutting: '',
+   research: '',
+   archery: '',
+   gambling: '',
+   spelunking: '',
+   hunting: '',
+   cooking: '',
+};
 
 export const HERO_ID_MAP: Record<HeroRace, number> = {
    human: 1,

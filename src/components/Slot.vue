@@ -17,6 +17,7 @@ Item
    const player = inject(PLAYER) as PlayerRef;
    const { data, debug, onEnter, onLeave } = defineProps<SlotProps>();
    const manager = useSlots();
+
    let slot: SlotRef;
    if (typeof data === 'string') {
       slot = manager.add(data);
@@ -93,7 +94,7 @@ Item
       height: $slot-size;
       min-height: $slot-size;
       min-width: $slot-size;
-      background-color: hsla(0, 0%, 0%, 0.1);
-      border: $s-1 solid black;
+      background-color: hsla(0, 0%, 100%, 0.05);
+      border: $s-1 solid rgb(25, 25, 25);
    }
 </style>

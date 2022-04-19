@@ -78,27 +78,23 @@ abstract class Slots {
          return;
       }
 
+      if (desSlot.notAllowed(srcItem) || (desItem && srcSlot.notAllowed(desItem))) {
+         // If either destination slot doesn't allow source item or source slot doesn't allow destination item (if there is one)
+         if (debug)
+            console.log(
+               `Source or Destination slot's whitelist preven one the items involved. Doing Nothing...`
+            );
+         return;
+      }
+
       if (!desItem) {
          // If the destination slot is empty:
-         if (desSlot.notAllowed(srcItem)) {
-            // If source item type is not in destination slot whitelist
-            if (debug)
-               console.log(
-                  `Destination slot doesn't allow source item type. Doing nothing...`
-               );
-            return;
-         }
          if (debug) console.log(`Destination Slot is empty. Replacing...`);
          desItem = srcItem;
          srcItem = undefined;
       } else {
          // If the destination slot is NOT empty:
          if (debug) console.log(`Destination Slot NOT Empty`);
-         // if (desSlot.notAllowed(srcItem) || srcSlot.notAllowed(desItem)) {
-         //    // If item type doesn't match in either slot
-         //    if (debug) console.log(`One of the items is not allows in one of the slots`);
-         //    return;
-         // }
          if (desItem.id === srcItem.id && desItem.type === srcItem.type) {
             // If both slots have the same item:
             if (debug) console.log(`Both item's slots are the same (Id)`);
@@ -152,7 +148,7 @@ const useSlots = () => ({
    addEmpties: Slots.addEmpties,
    setDragged: Slots.setDragged,
    clearDragged: Slots.clearDragged,
-   handleDrop: Slots.handleDrop
+   handleDrop: Slots.handleDrop,
 });
 
 export default useSlots;

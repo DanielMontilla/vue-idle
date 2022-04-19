@@ -22,7 +22,7 @@
    @use '@/styles/global' as *;
 
    .content {
-      @include page-default;
+      @include window-default($activity-background);
       display: grid;
       grid-template-areas: 'inventory activities';
       grid-template-columns: 1fr 1fr;

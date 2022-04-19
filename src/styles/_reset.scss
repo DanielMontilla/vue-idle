@@ -1,4 +1,4 @@
-@use './theme' as *;
+@use './colors' as *;
 
 *,
 *::before,
@@ -23,8 +23,8 @@ body {
    user-select: none;
    overflow: hidden;
 
-   color: $text-normal;
-   background-color: $background-dark;
+   color: $text-default;
+   background-color: $background;
 }
 
 img,

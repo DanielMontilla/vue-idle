@@ -20,6 +20,7 @@ export const SlotTypeArr = [
    'training',
    'activity',
 ] as const;
+
 export const ItemTypeArr = ['hero', /* 'weapon', 'armor', */ 'consumable'] as const;
 export const HeroClassArr = [`knight`, `archer`, `mage`] as const;
 export const HeroRaceArr = [`human`, `goblin`] as const;

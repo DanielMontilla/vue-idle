@@ -3,77 +3,136 @@
    import { Hero, type Item } from '@/classes/_index';
    import { useLoop } from '@/services/_index';
    import { Slot } from '@/components/_index';
-   import ProgressBar from '../ProgressBar.vue';
    import type { Activity } from '@/types';
+   import { ACTIVITY_ICONS } from '@/data';
+   import { getPath } from '@/utilities';
+   import ProgressBar from './ProgressBar.vue';
+   import Info from './Info.vue';
+   import Menu from './Menu.vue';
 
    interface ActivityStationProps {
       activity: Activity;
    }
 
    const { activity } = defineProps<ActivityStationProps>();
+   const iconSrc = ACTIVITY_ICONS[activity];
    const hero = ref<Hero>();
-   const progress = ref<number>(0);
+   const total = 100;
+   const current = ref<number>(0);
+
    const loop = useLoop();
 
-   const total = 100;
    let id: number = -1;
+
+   const addXP = (amount: number) => {
+      let step = current.value + amount;
+      if (step >= total) {
+         let r = step - total;
+         current.value = r;
+         console.log(`${activity} completed!`);
+      } else {
+         current.value += amount;
+      }
+   };
 
    const onEnter = (item: Item) => {
       if (!(item instanceof Hero)) return;
       hero.value = item;
       id = loop.add((dt: number) => {
-         let rate = (hero.value as Hero).activityInfo[activity].rate * dt;
-         (hero.value as Hero).addXP(rate, activity);
-
-         let step = progress.value + rate;
-         if (step >= total) {
-            let r = step - total;
-            progress.value = r;
-            console.log(`${activity} completed!`);
-         } else {
-            progress.value += rate;
-         }
+         let amount = (hero.value as Hero).activityInfo[activity].rate * dt;
+         (hero.value as Hero).addXP(amount, activity);
+         addXP(amount);
       });
    };
    const onLeave = () => {
       loop.remove(id);
       hero.value = undefined;
    };
+
+   const onClick = () => {
+      if (hero.value) {
+         addXP(3);
+      }
+   };
 </script>
 
 <template>
-   <div class="contenti">
-      <div class="click"></div>
-      <Slot class="slot" data="activity" :onEnter="onEnter" :onLeave="onLeave" />
-      <div class="info">
-         <ProgressBar v-if="hero" :progress="progress" />
+   <div class="station">
+      <img class="icon-area" :src="getPath(iconSrc)" @click="onClick" />
+      <Slot class="slot-area" data="activity" :onEnter="onEnter" :onLeave="onLeave" />
+      <div class="data-area">
+         <div class="info-area">INFO</div>
+         <div class="progress-area">
+            <ProgressBar :total="total" :current="current" />
+         </div>
+         <div class="menu-area">
+            <Menu />
+         </div>
+         <div class="extra-area">
+            <Info />
+         </div>
       </div>
    </div>
 </template>
 
 <style scoped lang="scss">
    @use '@/styles/global' as *;
-   .contenti {
-      padding: $s-2;
+   .station {
+      $stroke-width: 2px;
+      $stroke-color: hsla(0, 0%, 10%, 1);
+      $padding: 6px;
+      $background-color: hsla(0, 0%, 30%, 1);
+
+      padding: calc($stroke-width + $padding);
+      border: solid $stroke-color $stroke-width;
+      border-radius: 4px;
+      background: $background-color;
 
       display: grid;
-      grid-template-areas: 'click slot info';
+      gap: $padding;
+      align-items: center;
+      grid-template-areas: 'icon slot data';
       grid-template-columns: auto auto auto;
       grid-template-rows: auto;
 
-      .click {
-         grid-area: click;
-
-         background-color: rgba($color: #0000004f, $alpha: 1);
+      .icon-area {
+         grid-area: icon;
+         @include square($slot-size);
       }
-      .slot {
+      .slot-area {
          grid-area: slot;
       }
-      .info {
-         grid-area: info;
-         width: 300px;
-         padding-left: $s-3;
-         padding-right: $s-3;
+      .data-area {
+         grid-area: data;
+         height: 100%;
+
+         display: grid;
+         gap: $padding;
+         grid-template-areas: 'info menu' 'progress extra';
+         grid-template-columns: auto auto;
+         grid-template-rows: auto auto;
+
+         .info-area {
+            grid-area: info;
+         }
+
+         .progress-area {
+            grid-area: progress;
+            align-self: end;
+            height: 20px;
+            width: 192px;
+         }
+
+         .menu-area {
+            grid-area: menu;
+         }
+
+         .extra-area {
+            grid-area: extra;
+            align-self: end;
+            height: 20px;
+            width: 20px;
+         }
       }
    }
 </style>
