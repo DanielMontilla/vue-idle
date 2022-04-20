@@ -6,7 +6,7 @@
    import { computed } from '@vue/reactivity';
    import { PLAYER } from '@/CONST';
    import type { PlayerRef } from '@/types';
-   // TODO: pass draggable logic to slot sfc
+
    interface ItemProps {
       item: Item;
       onDragStart: (e: DragEvent, dragElem: HTMLElement) => any;
@@ -15,13 +15,13 @@
    const player = inject(PLAYER) as PlayerRef;
    const { item, onDragStart, onDragEnd } = defineProps<ItemProps>();
    const dragElem = ref<HTMLElement>();
-   let hover = ref<Boolean>(false);
+   let hover = ref<Boolean>(true);
    let dragging = ref<Boolean>(false);
 
    const draggable = computed(() => {
       if (item.isLocked) return false;
       if (item.slotType === 'buy') {
-         return player.value.wallet.gold >= item.buyPrice;
+         return player.value.wallet.gold >= item.value;
       }
       return true;
    });

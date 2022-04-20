@@ -1,6 +1,8 @@
 <script setup lang="ts">
    import type { Hero } from '@/classes/_index';
    import { getPath, capitalize } from '@/utilities';
+   import { HeroSkill } from '@/components/_index';
+   import { SkillArr } from '@/CONST';
 
    interface HeroToolTip {
       hero: Hero;
@@ -10,19 +12,23 @@
 </script>
 
 <template>
-   <div class="content">
-      <div class="header">
-         <img :src="getPath(hero.src)" />
-         <div class="info">
-            <div class="name">{{ hero.name }}</div>
-            <div class="sub">
-               {{ capitalize(hero.race) }}
-               <p style="font-weight: bold; display: inline">•</p>
-               {{ capitalize(hero.class) }}
-            </div>
+   <div class="hero-tooltip">
+      <div class="hero-info">
+         <div class="hero-name">{{ hero.name }}</div>
+         <div class="hero-raceNclass">
+            {{ capitalize(hero.race) }} • {{ capitalize(hero.class) }}
          </div>
-         <div class="level">
-            {{ hero.skills.luck }}
+      </div>
+      <div class="hero-value">
+         <div class="hero-value">
+            <img :src="getPath('icons/value-coin')" />
+            {{ hero.value }}
+         </div>
+      </div>
+      <div class="hero-detail">
+         <div class="hero-stats"></div>
+         <div class="hero-skills">
+            <HeroSkill v-for="skill in SkillArr" :hero="hero" :skill="skill" />
          </div>
       </div>
    </div>
@@ -31,69 +37,76 @@
 <style scoped lang="scss">
    @use '@/styles/global' as *;
 
-   $header-height: calc($slot-size * 0.8);
-
-   .content {
+   .hero-tooltip {
       @include item-tooltip;
+      width: 384px;
+
       display: grid;
+      gap: 8px;
       align-items: center;
-      width: max-content;
-      height: max-content;
-      grid-template-rows: $header-height;
-      grid-template-columns: auto;
-      grid-template-areas: 'header';
+      grid-template-areas:
+         'info value'
+         'detail detail';
+      grid-template-rows: auto auto;
+      grid-template-columns: auto auto;
 
-      .header {
-         grid-area: header;
+      line-height: 1;
+
+      .hero-info {
+         grid-area: info;
+
          display: grid;
-         grid-template-rows: auto;
-         grid-template-columns: auto auto;
-         grid-template-areas: 'img info level';
          align-items: center;
-         line-height: 1;
-         padding-right: $s-3;
+         gap: 4px;
+         grid-template-areas: 'name' 'raceNclass';
+         grid-template-rows: auto auto;
+         grid-template-columns: auto;
 
-         $img-size: calc($header-height * 0.9);
+         .hero-name {
+            grid-area: name;
+            font-size: 32px;
+            font-weight: bold;
+         }
+
+         .hero-raceNclass {
+            grid-area: raceNclass;
+            font-size: 18px;
+            font-style: italic;
+         }
+      }
+
+      .hero-value {
+         grid-area: value;
+         font-size: 24px;
+         align-self: start;
+         justify-self: end;
+         padding: 1px;
+
+         display: flex;
+         flex-direction: row;
+         gap: 4px;
 
          img {
-            grid-area: img;
-            height: $img-size;
-            width: $img-size;
-            border-radius: 999px;
-            margin-right: $s-3;
+            @include square(25px);
          }
+      }
 
-         .info {
-            grid-area: info;
-            display: grid;
-            grid-template-rows: auto auto;
-            grid-template-columns: auto;
-            grid-template-areas:
-               'name'
-               'sub';
+      .hero-detail {
+         grid-area: detail;
 
-            .name {
-               $height: calc($img-size * 3 / 5);
-               height: $height;
-               font-size: calc($height * 0.9);
-               font-weight: bold;
-               text-align: left;
-            }
+         display: grid;
+         align-items: center;
+         grid-template-areas: 'skills skills';
+         grid-template-rows: auto auto;
+         grid-template-columns: auto;
 
-            .sub {
-               $height: calc($img-size * 2 / 5);
-               height: $height;
-               font-size: calc($height * 0.9);
-               text-align: left;
-            }
+         .hero-stats {
+            grid-area: stats;
          }
-
-         .level {
-            grid-area: level;
-            justify-self: end;
-            font-size: 20px;
-            font-weight: 300;
-            margin-left: $s-4;
+         .hero-skills {
+            grid-area: skills;
+            display: flex;
+            flex-wrap: wrap;
          }
       }
    }

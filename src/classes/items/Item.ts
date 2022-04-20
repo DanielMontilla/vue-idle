@@ -7,8 +7,7 @@ import { Hero, Consumable, Slot } from '@/classes/_index';
 export default abstract class Item {
    public readonly info: ItemInfo;
    public slot!: Slot;
-   public buyPrice: number = 100;
-   public sellPrice: number = 120;
+   public value: number = randInt(30, 999);
 
    constructor(public type: ItemType, public id: number, public quantity: number) {
       this.info = ITEMS[this.type][this.id];

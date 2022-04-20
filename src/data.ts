@@ -73,7 +73,7 @@ export const CONSUMABLE_ID_MAP: Record<Consumables, number> = {
 export const RAW_STAT_GAINS: Record<Stat, PartialRecord<Skill, number>> = {
    health: {
       strength: 1,
-      endurace: 1,
+      endurance: 1,
    },
    physical_damage: {
       strength: 1,
@@ -88,7 +88,7 @@ export const RAW_STAT_GAINS: Record<Stat, PartialRecord<Skill, number>> = {
       perception: 1,
    },
    stamina: {
-      endurace: 1,
+      endurance: 1,
    },
    evasion: {
       luck: 1,
@@ -101,7 +101,7 @@ export const RAW_STAT_GAINS: Record<Stat, PartialRecord<Skill, number>> = {
       perception: 1,
    },
    resistance: {
-      endurace: 1,
+      endurance: 1,
    },
    social: {
       intelligence: 1,
@@ -116,7 +116,7 @@ export const RAW_SKILL_GAINS: Record<Skill, PartialRecord<Stat, number>> = {
       physical_damage: 1,
       ranged_damage: 1,
    },
-   endurace: {
+   endurance: {
       health: 1,
       stamina: 1,
       resistance: 1,
@@ -155,7 +155,7 @@ export const RAW_ACTIVITY_GAINS: Record<Activity, PartialRecord<Skill, number>> 
    },
    mining: {
       strength: 1,
-      endurace: 0.5,
+      endurance: 0.5,
    },
    woodcutting: {
       strength: 1.5,

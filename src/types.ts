@@ -60,6 +60,13 @@ export interface SkillData {
    xp: number;
 }
 
+export interface SkillAllData {
+   name: Skill;
+   level: number;
+   xp: number;
+   required: number;
+}
+
 export interface ActivityData extends SkillData {}
 
 export type uCallback = (dt: number) => any;

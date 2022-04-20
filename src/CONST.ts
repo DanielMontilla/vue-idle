@@ -39,7 +39,7 @@ export const StatArr = [
 
 export const SkillArr = [
    'strength',
-   'endurace',
+   'endurance',
    'magic',
    'intelligence',
    'luck',

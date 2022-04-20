@@ -45,8 +45,8 @@
    z-index: 2;
    bottom: 26px;
    left: 0px;
-   border: solid black $s-1;
-   border-radius: $s-2;
-   padding: $s-2;
-   background-color: $window-background;
+   border: solid black 2px;
+   border-radius: 4px;
+   padding: 8px;
+   background-color: $light-background;
 }
