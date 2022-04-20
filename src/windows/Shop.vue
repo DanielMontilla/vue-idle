@@ -16,7 +16,7 @@
 <template>
    <div class="shop-ctn">
       <div class="shop-recruitment-area">
-         <Slot :data="slots.addRandom('buy')" />
+         <Slot :slot="slots.createRandom('buy')" />
       </div>
       <div class="shop-item-store-area">
          <div

@@ -61,5 +61,3 @@ export const ActivityArr = [
 ] as const;
 
 export const ConsumableArr = ['potion'] as const;
-
-export const INVENTORY = Symbol() as InjectionKey<SlotRef[]>;

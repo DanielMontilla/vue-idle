@@ -59,7 +59,7 @@
 <template>
    <div class="station">
       <img class="icon-area" :src="getPath(iconSrc)" @click="onClick" />
-      <Slot class="slot-area" data="activity" :onEnter="onEnter" :onLeave="onLeave" />
+      <Slot class="slot-area" slot="activity" :onEnter="onEnter" :onLeave="onLeave" />
       <div class="data-area">
          <div class="info-area">INFO</div>
          <div class="progress-area">

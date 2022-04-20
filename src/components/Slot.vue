@@ -8,25 +8,23 @@ Item
    import { getPath } from '@/utilities';
 
    interface SlotProps {
-      data?: SlotRef | SlotType;
+      slot?: SlotRef | SlotType;
       debug?: boolean;
       onEnter?: (item: Item) => any;
       onLeave?: () => any;
    }
-   const { data, debug, onEnter, onLeave } = defineProps<SlotProps>();
-   const manager = useSlots();
+   const { slot, debug, onEnter, onLeave } = defineProps<SlotProps>();
+   const slots = useSlots();
    const player = usePlayer();
 
-   let slot: SlotRef;
-   if (typeof data === 'string') {
-      slot = manager.add(data);
-   } else if (data) {
-      slot = data;
-   } else {
-      slot = manager.addEmpty('none');
-   }
+   let mySlot: SlotRef =
+      typeof slot === 'string'
+         ? slots.create(slot)
+         : slot
+         ? slot
+         : slots.createEmpty('none');
 
-   const item = computed(() => slot.value.item);
+   const item = computed(() => mySlot.value.item);
    const price = ref<number>(); // Price has to be saved onDragStart bc onDrop event happens before onDragEnd
 
    const onDragStart = ({ dataTransfer }: DragEvent, dragElem: HTMLElement) => {
@@ -48,15 +46,15 @@ Item
       }
       dataTransfer.setDragImage(document.createElement('div'), 0, 0);
 
-      if (slot.value.type === 'buy') {
+      if (mySlot.value.type === 'buy') {
          price.value = (item.value as Item).value;
       }
 
-      manager.setDragged(slot);
+      slots.setDragged(mySlot);
    };
    const onDrop = () => {
       // CONTEXT: THE SLOT BEING DROPPED
-      manager.handleDrop(slot, debug);
+      slots.handleDrop(mySlot, debug);
       if (onEnter) onEnter(item.value as Item);
    };
    const onDragEnd = ({ dataTransfer }: DragEvent) => {
@@ -69,7 +67,7 @@ Item
          }
          if (onLeave) onLeave();
       }
-      manager.clearDragged();
+      slots.clearDragged();
    };
 </script>
 

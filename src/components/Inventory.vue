@@ -1,15 +1,15 @@
 <script setup lang="ts">
-   import { INVENTORY } from '@/CONST';
    import type { SlotRef } from '@/types';
    import { Slot } from '@/components/_index';
-   import { inject } from 'vue';
+   import { inject, toRef, watch } from 'vue';
+   import useInventory from '@/services/Inventory';
 
-   let slots = inject(INVENTORY) as SlotRef[];
+   const { slots } = useInventory();
 </script>
 
 <template>
    <div class="inventory-ctn">
-      <Slot class="inventory-slot" v-for="slot in slots" :data="slot" />
+      <Slot class="inventory-slot" v-for="slot in slots" :slot="slot" />
    </div>
 </template>
 

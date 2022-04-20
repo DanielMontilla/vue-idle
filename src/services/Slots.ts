@@ -6,48 +6,49 @@ import { ref } from 'vue';
 
 /** @description global slot/item manager. */
 abstract class Slots {
-   /** next available unique slot id */
+   /* 🗿 PROPERTIES */
    private static next: number = 0;
-   /** if mid-drag, populated by source slot. Otherwise undefined */
    private static draggedSlot?: SlotRef;
 
-   public static setDragged(slot?: SlotRef) {
+   /* 📐 SETTERS */
+   public static setDragged(slot: SlotRef) {
       Slots.draggedSlot = slot;
    }
 
    public static clearDragged() {
-      Slots.setDragged(undefined);
+      Slots.draggedSlot = undefined;
    }
 
-   public static add(type?: SlotType, item?: Item): SlotRef {
+   /* 🏭 FACTORY */
+   public static create(type?: SlotType, item?: Item): SlotRef {
       let slot = new Slot(Slots.next++, type ? type : 'none', item);
       // @ts-ignore typescript complaining for 0 reason
       return ref<Slot>(slot);
    }
 
-   public static addRandom(type?: SlotType, emptyChance: number = 0.5): SlotRef {
-      return Slots.add(
+   public static createRandom(type?: SlotType, emptyChance: number = 0.5): SlotRef {
+      return Slots.create(
          type ? type : randArrPick(SlotTypeArr),
          rand() > emptyChance ? Item.random() : undefined
       );
    }
 
-   public static addRandoms(amount: number, type?: SlotType): SlotRef[] {
+   public static createRandoms(amount: number, type?: SlotType): SlotRef[] {
       let arr: SlotRef[] = [];
       for (let i = 0; i < amount; i++) {
-         arr.push(Slots.addRandom(type));
+         arr.push(Slots.createRandom(type));
       }
       return arr;
    }
 
-   public static addEmpty(type?: SlotType): SlotRef {
-      return Slots.add(type);
+   public static createEmpty(type?: SlotType): SlotRef {
+      return Slots.create(type);
    }
 
-   public static addEmpties(amount: number, type?: SlotType): SlotRef[] {
+   public static createEmpties(amount: number, type?: SlotType): SlotRef[] {
       let arr: SlotRef[] = [];
       for (let i = 0; i < amount; i++) {
-         arr.push(Slots.addEmpty(type));
+         arr.push(Slots.createEmpty(type));
       }
       return arr;
    }
@@ -141,11 +142,11 @@ abstract class Slots {
  * kinda like a react hook huh :)
  */
 const useSlots = () => ({
-   add: Slots.add,
-   addRandom: Slots.addRandom,
-   addRandoms: Slots.addRandoms,
-   addEmpty: Slots.addEmpty,
-   addEmpties: Slots.addEmpties,
+   create: Slots.create,
+   createRandom: Slots.createRandom,
+   createRandoms: Slots.createRandoms,
+   createEmpty: Slots.createEmpty,
+   createEmpties: Slots.createEmpties,
    setDragged: Slots.setDragged,
    clearDragged: Slots.clearDragged,
    handleDrop: Slots.handleDrop,

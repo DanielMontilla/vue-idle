@@ -25,7 +25,7 @@
    <div class="training-station-ctn">
       <Slot
          class="slot"
-         data="training"
+         slot="training"
          :debug="false"
          :onEnter="enter"
          :onLeave="leave"

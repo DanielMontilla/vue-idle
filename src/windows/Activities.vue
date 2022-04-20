@@ -8,9 +8,9 @@
 </script>
 
 <template>
-   <div class="content">
+   <div class="activities-ctn">
       <div class="inventory">
-         <Slot :data="slots.add('inventory', Hero.random())" />
+         <Inventory />
       </div>
       <div class="activities">
          <ActivityStation activity="fishing" />
@@ -21,7 +21,7 @@
 <style scoped lang="scss">
    @use '@/styles/global' as *;
 
-   .content {
+   .activities-ctn {
       @include window-default($activity-background);
       display: grid;
       grid-template-areas: 'inventory activities';
