@@ -1,15 +1,15 @@
 <script setup lang="ts">
-   import { PLAYER } from '@/CONST';
    import type { PlayerData, PlayerRef } from '@/types';
    import { Inventory, TrainingStation } from '@/components/_index';
    import { inject } from 'vue';
+   import { usePlayer } from '@/services/_index';
 
    // interface TrainingProps {
    //    show: boolean;
    // }
    // const { show } = defineProps<TrainingProps>();
 
-   let player = inject(PLAYER) as PlayerRef;
+   let player = usePlayer();
 </script>
 
 <template>

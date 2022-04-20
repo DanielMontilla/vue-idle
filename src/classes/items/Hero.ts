@@ -98,8 +98,6 @@ export default class Hero extends Item {
       });
    }
 
-   private static once = true;
-
    /* 🔨 CONSTRUCTOR */
    private constructor(data: HeroData) {
       let { id, name, race, class: hClass, skills, activities } = data;
@@ -111,20 +109,6 @@ export default class Hero extends Item {
       this.activities = activities;
 
       this.computeAll();
-
-      if (Hero.once) {
-         SkillArr.forEach(s => {
-            let { xp, level } = this.skills[s];
-            let required = this.skillRequirements[s];
-
-            console.log(
-               `Skill: ${s}, Level: ${level}, XP: ${xp.toFixed(
-                  2
-               )}, Required: ${required.toFixed(2)}`
-            );
-         });
-         Hero.once = false;
-      }
    }
 
    /* 🔎 GETTERS */

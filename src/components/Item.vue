@@ -4,19 +4,19 @@
    import { inject, ref } from 'vue';
    import { HeroTooltip } from '@/components/_index';
    import { computed } from '@vue/reactivity';
-   import { PLAYER } from '@/CONST';
    import type { PlayerRef } from '@/types';
+   import { usePlayer } from '@/services/_index';
 
    interface ItemProps {
       item: Item;
       onDragStart: (e: DragEvent, dragElem: HTMLElement) => any;
       onDragEnd: (e: DragEvent) => any;
    }
-   const player = inject(PLAYER) as PlayerRef;
+   const player = usePlayer();
    const { item, onDragStart, onDragEnd } = defineProps<ItemProps>();
    const dragElem = ref<HTMLElement>();
-   let hover = ref<Boolean>(true);
-   let dragging = ref<Boolean>(false);
+   const hover = ref<Boolean>(false);
+   const dragging = ref<Boolean>(false);
 
    const draggable = computed(() => {
       if (item.isLocked) return false;

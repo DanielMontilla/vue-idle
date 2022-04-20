@@ -1,8 +1,8 @@
 <script setup lang="ts">
    import type { PlayerData } from '@/types';
-   import { VIEWPORT_SIZE, INVENTORY, PLAYER } from '@/CONST';
+   import { VIEWPORT_SIZE, INVENTORY } from '@/CONST';
    import { Label, Shop, Training } from '@/windows/_index';
-   import { useSlots, useLabels } from '@/services/_index';
+   import { useSlots, useLabels, usePlayer } from '@/services/_index';
    import { computed, inject, provide, ref } from 'vue';
    import { Hero } from '@/classes/_index';
    import { STARTING_LABELS } from '@/data';
@@ -11,9 +11,8 @@
    // Global State
    const slots = useSlots();
    const { labels, getActive, isActive, setActive } = useLabels(1, STARTING_LABELS);
-   const player = ref<PlayerData>({ wallet: { diamond: 0, gold: 99 } });
+   const player = usePlayer();
 
-   provide(PLAYER, player);
    provide(INVENTORY, [
       slots.add('inventory', Hero.random()),
       ...slots.addRandoms(9 * 6 - 1, 'inventory'),

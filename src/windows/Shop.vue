@@ -1,6 +1,5 @@
 <script setup lang="ts">
-   import { useSlots } from '@/services/_index';
-   import { PLAYER } from '@/CONST';
+   import { useSlots, usePlayer } from '@/services/_index';
    import { Slot, Inventory } from '@/components/_index';
    import type { PlayerRef } from '@/types';
    import { defineProps, inject } from 'vue';
@@ -11,7 +10,7 @@
    // }
    // const { show } = defineProps<ShopProps>();
    const slots = useSlots();
-   const player = inject(PLAYER) as PlayerRef;
+   const player = usePlayer();
 </script>
 
 <template>

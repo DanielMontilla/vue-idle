@@ -1,25 +1,46 @@
-import type { Currency, Wallet } from '@/types';
-import { ref } from 'vue';
+import type { Currency, PlayerData, Wallet } from '@/types';
+import { randInt } from '@/utilities';
+import { ref, type Ref } from 'vue';
 
 class Player {
-   private constructor(gold: number = 10) {
-      Player._wallet.gold = gold;
+   /*  */
+   public static ref: Ref<PlayerData>;
+
+   /* 🗿 PROPERTIES */
+   private _wallet: Wallet;
+
+   /* 🔨 CONSTRUCTOR */
+   private constructor({ wallet }: PlayerData) {
+      this._wallet = wallet;
+
+      Player.ref = ref(this);
    }
 
-   private static instance: Player;
-   public static create() {
-      if (!Player.instance) Player.instance = new Player();
-      return Player.instance;
+   /* 🏭 FACTORY */
+   public static init(data: PlayerData) {
+      return new Player(data);
    }
 
-   private static _wallet: Wallet;
-   public static get wallet() {
-      return Player._wallet;
+   public static initRandom() {
+      return new Player({
+         wallet: {
+            gold: randInt(1, 999),
+            diamond: randInt(1, 999),
+         },
+      });
    }
 
-   public static addToWallet(currency: Currency, amount: number) {
-      return (Player._wallet[currency] += amount);
+   /* 🔎 GETTERS */
+   public get wallet() {
+      return this._wallet;
    }
 }
 
-const player = ref<Player>(Player.create());
+const usePlayer = (data?: PlayerData) => {
+   if (data) Player.init(data);
+   if (!Player.ref && !data) Player.initRandom();
+
+   return Player.ref;
+};
+
+export default usePlayer;

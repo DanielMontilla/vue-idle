@@ -1,12 +1,11 @@
 Item
 <script setup lang="ts">
-   import { useSlots } from '@/services/_index';
+   import { useSlots, usePlayer } from '@/services/_index';
    import type { Item } from '@/classes/_index';
    import { Item as MyItem } from '@/components/_index';
-   import type { PlayerRef, SlotRef, SlotType } from '@/types';
-   import { computed, inject, ref } from 'vue';
+   import type { SlotRef, SlotType } from '@/types';
+   import { computed, ref } from 'vue';
    import { getPath } from '@/utilities';
-   import { PLAYER } from '@/CONST';
 
    interface SlotProps {
       data?: SlotRef | SlotType;
@@ -14,9 +13,9 @@ Item
       onEnter?: (item: Item) => any;
       onLeave?: () => any;
    }
-   const player = inject(PLAYER) as PlayerRef;
    const { data, debug, onEnter, onLeave } = defineProps<SlotProps>();
    const manager = useSlots();
+   const player = usePlayer();
 
    let slot: SlotRef;
    if (typeof data === 'string') {
@@ -50,7 +49,7 @@ Item
       dataTransfer.setDragImage(document.createElement('div'), 0, 0);
 
       if (slot.value.type === 'buy') {
-         price.value = (item.value as Item).buyPrice;
+         price.value = (item.value as Item).value;
       }
 
       manager.setDragged(slot);

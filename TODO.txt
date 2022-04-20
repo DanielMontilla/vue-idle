@@ -1,17 +1,15 @@
-   player class
+   inventory service
    hero stats system
    drag img fix
    training station swap fix
    training statin switching contex menu
    dynamic hero tooltip position
    consumable tooltip
-   colors
-   tab shadow
 
    player stats component
    scope all scss
 
-   find better data structure for modeling skill, activities & stat relationships
+   descript stats, skills and actvity relationships with matricies
    add leveling system for activies
 
    switch from records to maps for iterable data structure
