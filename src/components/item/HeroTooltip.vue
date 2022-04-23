@@ -1,9 +1,8 @@
-SKILL_ARRSTAT_ARR<script setup lang="ts">
+<script setup lang="ts">
    import type { Hero } from '@/classes/_index';
    import { getPath, capitalize } from '@/utilities';
-   import { HeroSkill } from '@/components/_index';
+   import { HeroSkill, HeroStat } from '@/components/_index';
    import { SKILL_ARR, STAT_ARR } from '@/CONST';
-   import HeroStat from './HeroStat.vue';
 
    interface HeroToolTip {
       hero: Hero;
@@ -22,7 +21,7 @@ SKILL_ARRSTAT_ARR<script setup lang="ts">
       </div>
       <div class="hero-value">
          <div class="hero-value">
-            <img :src="getPath('icons/value-coin')" />
+            <img :src="getPath('icons/gold')" />
             {{ hero.value }}
          </div>
       </div>

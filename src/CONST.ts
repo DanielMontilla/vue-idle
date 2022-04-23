@@ -17,8 +17,8 @@ export const SLOT_TYPE_ARR = [
    'sell',
    'buy',
    'inventory',
-   'training',
    'activity',
+   'disabled',
 ] as const;
 
 export const ITEM_TYPE_ARR = ['hero', /* 'weapon', 'armor', */ 'consumable'] as const;

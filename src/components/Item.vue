@@ -12,19 +12,12 @@
       onDragStart: (e: DragEvent, dragElem: HTMLElement) => any;
       onDragEnd: (e: DragEvent) => any;
    }
-   const player = usePlayer();
    const { item, onDragStart, onDragEnd } = defineProps<ItemProps>();
    const dragElem = ref<HTMLElement>();
    const hover = ref<Boolean>(false);
    const dragging = ref<Boolean>(false);
 
-   const draggable = computed(() => {
-      if (item.isLocked) return false;
-      if (item.slotType === 'buy') {
-         return player.value.wallet.gold >= item.value;
-      }
-      return true;
-   });
+   const draggable = computed(() => item.isDraggable);
 </script>
 
 <template>

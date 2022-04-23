@@ -2,7 +2,7 @@ Item
 <script setup lang="ts">
    import { useSlots, usePlayer } from '@/services/_index';
    import type { Item } from '@/classes/_index';
-   import { Item as MyItem } from '@/components/_index';
+   import { Item as MyItem, BuyableOverlay } from '@/components/_index';
    import type { SlotRef, SlotType } from '@/types';
    import { computed, ref } from 'vue';
    import { getPath } from '@/utilities';
@@ -13,9 +13,10 @@ Item
       onEnter?: (item: Item) => any;
       onLeave?: () => any;
    }
+
    const { slot, debug, onEnter, onLeave } = defineProps<SlotProps>();
    const slots = useSlots();
-   const player = usePlayer();
+   const { player } = usePlayer();
 
    let mySlot: SlotRef =
       typeof slot === 'string'
@@ -25,8 +26,11 @@ Item
          : slots.createEmpty('none');
 
    const item = computed(() => mySlot.value.item);
-   const price = ref<number>(); // Price has to be saved onDragStart bc onDrop event happens before onDragEnd
+   const price = computed(() => mySlot.value.price); // Price has to be saved onDragStart bc onDrop event happens before onDragEnd
+   const iPrice = ref<number>(); // Price has to be saved onDragStart bc onDrop event happens before onDragEnd
 
+   /* 📅 EVENT HANDLERS */
+   const onClick = () => {};
    const onDragStart = ({ dataTransfer }: DragEvent, dragElem: HTMLElement) => {
       // CONTEXT: THE SLOT BEING DRAGGED FROM
       if (!dataTransfer) return;
@@ -47,23 +51,23 @@ Item
       dataTransfer.setDragImage(document.createElement('div'), 0, 0);
 
       if (mySlot.value.type === 'buy') {
-         price.value = (item.value as Item).value;
+         iPrice.value = (item.value as Item).value;
       }
 
       slots.setDragged(mySlot);
    };
    const onDrop = () => {
       // CONTEXT: THE SLOT BEING DROPPED
-      slots.handleDrop(mySlot, debug);
+      if (!slots.handleDrop(mySlot, debug)) return;
       if (onEnter) onEnter(item.value as Item);
    };
    const onDragEnd = ({ dataTransfer }: DragEvent) => {
       // CONTEXT: THE SLOT BEING DRAGGED FROM
       if (!dataTransfer) return;
       if (dataTransfer.dropEffect !== 'none') {
-         if (price.value) {
-            player.value.wallet.gold -= price.value;
-            price.value = undefined;
+         if (iPrice.value) {
+            player.value.wallet.gold -= iPrice.value;
+            iPrice.value = undefined;
          }
          if (onLeave) onLeave();
       }
@@ -75,10 +79,12 @@ Item
    <div class="slot-ctn" @drop="onDrop" @dragenter.prevent @dragover.prevent>
       <MyItem
          v-if="item"
+         class="item"
          :item="item"
          :onDragStart="onDragStart"
          :onDragEnd="onDragEnd"
       />
+      <BuyableOverlay v-if="price" :slot="mySlot" />
    </div>
 </template>
 
@@ -92,6 +98,10 @@ Item
       min-height: $slot-size;
       min-width: $slot-size;
       background-color: hsla(0, 0%, 100%, 0.05);
-      border: $s-1 solid rgb(25, 25, 25);
+      border: 1px solid rgb(25, 25, 25);
+
+      .item {
+         z-index: 1;
+      }
    }
 </style>

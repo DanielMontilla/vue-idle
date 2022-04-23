@@ -15,3 +15,7 @@
    switch from records to maps for iterable data structure
 
    look into custom event emit  for onEnter & onLeave callbacks for slot component
+
+
+   BRAINSTORM
+   for the inventory we'll have buyable slots

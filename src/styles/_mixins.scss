@@ -11,7 +11,7 @@
    position: absolute;
    width: 100%;
    height: 100%;
-   padding: $s-2;
+   padding: 8px;
    background-color: $color;
 }
 
@@ -42,7 +42,7 @@
 
 @mixin item-tooltip {
    position: absolute;
-   z-index: 2;
+   z-index: 3;
    bottom: 26px;
    left: 0px;
    border: solid black 2px;

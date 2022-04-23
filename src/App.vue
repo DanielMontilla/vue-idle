@@ -1,20 +1,19 @@
 <script setup lang="ts">
    import { VIEWPORT_SIZE } from '@/CONST';
-   import { Label, Shop, Training } from '@/windows/_index';
-   import { useSlots, useLabels, usePlayer } from '@/services/_index';
+   import { Label, Shop } from '@/windows/_index';
+   import { useLabels, usePlayer } from '@/services/_index';
    import { onMounted } from 'vue';
    import { STARTING_LABELS } from '@/data';
    import Activities from './windows/Activities.vue';
    import useInventory from './services/Inventory';
-   import { Hero } from './classes/_index';
 
    // Global State
    const { labels, getActive, isActive, setActive } = useLabels(0, STARTING_LABELS);
-   const player = usePlayer();
+   const { player } = usePlayer();
    const inventory = useInventory();
 
    onMounted(() => {
-      inventory.add(Hero.random());
+      inventory.addEmpties(9);
    });
 </script>
 
@@ -46,8 +45,12 @@
                   @click="setActive(label)"
                />
             </div>
-            <div class="window-area" :style="{ backgroundColor: getActive().color }">
-               <Training v-show="isActive('training')" />
+            <div
+               class="window-area"
+               :style="{
+                  backgroundColor: getActive().color,
+               }"
+            >
                <Shop v-show="isActive('shop')" />
                <Activities v-show="isActive('activities')" />
             </div>
@@ -82,11 +85,11 @@
       top: $s-0;
       .gold-area {
          display: inline-flex;
-         gap: $s-2;
+         gap: 6px;
          align-items: center;
          height: 100%;
-         .gold-icon {
-            @include square($s-8);
+         img {
+            @include square(28px);
          }
          .gold-text {
             font-size: $s-6;

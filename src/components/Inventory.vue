@@ -1,7 +1,5 @@
 <script setup lang="ts">
-   import type { SlotRef } from '@/types';
    import { Slot } from '@/components/_index';
-   import { inject, toRef, watch } from 'vue';
    import useInventory from '@/services/Inventory';
 
    const { slots } = useInventory();

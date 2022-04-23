@@ -1,7 +1,7 @@
 import { SLOT_TYPE_ARR } from '@/CONST';
 import type { SlotRef, SlotType } from '@/types';
 import { rand, randArrPick } from '@/utilities';
-import { Item, Hero, Slot } from '@/classes/_index';
+import { Item, Slot } from '@/classes/_index';
 import { ref } from 'vue';
 
 /** @description global slot/item manager. */
@@ -20,8 +20,8 @@ abstract class Slots {
    }
 
    /* 🏭 FACTORY */
-   public static create(type?: SlotType, item?: Item): SlotRef {
-      let slot = new Slot(Slots.next++, type ? type : 'none', item);
+   public static create(type?: SlotType, item?: Item, price?: number): SlotRef {
+      let slot = new Slot(Slots.next++, type ? type : 'none', item, price);
       // @ts-ignore typescript complaining for 0 reason
       return ref<Slot>(slot);
    }
@@ -64,19 +64,25 @@ abstract class Slots {
       if (srcSlot.id === desSlot.id) {
          // If destination === source
          if (debug) console.log(`Dropped item into its original slot. Doing Nothing...`);
-         return;
+         return false;
+      }
+
+      if (desSlot.price) {
+         // If destination === source
+         if (debug) console.log(`Destination slot has not been bought. Doing Nothing...`);
+         return false;
       }
 
       if (!srcItem) {
          // If src has no item... but they how would one drag no item?
          if (debug) console.log(`How the fuck. Doing Nothing...`);
-         return;
+         return false;
       }
 
       if (srcSlot.locked || desSlot.locked) {
          // If either slot is locked
          if (debug) console.log(`Source slot is locked. Can't take or put items in`);
-         return;
+         return false;
       }
 
       if (desSlot.notAllowed(srcItem) || (desItem && srcSlot.notAllowed(desItem))) {
@@ -85,7 +91,7 @@ abstract class Slots {
             console.log(
                `Source or Destination slot's whitelist preven one the items involved. Doing Nothing...`
             );
-         return;
+         return false;
       }
 
       if (!desItem) {
@@ -135,6 +141,7 @@ abstract class Slots {
 
       srcSlot.item = srcItem;
       desSlot.item = desItem;
+      return true;
    };
 }
 

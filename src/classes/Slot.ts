@@ -5,22 +5,25 @@ import type { Item } from '@/classes/_index';
 export default class Slot {
    private _whitelist: ItemType[] = [];
    public locked: boolean = false;
-   constructor(public id: number, public type: SlotType, private _item?: Item) {
+   constructor(
+      public id: number,
+      public type: SlotType,
+      private _item?: Item,
+      public price?: number
+   ) {
       switch (type) {
-         case 'training':
-            this.addToWhitelist('hero');
-            break;
-
          case 'inventory':
             this.whitelistAll();
             break;
 
          case 'buy':
-            // this.whitelistAll();
             break;
 
          case 'activity':
             this.addToWhitelist('hero');
+            break;
+
+         case 'disabled':
             break;
 
          default:
@@ -63,5 +66,9 @@ export default class Slot {
 
    public notAllowed(item: Item) {
       return !this.isAllowed(item);
+   }
+
+   public buy() {
+      this.price = undefined;
    }
 }
