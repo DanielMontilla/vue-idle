@@ -1,4 +1,4 @@
-import { SlotTypeArr } from '@/CONST';
+import { SLOT_TYPE_ARR } from '@/CONST';
 import type { SlotRef, SlotType } from '@/types';
 import { rand, randArrPick } from '@/utilities';
 import { Item, Hero, Slot } from '@/classes/_index';
@@ -28,7 +28,7 @@ abstract class Slots {
 
    public static createRandom(type?: SlotType, emptyChance: number = 0.5): SlotRef {
       return Slots.create(
-         type ? type : randArrPick(SlotTypeArr),
+         type ? type : randArrPick(SLOT_TYPE_ARR),
          rand() > emptyChance ? Item.random() : undefined
       );
    }

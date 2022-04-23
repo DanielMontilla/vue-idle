@@ -1,14 +1,7 @@
 <script setup lang="ts">
    import { useSlots, usePlayer } from '@/services/_index';
    import { Slot, Inventory } from '@/components/_index';
-   import type { PlayerRef } from '@/types';
-   import { defineProps, inject } from 'vue';
-   import type { Item } from '@/classes/_index';
 
-   // interface ShopProps {
-   //    show: boolean;
-   // }
-   // const { show } = defineProps<ShopProps>();
    const slots = useSlots();
    const player = usePlayer();
 </script>

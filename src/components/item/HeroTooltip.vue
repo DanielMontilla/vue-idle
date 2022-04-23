@@ -1,8 +1,9 @@
-<script setup lang="ts">
+SKILL_ARRSTAT_ARR<script setup lang="ts">
    import type { Hero } from '@/classes/_index';
    import { getPath, capitalize } from '@/utilities';
    import { HeroSkill } from '@/components/_index';
-   import { SkillArr } from '@/CONST';
+   import { SKILL_ARR, STAT_ARR } from '@/CONST';
+   import HeroStat from './HeroStat.vue';
 
    interface HeroToolTip {
       hero: Hero;
@@ -26,9 +27,11 @@
          </div>
       </div>
       <div class="hero-detail">
-         <div class="hero-stats"></div>
+         <div class="hero-stats">
+            <HeroStat v-for="stat in STAT_ARR" :hero="hero" :stat="stat" />
+         </div>
          <div class="hero-skills">
-            <HeroSkill v-for="skill in SkillArr" :hero="hero" :skill="skill" />
+            <HeroSkill v-for="skill in SKILL_ARR" :hero="hero" :skill="skill" />
          </div>
       </div>
    </div>
@@ -39,7 +42,6 @@
 
    .hero-tooltip {
       @include item-tooltip;
-      width: 384px;
 
       display: grid;
       gap: 8px;
@@ -96,17 +98,26 @@
 
          display: grid;
          align-items: center;
-         grid-template-areas: 'skills skills';
+         column-gap: 16px;
+         grid-template-areas: 'stats skills';
          grid-template-rows: auto auto;
          grid-template-columns: auto;
 
          .hero-stats {
             grid-area: stats;
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            grid-template-rows: repeat(4, auto);
+            column-gap: 8px;
+            row-gap: 4px;
          }
          .hero-skills {
             grid-area: skills;
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            grid-template-rows: repeat(4, auto);
+            column-gap: 8px;
+            row-gap: 4px;
          }
       }
    }

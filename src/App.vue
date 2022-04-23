@@ -6,14 +6,15 @@
    import { STARTING_LABELS } from '@/data';
    import Activities from './windows/Activities.vue';
    import useInventory from './services/Inventory';
+   import { Hero } from './classes/_index';
 
    // Global State
-   const { labels, getActive, isActive, setActive } = useLabels(1, STARTING_LABELS);
+   const { labels, getActive, isActive, setActive } = useLabels(0, STARTING_LABELS);
    const player = usePlayer();
    const inventory = useInventory();
 
    onMounted(() => {
-      inventory.addRandoms(9 * 6);
+      inventory.add(Hero.random());
    });
 </script>
 

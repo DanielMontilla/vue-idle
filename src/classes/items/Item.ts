@@ -1,4 +1,4 @@
-import { ItemTypeArr } from '@/CONST';
+import { ITEM_TYPE_ARR } from '@/CONST';
 import { ITEMS } from '@/data';
 import type { ItemInfo, ItemType, SlotType } from '@/types';
 import { randArrPick, randInt, recordLength } from '@/utilities';
@@ -38,7 +38,7 @@ export default abstract class Item {
    }
 
    public static random(type?: ItemType): Item {
-      type = type ? type : randArrPick(ItemTypeArr);
+      type = type ? type : randArrPick(ITEM_TYPE_ARR);
 
       switch (type) {
          case 'hero':

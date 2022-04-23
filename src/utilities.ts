@@ -50,3 +50,14 @@ export const filledRec = <T extends string | number | symbol, V>(
    keys.forEach(i => (res[i] = value));
    return res;
 };
+
+export const constructRec = <T extends string | number | symbol, V>(
+   ...entries: [[key: T, value: V]]
+): Record<T, V> => {
+   let res = {} as Record<T, V>;
+   entries.forEach(e => {
+      let [key, value] = e;
+      res[key] = value;
+   });
+   return res;
+};

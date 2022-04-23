@@ -12,7 +12,7 @@ import type {
 
 export const VIEWPORT_SIZE = { HEIGHT: 900, WIDTH: 1280 };
 
-export const SlotTypeArr = [
+export const SLOT_TYPE_ARR = [
    'none',
    'sell',
    'buy',
@@ -21,11 +21,13 @@ export const SlotTypeArr = [
    'activity',
 ] as const;
 
-export const ItemTypeArr = ['hero', /* 'weapon', 'armor', */ 'consumable'] as const;
-export const HeroClassArr = [`knight`, `archer`, `mage`] as const;
-export const HeroRaceArr = [`human`, `goblin`] as const;
+export const ITEM_TYPE_ARR = ['hero', /* 'weapon', 'armor', */ 'consumable'] as const;
+export const HERO_CLASS_ARR = [`knight`, `archer`, `mage`] as const;
+export const HERO_RACE_ARR = [`human`, `goblin`] as const;
 
-export const StatArr = [
+export const RESOURCE_ARR = ['health', 'stamina', 'mana'];
+
+export const STAT_ARR = [
    'health',
    'physical_damage',
    'magic_damage',
@@ -37,7 +39,7 @@ export const StatArr = [
    'social',
 ] as const;
 
-export const SkillArr = [
+export const SKILL_ARR = [
    'strength',
    'endurance',
    'magic',
@@ -48,7 +50,7 @@ export const SkillArr = [
    'charisma',
 ] as const;
 
-export const ActivityArr = [
+export const ACTIVITY_ARR = [
    'fishing',
    'mining',
    'woodcutting',

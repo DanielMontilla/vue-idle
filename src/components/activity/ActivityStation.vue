@@ -52,6 +52,7 @@
    const onClick = () => {
       if (hero.value) {
          addXP(3);
+         hero.value.addXP(3, activity);
       }
    };
 </script>

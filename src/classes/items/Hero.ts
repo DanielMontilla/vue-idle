@@ -1,4 +1,10 @@
-import { ActivityArr, HeroClassArr, HeroRaceArr, SkillArr, StatArr } from '@/CONST';
+import {
+   ACTIVITY_ARR,
+   HERO_CLASS_ARR,
+   HERO_RACE_ARR,
+   SKILL_ARR,
+   STAT_ARR,
+} from '@/CONST';
 import type {
    HeroClass,
    HeroData,
@@ -10,9 +16,8 @@ import type {
    Activity,
    ActivityData,
    ActivitiesData,
-   SkillAllData,
 } from '@/types';
-import { randArrPick, randInt, randRecPick, filledRec } from '@/utilities';
+import { randArrPick, randInt, randRecPick, filledRec, mapValue } from '@/utilities';
 import { Item } from '@/classes/_index';
 import { faker } from '@faker-js/faker';
 import { HERO_ID_MAP, RAW_ACTIVITY_GAINS, RAW_SKILL_GAINS, RAW_STAT_GAINS } from '@/data';
@@ -25,14 +30,14 @@ export default class Hero extends Item {
    public skills: SkillsData;
    public activities: ActivitiesData;
 
-   public skillRequirements = filledRec(0, ...SkillArr);
-   public stats = filledRec(0, ...StatArr);
-   public activityInfo = filledRec({ rate: 10, drop: 1 }, ...ActivityArr);
+   public skillRequirements = filledRec(0, ...SKILL_ARR);
+   public stats = filledRec(0, ...STAT_ARR);
+   public activityInfo = filledRec({ rate: 10, drop: 1 }, ...ACTIVITY_ARR);
 
    /* 🔧 UTILITY */
    private computeAll() {
-      StatArr.forEach(s => this.computeStatValue(s));
-      SkillArr.forEach(s => this.computeRequireXP(s));
+      STAT_ARR.forEach(s => this.computeStatValue(s));
+      SKILL_ARR.forEach(s => this.computeRequireXP(s));
       this.computeValue();
    }
 
@@ -68,17 +73,17 @@ export default class Hero extends Item {
    public static random() {
       let skills = {} as SkillsData;
 
-      SkillArr.forEach(s => {
+      SKILL_ARR.forEach(s => {
          let info: SkillData = {
-            level: randInt(0, 49),
-            xp: randInt(0, 100),
+            level: randInt(0, 25),
+            xp: randInt(0, 49),
          };
          skills[s] = info;
       });
 
       let activities = {} as ActivitiesData;
 
-      ActivityArr.forEach(a => {
+      ACTIVITY_ARR.forEach(a => {
          let info: ActivityData = {
             level: randInt(0, 50),
             xp: randInt(0, 50),
@@ -86,13 +91,13 @@ export default class Hero extends Item {
          activities[a] = info;
       });
 
-      let race = randArrPick(HeroRaceArr);
+      let race = randArrPick(HERO_RACE_ARR);
 
       return new Hero({
          id: HERO_ID_MAP[race],
          name: faker.name.firstName(),
          race: race,
-         class: randArrPick(HeroClassArr),
+         class: randArrPick(HERO_CLASS_ARR),
          skills: skills,
          activities: activities,
       });
@@ -112,14 +117,22 @@ export default class Hero extends Item {
    }
 
    /* 🔎 GETTERS */
-   public getSkillData(skill: Skill): SkillAllData {
-      let { level, xp } = this.skills[skill];
-      let required = this.skillRequirements[skill];
+   public getSkillData(skill: Skill) {
+      let { level, xp: current } = this.skills[skill];
+      let total = this.skillRequirements[skill];
+      let progress = mapValue([0, total], [0, 100], current);
       return {
-         name: skill,
          level: level,
-         xp: xp,
-         required: required,
+         current: current,
+         total: total,
+         progress: progress,
+      };
+   }
+
+   public getStatData(stat: Stat) {
+      let current = this.stats[stat];
+      return {
+         current: current,
       };
    }
 

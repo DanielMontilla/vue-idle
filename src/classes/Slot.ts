@@ -1,4 +1,4 @@
-import { ItemTypeArr } from '@/CONST';
+import { ITEM_TYPE_ARR } from '@/CONST';
 import type { ItemType, SlotType } from '@/types';
 import type { Item } from '@/classes/_index';
 
@@ -54,7 +54,7 @@ export default class Slot {
    }
 
    public whitelistAll() {
-      this._whitelist = [...ItemTypeArr];
+      this._whitelist = [...ITEM_TYPE_ARR];
    }
 
    public isAllowed(item: Item) {

@@ -69,6 +69,34 @@ export const CONSUMABLE_ID_MAP: Record<Consumables, number> = {
    potion: 1,
 } as const;
 
+/* prettier-ignore */
+export const SKILLxSTAT = [ 
+                  /* strength      endurance    magic        intelligence luck         agility      perception   charisma
+   /* fishing     */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* mining      */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* woodcutting */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* research    */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* archery     */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* gambling    */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* spelunking  */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* hunting     */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* cooking     */ [1,           1,           1,           1,           1,           1,           1,           1],
+];
+
+/* prettier-ignore */
+export const SKILLxACTIVITY = [ 
+                  /* strength      endurance    magic        intelligence luck         agility      perception   charisma
+   /* fishing     */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* mining      */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* woodcutting */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* research    */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* archery     */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* gambling    */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* spelunking  */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* hunting     */ [1,           1,           1,           1,           1,           1,           1,           1],
+   /* cooking     */ [1,           1,           1,           1,           1,           1,           1,           1],
+];
+
 // STAT => { SKILL #1, ... , SKILL #N }
 export const RAW_STAT_GAINS: Record<Stat, PartialRecord<Skill, number>> = {
    health: {

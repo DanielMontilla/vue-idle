@@ -1,14 +1,14 @@
 import type { Ref } from 'vue';
 import type { Hero, Consumable, Item, Slot, Label } from '@/classes/_index';
 import type {
-   ActivityArr,
+   ACTIVITY_ARR,
    ConsumableArr,
-   HeroClassArr,
-   HeroRaceArr,
-   ItemTypeArr,
-   SkillArr,
-   SlotTypeArr,
-   StatArr,
+   HERO_CLASS_ARR,
+   HERO_RACE_ARR,
+   ITEM_TYPE_ARR,
+   SKILL_ARR,
+   SLOT_TYPE_ARR,
+   STAT_ARR,
 } from '@/CONST';
 
 export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
@@ -23,7 +23,7 @@ export interface LabelConfig {
    puchesable?: boolean;
 }
 
-export type ItemType = typeof ItemTypeArr[number];
+export type ItemType = typeof ITEM_TYPE_ARR[number];
 export type ItemStackLimit = 1 | 16 | 32 | 64;
 
 export type ItemRef = Ref<Item>;
@@ -33,7 +33,7 @@ export interface ItemInfo {
 }
 
 export type SlotRef = Ref<Slot>;
-export type SlotType = typeof SlotTypeArr[number];
+export type SlotType = typeof SLOT_TYPE_ARR[number];
 
 export type PlayerRef = Ref<PlayerData>;
 export type Currency = 'gold' | 'diamond';
@@ -42,8 +42,8 @@ export interface PlayerData {
    wallet: Wallet;
 }
 
-export type HeroClass = typeof HeroClassArr[number];
-export type HeroRace = typeof HeroRaceArr[number];
+export type HeroClass = typeof HERO_CLASS_ARR[number];
+export type HeroRace = typeof HERO_RACE_ARR[number];
 export type SkillsData = Record<Skill, SkillData>;
 export type ActivitiesData = Record<Activity, ActivityData>;
 export interface HeroData {
@@ -60,21 +60,14 @@ export interface SkillData {
    xp: number;
 }
 
-export interface SkillAllData {
-   name: Skill;
-   level: number;
-   xp: number;
-   required: number;
-}
-
 export interface ActivityData extends SkillData {}
 
 export type uCallback = (dt: number) => any;
 
 export type Consumables = typeof ConsumableArr[number];
 
-export type Stat = typeof StatArr[number];
-export type Skill = typeof SkillArr[number];
-export type Activity = typeof ActivityArr[number];
+export type Stat = typeof STAT_ARR[number];
+export type Skill = typeof SKILL_ARR[number];
+export type Activity = typeof ACTIVITY_ARR[number];
 
 export type ItemClass = Consumable | Hero;
