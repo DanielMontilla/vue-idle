@@ -85,13 +85,23 @@ abstract class Slots {
          return false;
       }
 
-      if (desSlot.notAllowed(srcItem) || (desItem && srcSlot.notAllowed(desItem))) {
-         // If either destination slot doesn't allow source item or source slot doesn't allow destination item (if there is one)
+      if (desSlot.notAllowed(srcItem)) {
+         // If destination slot doesn't allow source item
          if (debug)
             console.log(
-               `Source or Destination slot's whitelist preven one the items involved. Doing Nothing...`
+               `Destination slot's whitelist prevent source item. Doing Nothing...`
             );
          return false;
+      }
+
+      if (desItem) {
+         if (srcSlot.notAllowed(desItem)) {
+            if (debug)
+               console.log(
+                  `Source slot's whitelist prevent destination item. Doing Nothing...`
+               );
+            return false;
+         }
       }
 
       if (!desItem) {

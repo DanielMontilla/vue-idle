@@ -1,15 +1,3 @@
-import type { InjectionKey } from 'vue';
-import type {
-   Activity,
-   HeroRace,
-   ItemInfo,
-   PartialRecord,
-   PlayerRef,
-   Skill,
-   SlotRef,
-   Stat,
-} from '@/types';
-
 export const VIEWPORT_SIZE = { HEIGHT: 900, WIDTH: 1280 };
 
 export const SLOT_TYPE_ARR = [

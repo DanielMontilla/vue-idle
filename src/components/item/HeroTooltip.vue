@@ -12,7 +12,7 @@
 </script>
 
 <template>
-   <div class="hero-tooltip">
+   <div ref="box" class="hero-tooltip">
       <div class="hero-info">
          <div class="hero-name">{{ hero.name }}</div>
          <div class="hero-raceNclass">

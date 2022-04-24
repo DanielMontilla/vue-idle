@@ -8,7 +8,7 @@
    import useInventory from './services/Inventory';
 
    // Global State
-   const { labels, getActive, isActive, setActive } = useLabels(0, STARTING_LABELS);
+   const { labels, getActive, isActive, setActive } = useLabels(2, STARTING_LABELS);
    const { player } = usePlayer();
    const inventory = useInventory();
 

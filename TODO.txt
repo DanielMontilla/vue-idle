@@ -2,7 +2,6 @@
    drag img fix
    training station swap fix
    training statin switching contex menu
-   dynamic hero tooltip position
    consumable tooltip
 
    player stats component

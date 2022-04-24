@@ -39,7 +39,7 @@ export default abstract class Item {
       let { player } = usePlayer();
 
       let locked = this.slot.locked;
-      let buyable = this.slot.buyable;
+      let buyable = this.slot.price !== undefined;
       let purcheasable =
          this.slot.type === 'buy' ? player.value.canPurchase(this.value, 'gold') : true;
 

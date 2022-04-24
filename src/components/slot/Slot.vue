@@ -31,7 +31,7 @@ Item
 
    /* 📅 EVENT HANDLERS */
    const onClick = () => {};
-   const onDragStart = ({ dataTransfer }: DragEvent, dragElem: HTMLElement) => {
+   const onDragStart = ({ dataTransfer }: DragEvent, dragElem?: HTMLElement) => {
       // CONTEXT: THE SLOT BEING DRAGGED FROM
       if (!dataTransfer) return;
       dataTransfer.effectAllowed = 'move';
@@ -92,16 +92,11 @@ Item
    @use '@/styles/global' as *;
    .slot-ctn {
       @include flex-center;
-      display: block;
       width: $slot-size;
       height: $slot-size;
       min-height: $slot-size;
       min-width: $slot-size;
       background-color: hsla(0, 0%, 100%, 0.05);
       border: 1px solid rgb(25, 25, 25);
-
-      .item {
-         z-index: 1;
-      }
    }
 </style>
