@@ -10,7 +10,6 @@ class Inventory {
    public static slotPrice: Ref<number> = ref(0);
 
    /* 💿 COMPUTED */
-
    public static computeSlotPrice() {
       Inventory.slotPrice.value = Math.round(10 + this.slots.value.length ** 2);
    }
@@ -83,6 +82,9 @@ class Inventory {
          return false;
       }
    }
+
+   /* 🔧 UTILITY */
+   public static insert(item: Item) {}
 
    /* ⭐ initialization interface */
    public static init(/* Data */) {}

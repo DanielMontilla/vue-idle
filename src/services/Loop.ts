@@ -1,9 +1,9 @@
-import type { uCallback } from '@/types';
+import type { loopCallback } from '@/types';
 import { recordLength } from '@/utilities';
 
 /** Kinda like a gameloop :) */
 abstract class Loop {
-   private static callbacks: Record<number, uCallback> = [];
+   private static callbacks: Record<number, loopCallback> = [];
    private static next: number = 0;
    private static previousTime: number;
    private static _raf?: number;
@@ -30,7 +30,7 @@ abstract class Loop {
       }
    }
 
-   public static add = (callback: uCallback) => {
+   public static add = (callback: loopCallback) => {
       if (!Loop._raf) Loop.begin();
       Loop.callbacks[Loop.next] = callback;
       Loop.next++;
@@ -57,7 +57,7 @@ const useLoop = () => ({
    begin: Loop.begin,
    add: Loop.add,
    remove: Loop.remove,
-   stop: Loop.stop
+   stop: Loop.stop,
    // fps: Loop.fps
 });
 

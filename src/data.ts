@@ -21,6 +21,11 @@ export const STARTING_LABELS: LabelConfig[] = [
       color: 'hsla(133, 55%, 20%, 1)',
       icon: '',
    },
+   {
+      name: 'adventure',
+      color: 'hsla(316, 55%, 20%, 1)',
+      icon: '',
+   },
    // {
    //    name: 'training',
    //    icon: `icons/weight`,

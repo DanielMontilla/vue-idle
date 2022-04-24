@@ -1,6 +1,6 @@
 <script setup lang="ts">
    import { VIEWPORT_SIZE } from '@/CONST';
-   import { Label, Shop } from '@/windows/_index';
+   import { Label, Shop, Adventure } from '@/windows/_index';
    import { useLabels, usePlayer } from '@/services/_index';
    import { onMounted } from 'vue';
    import { STARTING_LABELS } from '@/data';
@@ -53,6 +53,7 @@
             >
                <Shop v-show="isActive('shop')" />
                <Activities v-show="isActive('activities')" />
+               <Adventure v-show="isActive('adventure')" />
             </div>
          </div>
       </div>

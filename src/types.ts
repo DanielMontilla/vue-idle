@@ -62,7 +62,7 @@ export interface SkillData {
 
 export interface ActivityData extends SkillData {}
 
-export type uCallback = (dt: number) => any;
+export type loopCallback = (dt: number) => any;
 
 export type Consumables = typeof ConsumableArr[number];
 
@@ -71,3 +71,15 @@ export type Skill = typeof SKILL_ARR[number];
 export type Activity = typeof ACTIVITY_ARR[number];
 
 export type ItemClass = Consumable | Hero;
+export interface IntervalConfig {
+   time: number;
+   callback: Function;
+   onComplete: Function;
+   /**
+    * number > 1 = limited
+    * number <= 0 = unlimited
+    * undifined = 1
+    */
+   iterations?: number;
+   paused?: boolean;
+}

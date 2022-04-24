@@ -61,3 +61,5 @@ export const constructRec = <T extends string | number | symbol, V>(
    });
    return res;
 };
+
+export const emptyFunc = () => {};
