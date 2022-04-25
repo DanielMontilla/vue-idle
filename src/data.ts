@@ -53,18 +53,6 @@ export const ITEMS: Record<ItemType, Record<number, ItemInfo>> = {
    // weapon: {}
 } as const;
 
-export const ACTIVITY_ICONS: Record<Activity, string> = {
-   fishing: 'icons/fishing_rod',
-   mining: '',
-   woodcutting: '',
-   research: '',
-   archery: '',
-   gambling: '',
-   spelunking: '',
-   hunting: '',
-   cooking: '',
-};
-
 export const HERO_ID_MAP: Record<HeroRace, number> = {
    human: 1,
    goblin: 2,

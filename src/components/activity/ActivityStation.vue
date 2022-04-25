@@ -4,7 +4,6 @@
    import { useLoop } from '@/services/_index';
    import { Slot } from '@/components/_index';
    import type { Activity } from '@/types';
-   import { ACTIVITY_ICONS } from '@/data';
    import { getPath } from '@/utilities';
    import ProgressBar from './ProgressBar.vue';
    import Info from './Info.vue';
@@ -15,7 +14,6 @@
    }
 
    const { activity } = defineProps<ActivityStationProps>();
-   const iconSrc = ACTIVITY_ICONS[activity];
    const hero = ref<Hero>();
    const total = 100;
    const current = ref<number>(0);
@@ -29,7 +27,6 @@
       if (step >= total) {
          let r = step - total;
          current.value = r;
-         console.log(`${activity} completed!`);
       } else {
          current.value += amount;
       }
@@ -59,7 +56,7 @@
 
 <template>
    <div class="station">
-      <img class="icon-area" :src="getPath(iconSrc)" @click="onClick" />
+      <img class="icon-area" :src="getPath(`activities/${activity}`)" @click="onClick" />
       <Slot class="slot-area" slot="activity" :onEnter="onEnter" :onLeave="onLeave" />
       <div class="data-area">
          <div class="info-area">INFO</div>
