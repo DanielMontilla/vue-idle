@@ -1,16 +1,36 @@
 <script setup lang="ts">
-   import { VIEWPORT_SIZE } from '@/CONST';
+   import { APP_SIZE, APP_PADDING, CONTENT_SIZE } from '@/CONST';
    import { Label, Shop, Adventure } from '@/windows/_index';
    import { useLabels, usePlayer } from '@/services/_index';
-   import { onMounted } from 'vue';
+   import { onMounted, type StyleValue } from 'vue';
    import { STARTING_LABELS } from '@/data';
    import Activities from './windows/Activities.vue';
    import useInventory from './services/Inventory';
+
+   // App Initialization
+   const appStyle: StyleValue = {
+      height: `${APP_SIZE.HEIGHT}px`,
+      width: `${APP_SIZE.WIDTH}px`,
+      maxHeight: `${APP_SIZE.HEIGHT}px`,
+      maxWidth: `${APP_SIZE.WIDTH}px`,
+      padding: `${APP_PADDING}px`,
+   };
+
+   const contentStyle: StyleValue = {
+      height: `${CONTENT_SIZE.HEIGHT}px`,
+      width: `${CONTENT_SIZE.WIDTH}px`,
+      maxHeight: `${CONTENT_SIZE.HEIGHT}px`,
+      maxWidth: `${CONTENT_SIZE.WIDTH}px`,
+   };
 
    // Global State
    const { labels, getActive, isActive, setActive } = useLabels(2, STARTING_LABELS);
    const { player } = usePlayer();
    const inventory = useInventory();
+
+   const close = () => {
+      window.close();
+   };
 
    onMounted(() => {
       inventory.addEmpties(9);
@@ -18,8 +38,11 @@
 </script>
 
 <template>
-   <main>
-      <div class="temp-border">
+   <div class="app" :style="appStyle">
+      <div class="app-bar">
+         <div class="close" @click="close">x</div>
+      </div>
+      <div class="content" :style="contentStyle">
          <div class="wallet-area">
             <div class="gold-area">
                <img class="gold-icon" src="src/assets/icons/gold.svg" />
@@ -28,54 +51,35 @@
                </div>
             </div>
          </div>
+         <div class="label-area">
+            <Label
+               v-for="label in labels"
+               :label="label"
+               :active="isActive(label)"
+               @click="setActive(label)"
+            />
+         </div>
          <div
             class="window"
             :style="{
-               height: `${VIEWPORT_SIZE.HEIGHT}px`,
-               width: `${VIEWPORT_SIZE.WIDTH}px`,
-               maxHeight: `${VIEWPORT_SIZE.HEIGHT}px`,
-               maxWidth: `${VIEWPORT_SIZE.WIDTH}px`,
+               backgroundColor: getActive().color,
             }"
          >
-            <div class="label-area">
-               <Label
-                  v-for="label in labels"
-                  :label="label"
-                  :active="isActive(label)"
-                  @click="setActive(label)"
-               />
-            </div>
-            <div
-               class="window-area"
-               :style="{
-                  backgroundColor: getActive().color,
-               }"
-            >
-               <Shop v-show="isActive('shop')" />
-               <Activities v-show="isActive('activities')" />
-               <Adventure v-show="isActive('adventure')" />
-            </div>
+            <Shop v-show="isActive('shop')" />
+            <Activities v-show="isActive('activities')" />
+            <Adventure v-show="isActive('adventure')" />
          </div>
       </div>
-   </main>
+   </div>
 </template>
 
 <style lang="scss">
    @use '@/styles/reset' as *;
    @use '@/styles/global' as *;
 
-   main {
+   .app {
       @include flex-center;
-      height: 100vh;
-      width: 100vw;
-   }
-
-   .temp-border {
-      box-sizing: content-box;
-      border-style: solid;
-      border-width: $s-2;
-      border-radius: $s-0;
-      border-color: $text-default;
+      align-items: end;
    }
 
    .wallet-area {
@@ -98,10 +102,10 @@
       }
    }
 
-   .window {
+   .content {
       z-index: 0;
-      background-color: $background;
       display: grid;
+      background-color: $background;
       grid-template-rows: $s-9 auto;
    }
 
@@ -112,10 +116,10 @@
       background-color: $background;
    }
 
-   .window-area {
+   .window {
       @include flex-center;
       width: 100%;
       height: 100%;
-      border-top-right-radius: $s-3;
+      @include page-radius;
    }
 </style>

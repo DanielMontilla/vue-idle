@@ -14,4 +14,4 @@
 
    look into custom event emit  for onEnter & onLeave callbacks for slot component
 
-   
+   figure how to have global setting file for ts and js files

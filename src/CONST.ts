@@ -1,4 +1,11 @@
-export const VIEWPORT_SIZE = { HEIGHT: 900, WIDTH: 1280 };
+// TODO: move to global settings file
+export const CONTENT_SIZE = { WIDTH: 1280, HEIGHT: 900 };
+export const APP_PADDING = 4;
+export const BAR_HEIGHT = 32;
+export const APP_SIZE = {
+   WIDTH: CONTENT_SIZE.WIDTH + APP_PADDING * 2,
+   HEIGHT: CONTENT_SIZE.HEIGHT + BAR_HEIGHT + APP_PADDING * 2,
+};
 
 export const SLOT_TYPE_ARR = [
    'none',
