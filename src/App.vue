@@ -1,11 +1,9 @@
 <script setup lang="ts">
    import { APP_SIZE, APP_PADDING, CONTENT_SIZE } from '@/CONST';
-   import { Label, Shop, Adventure } from '@/windows/_index';
-   import { useLabels, usePlayer } from '@/services/_index';
-   import { onMounted, type StyleValue } from 'vue';
+   import { Label, Shop, Adventure, Activities } from '@/pages/_index';
+   import { useLabels, usePlayer, useInventory } from '@/services/_index';
    import { STARTING_LABELS } from '@/data';
-   import Activities from './windows/Activities.vue';
-   import useInventory from './services/Inventory';
+   import { onMounted, type StyleValue } from 'vue';
 
    // App Initialization
    const appStyle: StyleValue = {
