@@ -38,7 +38,7 @@
 <template>
    <div class="app" :style="appStyle">
       <div class="app-bar">
-         <div class="close" @click="close">x</div>
+         <div class="close" @click="close"></div>
       </div>
       <div class="content" :style="contentStyle">
          <div class="wallet-area">

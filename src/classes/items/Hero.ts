@@ -20,7 +20,7 @@ import type {
 import { randArrPick, randInt, randRecPick, filledRec, mapValue } from '@/utilities';
 import { Item } from '@/classes/_index';
 import { faker } from '@faker-js/faker';
-import { HERO_ID_MAP, RAW_ACTIVITY_GAINS, RAW_SKILL_GAINS, RAW_STAT_GAINS } from '@/data';
+import { ACTIVITY_TO_SKILL, HERO_ID_MAP, SKILL_TO_STAT, STAT_TO_SKILL } from '@/data';
 
 export default class Hero extends Item {
    /* 🗿 PROPERTIES */
@@ -37,7 +37,7 @@ export default class Hero extends Item {
    /* 🔧 UTILITY */
    private computeAll() {
       STAT_ARR.forEach(s => this.computeStatValue(s));
-      SKILL_ARR.forEach(s => this.computeRequireXP(s));
+      SKILL_ARR.forEach(s => this.computeRequiredXP(s));
       this.computeValue();
    }
 
@@ -47,7 +47,7 @@ export default class Hero extends Item {
     */
    private computeStatValue(stat: Stat) {
       // getting skills that affect this stat
-      let skill_multipliers = RAW_STAT_GAINS[stat];
+      let skill_multipliers = STAT_TO_SKILL[stat];
       let sum = 0;
 
       for (const s in skill_multipliers) {
@@ -60,7 +60,7 @@ export default class Hero extends Item {
 
       this.stats[stat] = sum;
    }
-   private computeRequireXP(skill: Skill) {
+   private computeRequiredXP(skill: Skill) {
       let { level } = this.skills[skill];
       this.skillRequirements[skill] = 50 + level ** 1.25;
    }
@@ -140,17 +140,17 @@ export default class Hero extends Item {
    public increaseSkillLevel(skill: Skill, amount: number = 1) {
       this.skills[skill].level++;
 
-      this.computeRequireXP(skill);
+      this.computeRequiredXP(skill);
 
-      let stats = RAW_SKILL_GAINS[skill];
-      for (const statName in stats) {
+      let stat_multipliers = SKILL_TO_STAT[skill];
+      for (const statName in stat_multipliers) {
          let stat = statName as Stat;
          this.computeStatValue(stat);
       }
    }
 
    public addXP(amount: number, activity: Activity) {
-      let skill_multipliers = RAW_ACTIVITY_GAINS[activity];
+      let skill_multipliers = ACTIVITY_TO_SKILL[activity];
       for (const skillName in skill_multipliers) {
          let skill = skillName as Skill;
          let multiplier = skill_multipliers[skill] as number;

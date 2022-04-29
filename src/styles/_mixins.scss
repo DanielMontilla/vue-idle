@@ -51,3 +51,8 @@
    padding: 8px;
    background-color: $light-background;
 }
+
+@mixin grid-align {
+   display: grid;
+   align-items: center;
+}

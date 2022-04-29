@@ -6,9 +6,12 @@ import type {
    ItemType,
    LabelConfig,
    PartialRecord,
+   Resource,
    Skill,
    Stat,
 } from '@/types';
+import { ACTIVITY_ARR, RESOURCE_ARR, SKILL_ARR, STAT_ARR } from '@/CONST';
+import { constructRelationRec } from '@/utilities';
 
 export const STARTING_LABELS: LabelConfig[] = [
    {
@@ -63,148 +66,81 @@ export const CONSUMABLE_ID_MAP: Record<Consumables, number> = {
 } as const;
 
 /* prettier-ignore */
-export const SKILLxSTAT = [ 
-                  /* strength      endurance    magic        intelligence luck         agility      perception   charisma
-   /* fishing     */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* mining      */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* woodcutting */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* research    */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* archery     */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* gambling    */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* spelunking  */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* hunting     */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* cooking     */ [1,           1,           1,           1,           1,           1,           1,           1],
+export const SKILL_RESOURCE_MAT = [
+          /*  hp     sta    man
+   /* str */ [0.500, 0.000, 0.000],
+   /* end */ [0.500, 0.750, 0.000],
+   /* mag */ [0.000, 0.000, 1.000],
+   /* int */ [0.000, 0.000, 0.500],
+   /* lck */ [0.000, 0.000, 0.000],
+   /* agi */ [0.025, 0.500, 0.000],
+   /* per */ [0.000, 0.025, 0.000],
+   /* chr */ [0.000, 0.000, 0.300],
 ];
-
 /* prettier-ignore */
-export const SKILLxACTIVITY = [ 
-                  /* strength      endurance    magic        intelligence luck         agility      perception   charisma
-   /* fishing     */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* mining      */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* woodcutting */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* research    */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* archery     */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* gambling    */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* spelunking  */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* hunting     */ [1,           1,           1,           1,           1,           1,           1,           1],
-   /* cooking     */ [1,           1,           1,           1,           1,           1,           1,           1],
+export const SKILL_STAT_MAT = [
+          /*  phy    mag    ran    eva    acc    res    soc    */
+   /* str */ [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000],
+   /* end */ [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000],
+   /* mag */ [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000],
+   /* int */ [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000],
+   /* lck */ [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000],
+   /* agi */ [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000],
+   /* per */ [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000],
+   /* chr */ [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000],
+];
+/* prettier-ignore */
+export const SKILL_ACTIVITY_MAT = [
+          /*  fis    min    wod    res    arc    gam    spe    hun    coo    */
+   /* str */ [0.000, 1.000, 1.500, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+   /* end */ [0.000, 0.500, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+   /* mag */ [0.000, 0.000, 0.000, 0.750, 0.000, 0.000, 0.000, 0.000, 0.000],
+   /* int */ [0.000, 0.000, 0.000, 1.000, 0.030, 0.025, 0.000, 0.010, 0.000],
+   /* lck */ [0.025, 0.025, 0.000, 0.000, 0.000, 0.300, 0.025, 0.000, 0.000],
+   /* agi */ [0.000, 0.000, 0.000, 0.000, 0.350, 0.100, 0.000, 0.200, 0.000],
+   /* per */ [0.300, 0.000, 0.050, 0.000, 0.150, 0.000, 0.250, 0.025, 0.000],
+   /* chr */ [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.050],
 ];
 
-// STAT => { SKILL #1, ... , SKILL #N }
-export const RAW_STAT_GAINS: Record<Stat, PartialRecord<Skill, number>> = {
-   health: {
-      strength: 1,
-      endurance: 1,
-   },
-   physical_damage: {
-      strength: 1,
-   },
-   magic_damage: {
-      magic: 1,
-      intelligence: 1,
-   },
-   ranged_damage: {
-      strength: 1,
-      agility: 1,
-      perception: 1,
-   },
-   stamina: {
-      endurance: 1,
-   },
-   evasion: {
-      luck: 1,
-      agility: 1,
-      perception: 1,
-   },
-   accuracy: {
-      luck: 1,
-      agility: 1,
-      perception: 1,
-   },
-   resistance: {
-      endurance: 1,
-   },
-   social: {
-      intelligence: 1,
-      charisma: 1,
-   },
-};
+/* 🤖 COMPUTED DATA */
+export const SKILL_TO_ACTIVITY = constructRelationRec(
+   SKILL_ACTIVITY_MAT,
+   SKILL_ARR,
+   ACTIVITY_ARR,
+   false
+);
 
-// SKILL => { STAT #1, ... , STAT #N }
-export const RAW_SKILL_GAINS: Record<Skill, PartialRecord<Stat, number>> = {
-   strength: {
-      health: 1,
-      physical_damage: 1,
-      ranged_damage: 1,
-   },
-   endurance: {
-      health: 1,
-      stamina: 1,
-      resistance: 1,
-   },
-   magic: {
-      magic_damage: 1,
-   },
-   intelligence: {
-      magic_damage: 1,
-      social: 1,
-   },
-   luck: {
-      accuracy: 1,
-      evasion: 1,
-   },
-   agility: {
-      ranged_damage: 1,
-      accuracy: 1,
-   },
-   perception: {
-      ranged_damage: 1,
-      accuracy: 1,
-      evasion: 1,
-   },
-   charisma: {
-      social: 1,
-   },
-};
+export const ACTIVITY_TO_SKILL = constructRelationRec(
+   SKILL_ACTIVITY_MAT,
+   ACTIVITY_ARR,
+   SKILL_ARR,
+   true
+);
 
-// For every 1 activty finish, a corresponding skill will gain x amount
-// ACTIVITY => { SKILL #1, ... , SKILL #N }
-export const RAW_ACTIVITY_GAINS: Record<Activity, PartialRecord<Skill, number>> = {
-   fishing: {
-      luck: 0.025,
-      perception: 0.3,
-   },
-   mining: {
-      strength: 1,
-      endurance: 0.5,
-   },
-   woodcutting: {
-      strength: 1.5,
-   },
-   research: {
-      magic: 0.9,
-      intelligence: 1,
-   },
-   archery: {
-      intelligence: 0.03,
-      agility: 0.35,
-      perception: 0.15,
-   },
-   gambling: {
-      intelligence: 0.025,
-      luck: 0.1,
-      charisma: 0.1,
-   },
-   spelunking: {
-      perception: 0.25,
-      luck: 0.025,
-   },
-   hunting: {
-      intelligence: 0.01,
-      agility: 0.2,
-      perception: 0.025,
-   },
-   cooking: {
-      charisma: 0.05,
-   },
-} as const;
+export const SKILL_TO_STAT = constructRelationRec(
+   SKILL_STAT_MAT,
+   SKILL_ARR,
+   STAT_ARR,
+   false
+);
+
+export const STAT_TO_SKILL = constructRelationRec(
+   SKILL_STAT_MAT,
+   STAT_ARR,
+   SKILL_ARR,
+   true
+);
+
+export const SKILL_TO_RESOURCE = constructRelationRec(
+   SKILL_RESOURCE_MAT,
+   SKILL_ARR,
+   RESOURCE_ARR,
+   false
+);
+
+export const RESOURCE_TO_SKILL = constructRelationRec(
+   SKILL_RESOURCE_MAT,
+   RESOURCE_ARR,
+   SKILL_ARR,
+   true
+);

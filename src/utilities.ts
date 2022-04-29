@@ -1,3 +1,5 @@
+import type { Activity, PartialRecord, RecKey, Resource, Skill, Stat } from '@/types';
+
 export const rand = (min: number = 0, max: number = 1) =>
    Math.random() * (max - min) + min;
 export const randInt = (min: number = 0, max: number = 1) => Math.round(rand(min, max));
@@ -63,3 +65,33 @@ export const constructRec = <T extends string | number | symbol, V>(
 };
 
 export const emptyFunc = () => {};
+
+/** @copyright https://stackoverflow.com/questions/17428587/transposing-a-2d-array-in-javascript */
+export const transposeMat = (matrix: number[][]): number[][] =>
+   matrix[0].map((col, i) => matrix.map(row => row[i]));
+
+export const constructRelationRec = <
+   T extends Skill | Stat | Activity | Resource,
+   V extends Skill | Stat | Activity | Resource
+>(
+   mat: number[][],
+   iArr: readonly T[] | T[],
+   jArr: readonly V[] | V[],
+   transpose?: boolean
+): Record<T, PartialRecord<V, number>> => {
+   const rec = {} as Record<T, PartialRecord<V, number>>;
+
+   if (transpose) mat = transposeMat(mat);
+
+   for (const [i, iVal] of iArr.entries()) {
+      let tempRec = {} as PartialRecord<V, number>;
+      for (const [j, value] of mat[i].entries()) {
+         if (value) {
+            tempRec[jArr[j]] = value;
+         }
+      }
+      rec[iVal] = tempRec;
+   }
+
+   return rec;
+};

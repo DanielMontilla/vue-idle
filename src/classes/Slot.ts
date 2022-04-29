@@ -16,6 +16,10 @@ export default class Slot {
             this.whitelistAll();
             break;
 
+         case 'quest':
+            this.addToWhitelist('hero');
+            break;
+
          case 'buy':
             break;
 

@@ -1,3 +1,5 @@
+import type { Resource, Stat, Skill, Activity } from './types';
+
 // TODO: move to global settings file
 export const CONTENT_SIZE = { WIDTH: 1280, HEIGHT: 900 };
 export const APP_PADDING = 4;
@@ -7,12 +9,15 @@ export const APP_SIZE = {
    HEIGHT: CONTENT_SIZE.HEIGHT + BAR_HEIGHT + APP_PADDING * 2,
 };
 
+export const ZONE_ARR = ['gardens', 'slime fields'] as const;
+
 export const SLOT_TYPE_ARR = [
    'none',
    'sell',
    'buy',
    'inventory',
    'activity',
+   'quest',
    'disabled',
 ] as const;
 
@@ -20,14 +25,12 @@ export const ITEM_TYPE_ARR = ['hero', /* 'weapon', 'armor', */ 'consumable'] as 
 export const HERO_CLASS_ARR = [`knight`, `archer`, `mage`] as const;
 export const HERO_RACE_ARR = [`human`, `goblin`] as const;
 
-export const RESOURCE_ARR = ['health', 'stamina', 'mana'];
+export const RESOURCE_ARR = ['health', 'stamina', 'mana'] as const;
 
 export const STAT_ARR = [
-   'health',
    'physical_damage',
    'magic_damage',
    'ranged_damage',
-   'stamina',
    'evasion',
    'accuracy',
    'resistance',

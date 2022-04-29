@@ -1,4 +1,3 @@
-import type { Item } from '@/classes/_index';
 import type { Currency, PlayerData, Wallet } from '@/types';
 import { randInt } from '@/utilities';
 import { ref, type Ref } from 'vue';

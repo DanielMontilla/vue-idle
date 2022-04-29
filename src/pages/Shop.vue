@@ -9,7 +9,7 @@
 </script>
 
 <template>
-   <div class="shop-ctn">
+   <div class="shop-page">
       <div class="recruitment-area">
          <Slot :slot="slots.create('buy', Hero.random())" />
       </div>
@@ -32,7 +32,7 @@
 <style scoped lang="scss">
    @use '@/styles/global' as *;
 
-   .shop-ctn {
+   .shop-page {
       @include window-default($shop-background);
       display: grid;
       gap: 6px;

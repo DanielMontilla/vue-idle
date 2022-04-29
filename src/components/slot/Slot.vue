@@ -36,19 +36,6 @@ Item
       if (!dataTransfer) return;
       dataTransfer.effectAllowed = 'move';
       dataTransfer.dropEffect = 'move';
-      if (item.value) {
-         let size = 64 * 0.85;
-         let img = document.createElement('img');
-         img.src = getPath(item.value.src);
-         img.style.width = `${size}px`;
-         img.style.height = `${size}px`;
-         let div = document.createElement('div');
-         div.appendChild(img);
-         div.style.position = 'absolute';
-         document.querySelector('body')?.appendChild(div);
-         dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
-      }
-      dataTransfer.setDragImage(document.createElement('div'), 0, 0);
 
       if (mySlot.value.type === 'buy') {
          iPrice.value = (item.value as Item).value;

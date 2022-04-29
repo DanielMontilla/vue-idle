@@ -6,14 +6,14 @@
 </script>
 
 <template>
-   <div class="inventory-ctn">
-      <Slot class="inventory-slot" v-for="slot in slots" :slot="slot" />
+   <div class="inventory-container">
+      <Slot v-for="slot in slots" :slot="slot" />
    </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
    @use '@/styles/global' as *;
-   .inventory-ctn {
+   .inventory-container {
       display: grid;
       gap: 0;
       grid-template-columns: repeat($inv-cols, $slot-size);

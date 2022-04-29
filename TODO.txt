@@ -3,14 +3,8 @@
    training station swap fix
    training statin switching contex menu
    consumable tooltip
-
-   player stats component
-   scope all scss
-
-   descript stats, skills and actvity relationships with matricies
+   
    add leveling system for activies
-
-   switch from records to maps for iterable data structure
 
    look into custom event emit  for onEnter & onLeave callbacks for slot component
 
