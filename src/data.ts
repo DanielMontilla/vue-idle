@@ -65,6 +65,12 @@ export const CONSUMABLE_ID_MAP: Record<Consumables, number> = {
    potion: 1,
 } as const;
 
+export const BASE_RESOURCES: Record<Resource, number> = {
+   health: 100,
+   mana: 50,
+   stamina: 100,
+};
+
 /* prettier-ignore */
 export const SKILL_RESOURCE_MAT = [
           /*  hp     sta    man

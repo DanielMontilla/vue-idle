@@ -2,6 +2,7 @@ import {
    ACTIVITY_ARR,
    HERO_CLASS_ARR,
    HERO_RACE_ARR,
+   RESOURCE_ARR,
    SKILL_ARR,
    STAT_ARR,
 } from '@/CONST';
@@ -16,11 +17,27 @@ import type {
    Activity,
    ActivityData,
    ActivitiesData,
+   Resource,
 } from '@/types';
-import { randArrPick, randInt, randRecPick, filledRec, mapValue } from '@/utilities';
+import {
+   randArrPick,
+   randInt,
+   randRecPick,
+   filledRec,
+   mapValue,
+   rand,
+} from '@/utilities';
 import { Item } from '@/classes/_index';
 import { faker } from '@faker-js/faker';
-import { ACTIVITY_TO_SKILL, HERO_ID_MAP, SKILL_TO_STAT, STAT_TO_SKILL } from '@/data';
+import {
+   ACTIVITY_TO_SKILL,
+   BASE_RESOURCES,
+   HERO_ID_MAP,
+   RESOURCE_TO_SKILL,
+   SKILL_TO_RESOURCE,
+   SKILL_TO_STAT,
+   STAT_TO_SKILL,
+} from '@/data';
 
 export default class Hero extends Item {
    /* 🗿 PROPERTIES */
@@ -32,11 +49,13 @@ export default class Hero extends Item {
 
    public skillRequirements = filledRec(0, ...SKILL_ARR);
    public stats = filledRec(0, ...STAT_ARR);
+   public resources = filledRec({ amount: 0, total: 0 }, ...RESOURCE_ARR);
    public activityInfo = filledRec({ rate: 10, drop: 1 }, ...ACTIVITY_ARR);
 
    /* 🔧 UTILITY */
    private computeAll() {
       STAT_ARR.forEach(s => this.computeStatValue(s));
+      RESOURCE_ARR.forEach(r => this.computeResource(r));
       SKILL_ARR.forEach(s => this.computeRequiredXP(s));
       this.computeValue();
    }
@@ -63,6 +82,25 @@ export default class Hero extends Item {
    private computeRequiredXP(skill: Skill) {
       let { level } = this.skills[skill];
       this.skillRequirements[skill] = 50 + level ** 1.25;
+   }
+
+   once = true;
+
+   private computeResource(resource: Resource) {
+      let skill_multipliers = RESOURCE_TO_SKILL[resource];
+      let sum = BASE_RESOURCES[resource];
+
+      for (const s in skill_multipliers) {
+         let skillName = s as Skill;
+         let skillLevel = this.skills[skillName].level;
+         let multiplier = skill_multipliers[skillName] as number;
+
+         sum += skillLevel * multiplier;
+      }
+
+      this.resources[resource].total = sum;
+      this.resources[resource].amount = rand(0, sum);
+      this.once = false;
    }
 
    private computeValue() {
@@ -146,6 +184,11 @@ export default class Hero extends Item {
       for (const statName in stat_multipliers) {
          let stat = statName as Stat;
          this.computeStatValue(stat);
+      }
+      let resource_multipliers = SKILL_TO_RESOURCE[skill];
+      for (const resourceName in resource_multipliers) {
+         let resource = resourceName as Resource;
+         this.computeResource(resource);
       }
    }
 

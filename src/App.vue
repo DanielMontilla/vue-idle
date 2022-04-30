@@ -4,6 +4,7 @@
    import { useLabels, usePlayer, useInventory } from '@/services/_index';
    import { STARTING_LABELS } from '@/data';
    import { onMounted, type StyleValue } from 'vue';
+   import { Hero } from './classes/_index';
 
    // App Initialization
    const appStyle: StyleValue = {
@@ -32,6 +33,7 @@
 
    onMounted(() => {
       inventory.addEmpties(9);
+      inventory.insert(Hero.random());
    });
 </script>
 

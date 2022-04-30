@@ -19,6 +19,26 @@
             {{ capitalize(hero.race) }} • {{ capitalize(hero.class) }}
          </div>
       </div>
+      <div class="hero-resources">
+         hp:
+         {{
+            `${hero.resources.health.amount.toFixed(
+               1
+            )}/${hero.resources.health.total.toFixed(1)}`
+         }}
+         sta:
+         {{
+            `${hero.resources.stamina.amount.toFixed(
+               1
+            )}/${hero.resources.stamina.total.toFixed(1)}`
+         }}
+         man:
+         {{
+            `${hero.resources.mana.amount.toFixed(1)}/${hero.resources.mana.total.toFixed(
+               1
+            )}`
+         }}
+      </div>
       <div class="hero-value">
          <div class="hero-value">
             <img :src="getPath('icons/gold')" />
@@ -47,11 +67,17 @@
       align-items: center;
       grid-template-areas:
          'info value'
+         'resource resource'
          'detail detail';
-      grid-template-rows: auto auto;
-      grid-template-columns: auto auto;
+      grid-template-rows: repeat(3, auto);
+      grid-template-columns: repeat(2, auto);
 
       line-height: 1;
+
+      .hero-resources {
+         grid-area: resource;
+         font-size: $t-st;
+      }
 
       .hero-info {
          grid-area: info;

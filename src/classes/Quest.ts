@@ -5,7 +5,13 @@ export default class Quest {
    public zone: Zone;
    public distance: number;
    public time: number;
-   public Hero: Hero | undefined;
+   public hero: Hero | undefined;
+
+   public started: boolean;
+
+   public play: boolean;
+   public foward: boolean;
+   public return: boolean;
 
    // private interval: Interval
 
@@ -22,5 +28,10 @@ export default class Quest {
       this.zone = config.zone;
       this.distance = config.distance;
       this.time = config.time;
+
+      this.started = false;
+      this.play = false;
+      this.foward = false;
+      this.return = false;
    }
 }

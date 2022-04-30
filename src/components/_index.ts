@@ -6,6 +6,7 @@ import HeroSkill from '@/components/item/HeroSkill.vue';
 import HeroStat from '@/components/item/HeroStat.vue';
 import BuyableOverlay from '@/components/slot/BuyableOverlay.vue';
 import QuestCard from '@/components/adventure/QuestCard.vue';
+import ActivityStation from '@/components/activity/ActivityStation.vue';
 
 export {
    Inventory,
@@ -16,4 +17,5 @@ export {
    HeroStat,
    BuyableOverlay,
    QuestCard,
+   ActivityStation,
 };

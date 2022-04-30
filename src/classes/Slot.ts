@@ -48,6 +48,13 @@ export default class Slot {
       if (item) item.slot = this;
    }
 
+   public insert(item: Item): boolean {
+      if (this._item) return false;
+      if (this.notAllowed(item)) return false;
+      this.item = item;
+      return true;
+   }
+
    public get whitelist() {
       return this._whitelist;
    }

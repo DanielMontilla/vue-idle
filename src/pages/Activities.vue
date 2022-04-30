@@ -1,8 +1,8 @@
 <script setup lang="ts">
-   import { Slot, Inventory } from '@/components/_index';
+   import { Slot, Inventory, ActivityStation } from '@/components/_index';
+   import { ACTIVITY_ARR } from '@/CONST';
    import { Hero } from '@/classes/_index';
    import { useSlots } from '@/services/_index';
-   import ActivityStation from '../components/activity/ActivityStation.vue';
 
    let slots = useSlots();
 </script>
@@ -13,7 +13,7 @@
          <Inventory />
       </div>
       <div class="activities">
-         <ActivityStation activity="fishing" />
+         <ActivityStation v-for="activity in ACTIVITY_ARR" :activity="activity" />
       </div>
    </div>
 </template>
@@ -29,13 +29,14 @@
       grid-template-rows: 1fr;
 
       .inventory {
-         @include flex-center;
          grid-area: inventory;
+         @include flex-center;
       }
 
       .activities {
-         @include flex-center;
          grid-area: activities;
+         @include flex-center;
+         flex-direction: column;
       }
    }
 </style>

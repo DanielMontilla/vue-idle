@@ -84,7 +84,15 @@ class Inventory {
    }
 
    /* 🔧 UTILITY */
-   public static insert(item: Item) {}
+   // TODO: handle case when same id but capcity overflows
+   public static insert(item: Item): boolean {
+      for (const slotRef of Inventory.slots.value) {
+         if (slotRef.value.insert(item)) {
+            return true;
+         }
+      }
+      return false;
+   }
 
    /* ⭐ initialization interface */
    public static init(/* Data */) {}
@@ -100,6 +108,7 @@ const useInventory = () => ({
    addBuyable: Inventory.addBuyable,
    slotPrice: Inventory.slotPrice,
    buySlot: Inventory.buySlot,
+   insert: Inventory.insert,
 });
 
 export default useInventory;

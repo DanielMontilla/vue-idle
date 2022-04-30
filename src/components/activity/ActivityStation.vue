@@ -83,7 +83,7 @@
 
       padding: calc($stroke-width + $padding);
       border: solid $stroke-color $stroke-width;
-      border-radius: 4px;
+      // border-radius: 4px;
       background: $background-color;
 
       display: grid;

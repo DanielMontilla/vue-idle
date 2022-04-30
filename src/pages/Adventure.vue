@@ -1,8 +1,6 @@
 <script setup lang="ts">
    import { Inventory, QuestCard } from '@/components/_index';
    import useQuests from '@/services/Quests';
-   import type { QuestRef } from '@/types';
-   import { ref } from 'vue';
 
    const { boot, get } = useQuests();
 
