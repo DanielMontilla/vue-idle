@@ -1,35 +1,65 @@
 <script setup lang="ts">
-   import { ref } from 'vue';
-   import { Socket } from '@/classes/_index';
+   import type { Socket, Item } from '@/classes/_index';
+   import { Item as MyItem } from '@/components/_index';
+   import { computed, ref, type Ref } from 'vue';
+   import useSockets from '@/services/Sockets';
 
-   const socket = ref(new Socket(0));
+   interface SocketProps {
+      socket?: Ref<Socket>;
+      debug?: boolean;
+      onEnter?: (item: Item) => any;
+      onLeave?: () => any;
+   }
 
-   const onClick = () => {
-      socket.value.n++;
+   const { socket: socketRef, debug, onEnter, onLeave } = defineProps<SocketProps>();
+   const { createRef, handleDrop, setSource, clearSource } = useSockets();
+   const socket = socketRef ? socketRef : createRef();
+
+   const item = computed(() => socket.value.item);
+
+   /* 📅 EVENT HANDLERS */
+   const onDragStart = ({ dataTransfer }: DragEvent) => {
+      // CONTEXT: THE SOCKET BEING DRAGGED FROM
+      if (!dataTransfer) return;
+      dataTransfer.effectAllowed = 'move';
+      dataTransfer.dropEffect = 'move';
+      setSource(socket);
+   };
+
+   const onDrop = () => {
+      // CONTEXT: THE SOCKET BEING DROPPED INTO
+      if (!handleDrop(socket, debug)) return;
+      if (onEnter) onEnter(item.value as Item);
+   };
+
+   const onDragEnd = ({ dataTransfer }: DragEvent) => {
+      // CONTEXT: THE SOCKET BEING DRAGGED FROM
+      if (!dataTransfer) return;
+      if (dataTransfer.dropEffect !== 'none') {
+         if (onLeave) onLeave();
+      }
+      clearSource();
    };
 </script>
 
 <template>
-   <div class="socket">
-      <div class="text">{{ socket.n }}</div>
-      <div class="btn" @click="onClick"></div>
+   <div class="socket" @drop="onDrop" @dragenter.prevent @dragover.prevent>
+      <MyItem
+         v-if="item"
+         :item="item"
+         :onDragStart="onDragStart"
+         :onDragEnd="onDragEnd"
+      />
    </div>
 </template>
 
 <style scoped lang="scss">
-   @use '@/styles/reset' as *;
    @use '@/styles/global' as *;
-
    .socket {
       @include flex-center;
-      flex-direction: column;
-      font-size: 5rem;
-   }
+      @include set-size(64px, 64px);
 
-   .btn {
-      min-height: 50px;
-      min-width: 100px;
-      background-color: darkslateblue;
-      border-radius: 8px;
+      background-color: hsla(0, 0%, 100%, 0.05);
+      border: 1px solid rgb(25, 25, 25);
    }
 </style>

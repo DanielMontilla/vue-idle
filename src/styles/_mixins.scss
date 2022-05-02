@@ -2,18 +2,27 @@
 @use './colors' as *;
 
 @mixin page-radius {
-   border-radius: 0 8px 8px 8px;
+   border-radius: 0 $window-rad $window-rad $window-rad;
 }
 
+@mixin flex($horizontal, $vertival) {
+   display: flex;
+   align-items: $horizontal;
+   justify-items: $vertival;
+}
 @mixin flex-center {
    display: flex;
    justify-content: center;
    align-items: center;
 }
-@mixin flex-end {
-   display: flex;
-   justify-content: center;
-   align-items: end;
+
+@mixin set-size($width, $height) {
+   height: $height;
+   width: $width;
+   min-height: $height;
+   min-width: $width;
+   max-height: $height;
+   max-width: $width;
 }
 
 @mixin window-default($color: $window-background) {
@@ -59,4 +68,14 @@
 @mixin grid-align {
    display: grid;
    align-items: center;
+}
+
+@mixin even-grid($rows, $cols) {
+   display: grid;
+   align-items: center;
+   justify-items: center;
+   justify-content: start;
+
+   grid-template-rows: repeat($rows, auto);
+   grid-template-columns: repeat($cols, auto);
 }

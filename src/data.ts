@@ -1,39 +1,12 @@
-import type {
-   Activity,
-   Consumables,
-   HeroRace,
-   ItemInfo,
-   ItemType,
-   LabelConfig,
-   PartialRecord,
-   Resource,
-   Skill,
-   Stat,
-} from '@/types';
+import type { HeroRace, ItemInfo, ItemType, Page, Resource } from '@/types';
 import { ACTIVITY_ARR, RESOURCE_ARR, SKILL_ARR, STAT_ARR } from '@/CONST';
 import { constructRelationRec } from '@/utilities';
 
-export const STARTING_LABELS: LabelConfig[] = [
-   {
-      name: 'shop',
-      color: 'hsla(210, 55%, 20%, 1)',
-      icon: `icons/shop`,
-   },
-   {
-      name: 'activities',
-      color: 'hsla(133, 55%, 20%, 1)',
-      icon: '',
-   },
-   {
-      name: 'adventure',
-      color: 'hsla(316, 55%, 20%, 1)',
-      icon: '',
-   },
-   // {
-   //    name: 'training',
-   //    icon: `icons/weight`,
-   // },
-];
+export const tabs: Record<Page, string> = {
+   store: 'hsla(210, 55%, 20%, 1)',
+   activities: 'hsla(133, 55%, 20%, 1)',
+   adventures: 'hsla(316, 55%, 20%, 1)',
+};
 
 export const ITEMS: Record<ItemType, Record<number, ItemInfo>> = {
    hero: {
@@ -59,10 +32,6 @@ export const ITEMS: Record<ItemType, Record<number, ItemInfo>> = {
 export const HERO_ID_MAP: Record<HeroRace, number> = {
    human: 1,
    goblin: 2,
-} as const;
-
-export const CONSUMABLE_ID_MAP: Record<Consumables, number> = {
-   potion: 1,
 } as const;
 
 export const BASE_RESOURCES: Record<Resource, number> = {

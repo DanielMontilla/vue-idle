@@ -27,15 +27,16 @@ export const contentStyle: StyleValue = {
 
 export const ZONE_ARR = ['gardens', 'slime fields'] as const;
 
-export const SLOT_TYPE_ARR = [
+export const SOCKET_TYPE_ARR = [
    'none',
    'sell',
    'buy',
    'inventory',
    'activity',
    'quest',
-   'disabled',
 ] as const;
+
+export const PAGES = ['store', 'activities', 'adventures'] as const;
 
 export const ITEM_TYPE_ARR = ['hero', /* 'weapon', 'armor', */ 'consumable'] as const;
 export const HERO_CLASS_ARR = [`knight`, `archer`, `mage`] as const;
@@ -76,5 +77,3 @@ export const ACTIVITY_ARR = [
    'hunting',
    'cooking',
 ] as const;
-
-export const ConsumableArr = ['potion'] as const;

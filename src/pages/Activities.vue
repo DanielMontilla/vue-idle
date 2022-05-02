@@ -10,7 +10,6 @@
 </template>
 
 <style scoped lang="scss">
-   @use '@/styles/reset' as *;
    @use '@/styles/global' as *;
 
    .activities {
