@@ -1,10 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+   import usePages from '@/services/Pages';
+
+   const { register, current } = usePages();
+   const index = register();
+</script>
 
 <template>
-   <div></div>
+   <div v-show="index === current" class="store"></div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
    @use '@/styles/reset' as *;
    @use '@/styles/global' as *;
+
+   .store {
+      @include window-default($store-background);
+   }
 </style>
