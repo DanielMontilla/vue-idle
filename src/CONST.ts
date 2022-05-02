@@ -35,6 +35,7 @@ export const STAT_ARR = [
    'accuracy',
    'resistance',
    'social',
+   'speed',
 ] as const;
 
 export const SKILL_ARR = [

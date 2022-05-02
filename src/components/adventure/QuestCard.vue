@@ -2,7 +2,7 @@
    import { Hero, Item } from '@/classes/_index';
    import { Slot } from '@/components/_index';
    import type { QuestRef } from '@/types';
-   import { mapValue, randInt, capitalize } from '@/utilities';
+   import { mapValue, capitalize } from '@/utilities';
    import { computed } from 'vue';
 
    interface QuestCardProps {
@@ -10,39 +10,19 @@
    }
 
    const { quest } = defineProps<QuestCardProps>();
+   const myQuest = computed(() => quest.value);
    const hero = computed(() => quest.value.hero);
-   const thisQuest = computed(() => quest.value);
 
    const computeProgress = ({ total, amount }: { total: number; amount: number }) =>
       mapValue([0, total], [0, 100], amount);
 
-   const handleControl = (control: 'play' | 'return' | 'foward') => {
-      switch (control) {
-         case 'play':
-            if (!quest.value.started) {
-               quest.value.started = true;
-            }
-            quest.value.play = !quest.value.play;
-            if (quest.value.foward) quest.value.foward = false;
-            break;
-         case 'return':
-            if (!quest.value.started) return;
-            quest.value.return = !quest.value.return;
-            break;
-         case 'foward':
-            if (!quest.value.started) return;
-            quest.value.foward = !quest.value.foward;
-            break;
-      }
-   };
-
    const onEnter = (hero: Item) => {
       if (!(hero instanceof Hero)) return;
-      quest.value.hero = hero;
+      quest.value.registerHero(hero);
    };
 
    const onLeave = () => {
-      quest.value.hero = undefined;
+      quest.value.removeHero();
    };
 </script>
 
@@ -73,33 +53,33 @@
                </div>
             </div>
             <div class="zone">
-               <div class="name">{{ capitalize(thisQuest.zone) }}</div>
+               <div class="name">{{ capitalize(myQuest.zone) }}</div>
                <div class="controls">
                   <div
-                     @click="handleControl('return')"
-                     :class="{ disabled: !thisQuest.started }"
-                     class="return control-btn"
+                     @click="myQuest.back()"
+                     :class="{ disabled: !myQuest.started }"
+                     class="back control-btn"
                   >
-                     {{ thisQuest.return ? '↪️' : '↩️' }}
+                     {{ myQuest.isBacking ? '↪️' : '↩️' }}
                   </div>
-                  <div @click="handleControl('play')" class="play control-btn">
-                     {{ thisQuest.play ? '⏸︎' : '▶️' }}
+                  <div @click="myQuest.play()" class="play control-btn">
+                     {{ myQuest.isPlay ? '⏸︎' : '▶️' }}
                   </div>
                   <div
                      class="foward control-btn"
-                     @click="handleControl('foward')"
+                     @click="myQuest.foward()"
                      :class="{
-                        disabled: !thisQuest.started,
-                        pressed: thisQuest.foward,
+                        disabled: !myQuest.started,
+                        pressed: myQuest.isFoward,
                      }"
                   >
-                     {{ thisQuest.return ? '⏪' : '⏩' }}
+                     {{ myQuest.isBacking ? '⏪' : '⏩' }}
                   </div>
                </div>
             </div>
             <div class="details">
-               <div class="time"></div>
-               <div class="distance"></div>
+               <div class="time">{{ myQuest.time }}</div>
+               <div class="distance">{{ myQuest.distance }}m</div>
             </div>
          </div>
       </Transition>

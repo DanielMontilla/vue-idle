@@ -79,12 +79,11 @@ export default class Hero extends Item {
 
       this.stats[stat] = sum;
    }
+
    private computeRequiredXP(skill: Skill) {
       let { level } = this.skills[skill];
       this.skillRequirements[skill] = 50 + level ** 1.25;
    }
-
-   once = true;
 
    private computeResource(resource: Resource) {
       let skill_multipliers = RESOURCE_TO_SKILL[resource];
@@ -100,7 +99,6 @@ export default class Hero extends Item {
 
       this.resources[resource].total = sum;
       this.resources[resource].amount = rand(0, sum);
-      this.once = false;
    }
 
    private computeValue() {

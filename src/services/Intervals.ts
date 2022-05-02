@@ -1,52 +1,13 @@
+import { Interval } from '@/classes/_index';
 import { useLoop } from '@/services/_index';
 import type { IntervalConfig } from '@/types';
 import { emptyFunc } from '@/utilities';
 import { ref, type Ref } from 'vue';
 
-class Interval {
-   public timeRemaining: number;
-   public iterationsRemaining: number;
-   public completed: boolean = false;
-   public loopId!: number;
-
-   constructor(
-      public id: number,
-      public time: number,
-      public iterationCallback: Function = emptyFunc,
-      public iterations: number = 1,
-      public onCompleteCallback: Function = emptyFunc,
-      public paused: boolean = false
-   ) {
-      this.timeRemaining = time;
-      this.iterationsRemaining = iterations;
-   }
-
-   seconds(decimals?: number) {
-      decimals = decimals ? decimals : 20;
-      return this.timeRemaining.toFixed(decimals);
-   }
-
-   miliseconds(decimals?: number) {
-      decimals = decimals ? decimals : 20;
-   }
-
-   pause() {
-      this.paused = true;
-   }
-
-   unpause() {
-      this.paused = false;
-   }
-
-   toggle() {
-      this.paused = !this.paused;
-   }
-}
-
-const loop = useLoop();
 const intervals = new Map<number, Ref<Interval>>();
 let next = 0;
 const add = ({ time, callback, iterations, onComplete, paused }: IntervalConfig) => {
+   const loop = useLoop();
    let i = ref(new Interval(next++, time, callback, iterations, onComplete, paused));
 
    i.value.loopId = loop.add(dt => {
@@ -73,7 +34,6 @@ const add = ({ time, callback, iterations, onComplete, paused }: IntervalConfig)
 };
 
 // TODO: maybe clean up. a bit of repetition
-
 const pause = (interval: number | Ref<Interval>) => {
    if (interval instanceof Interval) {
       let tempInt = intervals.get(interval.id);
