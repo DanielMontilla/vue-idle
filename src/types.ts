@@ -1,5 +1,4 @@
 import type { Ref } from 'vue';
-import type { Hero, Consumable, Item, Slot, Label, Quest } from '@/classes/_index';
 import type {
    ACTIVITY_ARR,
    ConsumableArr,
@@ -28,15 +27,11 @@ export interface LabelConfig {
 
 export type ItemType = typeof ITEM_TYPE_ARR[number];
 export type ItemStackLimit = 1 | 16 | 32 | 64;
-
-export type ItemRef = Ref<Item>;
 export interface ItemInfo {
    stackLimit: ItemStackLimit;
    src: string;
 }
 
-export type QuestRef = Ref<Quest>;
-export type SlotRef = Ref<Slot>;
 export type SlotType = typeof SLOT_TYPE_ARR[number];
 
 export type PlayerRef = Ref<PlayerData>;
@@ -76,7 +71,6 @@ export type Skill = typeof SKILL_ARR[number];
 export type Activity = typeof ACTIVITY_ARR[number];
 export type Zone = typeof ZONE_ARR[number];
 
-export type ItemClass = Consumable | Hero;
 export interface IntervalConfig {
    time: number;
    callback: Function;

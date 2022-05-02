@@ -1,6 +1,5 @@
-import Shop from '@/pages/Shop.vue';
-import Label from '@/pages/Label.vue';
-import Adventure from '@/pages/Adventure.vue';
+import Store from '@/pages/Store.vue';
 import Activities from '@/pages/Activities.vue';
+import Adventures from '@/pages/Adventures.vue';
 
-export { Shop, Label, Adventure, Activities };
+export { Store, Activities, Adventures };
