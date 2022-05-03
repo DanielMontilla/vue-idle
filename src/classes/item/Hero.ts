@@ -101,7 +101,7 @@ export default class Hero extends Item {
    }
 
    /* 🏭 FACTORY */
-   public static random() {
+   public static Random() {
       let skills = {} as SkillsData;
 
       SKILL_ARR.forEach(s => {

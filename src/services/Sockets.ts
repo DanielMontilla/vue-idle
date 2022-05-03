@@ -1,7 +1,7 @@
-import { type Item, Socket } from '@/classes/_index';
+import { type Item, Socket, Consumable, Hero } from '@/classes/_index';
 import type { SocketType } from '@/types';
-import { randArrPick } from '@/utilities';
-import { SOCKET_TYPE_ARR } from '@/CONST';
+import { rand, randArrPick, randInt } from '@/utilities';
+import { ITEM_TYPE_ARR, SOCKET_TYPE_ARR } from '@/CONST';
 import { ref, type Ref } from 'vue';
 
 let sourceRef: Ref<Socket> | undefined = undefined;
@@ -112,13 +112,29 @@ const handleDrop = (destinationRef: Ref<Socket>, debug?: boolean) => {
       }
    }
 
-   source.item = sourceItem;
-   destination.item = destinationItem;
+   sourceRef.value.item = sourceItem;
+   destinationRef.value.item = destinationItem;
    return true;
 };
 
-const createRandom = (type?: SocketType, emptyChance = 0.5) => {
-   type = type ? type : randArrPick(SOCKET_TYPE_ARR);
+const createRandomRef = (socketType?: SocketType, emptyChance = 0.5) => {
+   socketType = socketType ? socketType : randArrPick(SOCKET_TYPE_ARR);
+
+   let item: Item | undefined;
+   if (rand() < emptyChance) {
+      let itemType = randArrPick(ITEM_TYPE_ARR);
+      switch (itemType) {
+         case 'consumable':
+            let consumable = Consumable.Random();
+            consumable.quantity = randInt(1, consumable.info.stackLimit);
+            item = consumable;
+            break;
+         case 'hero':
+            item = Hero.Random();
+            break;
+      }
+   }
+   return createRef(socketType, item);
 };
 
 const setSource = (socket: Ref<Socket>) => (sourceRef = socket);
@@ -130,6 +146,7 @@ const useSockets = () => ({
    handleDrop: handleDrop,
    setSource: setSource,
    clearSource: clearSource,
+   createRandomRef: createRandomRef,
 });
 
 export default useSockets;

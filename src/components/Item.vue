@@ -2,7 +2,7 @@
    import { type Item, Hero } from '@/classes/_index';
    // import { HeroTooltip } from '@/components/_index';
    import { getPath } from '@/utilities';
-   import { ref, computed, h } from 'vue';
+   import { ref, computed } from 'vue';
    import { useMouse } from '@vueuse/core';
 
    interface ItemProps {
@@ -50,9 +50,9 @@
 </script>
 
 <template>
-   <div class="item-ctn">
+   <div class="item">
       <div
-         class="item"
+         class="item-content"
          ref="dragElem"
          :draggable="draggable"
          :style="{ cursor: draggable ? 'grab' : 'not-allowed' }"
@@ -80,9 +80,9 @@
 
 <style scoped lang="scss">
    @use '@/styles/global' as *;
-   .item-ctn {
+   .item {
       @include fill;
-      .item {
+      .item-content {
          @include flex-center;
          @include fill;
          z-index: 1;
@@ -101,6 +101,7 @@
       position: absolute;
       bottom: 0;
       right: 2px;
+      font-size: 16px;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
    }
 </style>

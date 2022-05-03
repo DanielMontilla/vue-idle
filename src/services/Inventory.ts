@@ -4,7 +4,7 @@ import type { SocketType } from '@/types';
 import { ref, type Ref } from 'vue';
 
 const sockets = ref<Ref<Socket>[]>([]);
-const { createRef } = useSockets();
+const { createRef, createRandomRef } = useSockets();
 
 const add = (item?: Item) => {
    let socket = createRef('inventory', item);
@@ -19,12 +19,25 @@ const addEmpties = (amount: number) => {
    return arr;
 };
 
+const addRandom = () => {
+   let socket = createRandomRef('inventory');
+   sockets.value.push(socket);
+   return socket;
+};
+const addRandoms = (amount: number) => {
+   let arr: Ref<Socket>[] = [];
+   for (let i = 0; i < amount; i++) arr.push(addRandom());
+   return arr;
+};
+
 const useInventory = () => {
    return {
       sockets: sockets,
       add: add,
       addEmpty: addEmpty,
       addEmpties: addEmpties,
+      addRandom: addRandom,
+      addRandoms: addRandoms,
    };
 };
 

@@ -1,8 +1,11 @@
 import { Item } from '@/classes/_index';
-import { randInt, randRecKeyPick } from '@/utilities';
 
 export default class Consumable extends Item {
-   constructor(id: number, quantity: number) {
+   constructor(id: number = 1, quantity: number = 1) {
       super('consumable', id, quantity);
+   }
+
+   public static Random() {
+      return new Consumable();
    }
 }

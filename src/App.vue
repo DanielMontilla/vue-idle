@@ -6,10 +6,10 @@
    import useInventory from './services/Inventory';
    import { onMounted } from 'vue';
 
-   const { addEmpties } = useInventory();
+   const { addEmpties, addRandoms } = useInventory();
 
    onMounted(() => {
-      addEmpties(9 * 6);
+      addRandoms(9 * 6);
    });
 </script>
 

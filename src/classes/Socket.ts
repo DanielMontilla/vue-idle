@@ -38,6 +38,8 @@ export default class Socket {
       }
 
       this.id = Socket.next++;
+      if (item) item.socket = this;
+      this.item = item;
    }
 
    public whitelistAll() {
