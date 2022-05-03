@@ -3,25 +3,34 @@
    import { appStyle, contentStyle, PAGES } from '@/CONST';
    import { tabs } from '@/data';
    import { Tab } from '@/components/_index';
-   import useInventory from './services/Inventory';
+   import { useInventory, usePlayer } from '@/services/_index';
    import { onMounted } from 'vue';
+   import Wallet from './components/Wallet.vue';
 
    const { addEmpties, addRandoms } = useInventory();
+   const { randomize, player } = usePlayer();
 
    onMounted(() => {
+      /* 🚀 Booting Global app state */
+      // TODO: Fetch player data from save file and set state
+      randomize();
       addRandoms(9 * 6);
+
+      console.log(player.value);
    });
 </script>
 
 <template>
    <div class="app" :style="appStyle">
       <div class="app-bar"></div>
-      <div class="content" :style="contentStyle">
-         <div class="wallet"></div>
-         <div class="tabs">
+      <div class="content-area" :style="contentStyle">
+         <div class="wallet-area">
+            <Wallet />
+         </div>
+         <div class="tab-area">
             <Tab v-for="(page, i) in PAGES" :name="page" :page="i" :color="tabs[page]" />
          </div>
-         <div class="page">
+         <div class="page-area">
             <Store />
             <Activities />
             <Adventures />
@@ -35,18 +44,20 @@
    @use '@/styles/global' as *;
 
    .app {
-      @include flex(end, center);
+      @include flex(center, end);
 
       min-width: 1280px;
       min-height: 900px;
       width: 1280px;
       height: 900px;
-      .content {
-         @include flex(start, center);
+      .content-area {
+         @include flex(end, start);
 
          flex-direction: column;
-         .tabs {
-            @include flex(start, center);
+         .tab-area {
+            @include flex(start, end);
+            flex-wrap: wrap;
+            min-height: $tab-height;
 
             &:first-child {
                border-radius: $window-rad 0 0 0;
@@ -56,9 +67,18 @@
                $window-rad: 0 $window-rad 0 0;
             }
          }
-         .page {
+         .page-area {
             @include fill;
             font-size: $t-3xl;
+         }
+
+         .wallet-area {
+            @include flex(end, center);
+            height: $tab-height;
+            width: max-content;
+            position: absolute;
+            top: 0;
+            right: 0;
          }
       }
    }

@@ -7,8 +7,9 @@
 
 @mixin flex($horizontal, $vertival) {
    display: flex;
-   align-items: $horizontal;
-   justify-items: $vertival;
+   align-items: $vertival;
+   align-content: $vertival;
+   justify-items: $horizontal;
 }
 @mixin flex-center {
    display: flex;

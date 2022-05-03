@@ -1,5 +1,5 @@
 <script setup lang="ts">
-   import { type Item, Hero } from '@/classes/_index';
+   import type { Item, Hero } from '@/classes/_index';
    // import { HeroTooltip } from '@/components/_index';
    import { getPath } from '@/utilities';
    import { ref, computed } from 'vue';
@@ -73,7 +73,7 @@
          :style="{ left: `${position.x}px`, top: `${position.y}px` }"
       >
          <!-- prettier-ignore -->
-         <HeroTooltip v-if="(item instanceof Hero)" :hero="(item as Hero)" />
+         <!-- <HeroTooltip v-if="(item instanceof Hero)" :hero="(item as Hero)" /> -->
       </div>
    </div>
 </template>

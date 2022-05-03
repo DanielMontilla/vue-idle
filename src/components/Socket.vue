@@ -1,7 +1,7 @@
 <script setup lang="ts">
    import type { Socket, Item } from '@/classes/_index';
    import { Item as MyItem } from '@/components/_index';
-   import { computed, ref, type Ref } from 'vue';
+   import { computed, type Ref } from 'vue';
    import useSockets from '@/services/Sockets';
 
    interface SocketProps {
