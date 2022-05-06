@@ -15,8 +15,6 @@
       // TODO: Fetch player data from save file and set state
       randomize();
       addRandoms(9 * 6);
-
-      console.log(player.value);
    });
 </script>
 

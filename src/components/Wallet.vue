@@ -5,6 +5,7 @@
 
    let { player } = usePlayer();
    const gold = computed(() => player.value.wallet.gold);
+   const diamond = computed(() => player.value.wallet.diamond);
 </script>
 
 <template>
@@ -15,7 +16,7 @@
       </div>
       <div class="diamond">
          <img :src="getPath('icons/diamond')" />
-         <div class="text">{{ player.wallet.diamond }}</div>
+         <div class="text">{{ diamond }}</div>
       </div>
    </div>
 </template>

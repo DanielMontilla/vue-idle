@@ -53,7 +53,7 @@ export interface SkillData {
 
 export interface ActivityData extends SkillData {}
 
-export type loopCallback = (dt: number) => any;
+export type LoopCallback = (dt: number) => any;
 
 export type Resource = typeof RESOURCE_ARR[number];
 export type Stat = typeof STAT_ARR[number];
@@ -61,15 +61,10 @@ export type Skill = typeof SKILL_ARR[number];
 export type Activity = typeof ACTIVITY_ARR[number];
 export type Zone = typeof ZONE_ARR[number];
 
-export interface IntervalConfig {
+export interface IntervalOptions {
    time: number;
-   callback: Function;
-   onComplete: Function;
-   /**
-    * number > 1 = limited
-    * number <= 0 = unlimited
-    * undifined = 1
-    */
+   onIteration?: () => any;
+   onCompleted?: () => number | void;
    iterations?: number;
    paused?: boolean;
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-   import usePages from '@/services/Pages';
-   import Inventory from '../components/Inventory.vue';
+   import { usePages } from '@/services/_index';
+   import { Inventory } from '@/components/_index';
 
    const { register, current } = usePages();
    const index = register();
@@ -8,7 +8,7 @@
 
 <template>
    <div v-show="index === current" class="adventures">
-      <Inventory />
+      <Inventory class="inventory-area" />
    </div>
 </template>
 
@@ -17,5 +17,6 @@
 
    .adventures {
       @include window-default($adventure-background);
+      @include grid-align;
    }
 </style>
