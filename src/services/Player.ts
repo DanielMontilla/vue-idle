@@ -2,7 +2,6 @@ import type { Currency, PlayerData, Wallet } from '@/types';
 import { randInt } from '@/utilities';
 import { ref, type Ref } from 'vue';
 
-// TODO move class to `classes` folder
 class Player {
    /*  */
    public static ref: Ref<Player>;

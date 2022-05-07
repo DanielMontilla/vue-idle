@@ -89,7 +89,6 @@
          @include fill;
          z-index: 1;
          img {
-            @include no-interact;
             height: 85%;
             width: 85%;
          }

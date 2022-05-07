@@ -66,6 +66,7 @@ Item
    <div class="slot-ctn" @drop="onDrop" @dragenter.prevent @dragover.prevent>
       <MyItem
          v-if="item"
+         class="item"
          :item="item"
          :onDragStart="onDragStart"
          :onDragEnd="onDragEnd"

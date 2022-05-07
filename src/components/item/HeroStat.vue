@@ -16,7 +16,7 @@
 <template>
    <div class="hero-stat">
       <img :src="getPath(`stats/${stat}`)" />
-      <div class="stat-value">{{ data.current.toFixed(0) }}</div>
+      <div class="stat-level">{{ data.current }}</div>
    </div>
 </template>
 
@@ -39,7 +39,7 @@
          @include square(26px);
          justify-self: center;
       }
-      .stat-value {
+      .stat-level {
          grid-area: level;
          font-size: 20px;
          font-weight: bold;

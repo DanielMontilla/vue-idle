@@ -1,6 +1,6 @@
 <script setup lang="ts">
    import { Inventory, QuestCard } from '@/components/_index';
-   import { useQuests } from '@/services/_index';
+   import useQuests from '@/services/Quests';
 
    const { boot, get } = useQuests();
 

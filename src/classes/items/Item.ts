@@ -9,7 +9,6 @@ export default abstract class Item {
    public readonly info: ItemInfo;
    public slot!: Slot;
    public value: number = 100;
-   public moveable: boolean = true;
 
    constructor(public type: ItemType, public id: number, public quantity: number) {
       this.info = ITEMS[this.type][this.id];
@@ -39,13 +38,12 @@ export default abstract class Item {
 
       let { player } = usePlayer();
 
-      let moveable = this.moveable;
       let locked = this.slot.locked;
       let buyable = this.slot.price !== undefined;
       let purcheasable =
          this.slot.type === 'buy' ? player.value.canPurchase(this.value, 'gold') : true;
 
-      return !locked && !buyable && purcheasable && moveable;
+      return !locked && !buyable && purcheasable;
    }
 
    public static random(type?: ItemType): Item {
