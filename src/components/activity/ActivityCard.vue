@@ -1,16 +1,16 @@
 <script setup lang="ts">
    import { useInterval } from '@/services/_index';
 
-   const { get } = useInterval();
+   const { getRef } = useInterval();
 </script>
 
 <template>
-   <div class="activity-station"></div>
+   <div class="activity-card"></div>
 </template>
 
 <style scoped lang="scss">
    @use '@/styles/global' as *;
 
-   .activity-station {
+   .activity-card {
    }
 </style>

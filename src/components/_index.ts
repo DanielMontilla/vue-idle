@@ -9,6 +9,8 @@ import Wallet from '@/components/Wallet.vue';
 
 import Tab from '@/components/Tab.vue';
 
-import UpgradeCardVue from '@/components/store/UpgradeCard.vue';
+import UpgradeCard from '@/components/store/UpgradeCard.vue';
+import ActivityCard from '@/components/activity/ActivityCard.vue';
+import QuestCard from '@/components/adventure/QuestCard.vue';
 
-export { Socket, Inventory, Tab, Item, Wallet, UpgradeCardVue };
+export { Socket, Inventory, Tab, Item, Wallet, UpgradeCard, ActivityCard, QuestCard };
