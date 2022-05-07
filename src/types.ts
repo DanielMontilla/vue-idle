@@ -63,7 +63,7 @@ export type Zone = typeof ZONE_ARR[number];
 
 export interface IntervalOptions {
    time: number;
-   onIteration?: () => any;
+   onIteration?: (iteration: number) => number | void;
    onCompleted?: () => number | void;
    iterations?: number;
    paused?: boolean;

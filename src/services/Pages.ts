@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 
 let next = 0;
-const current = ref(0);
+const current = ref(2);
 
 const register = () => next++;
 const set = (index: number) => {

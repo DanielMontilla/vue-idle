@@ -2,10 +2,9 @@
    import { Store, Activities, Adventures } from '@/pages/_index';
    import { appStyle, contentStyle, PAGES } from '@/CONST';
    import { tabs } from '@/data';
-   import { Tab } from '@/components/_index';
+   import { Tab, Wallet } from '@/components/_index';
    import { useInventory, usePlayer } from '@/services/_index';
    import { onMounted } from 'vue';
-   import Wallet from './components/Wallet.vue';
 
    const { addEmpties, addRandoms } = useInventory();
    const { randomize, player } = usePlayer();
