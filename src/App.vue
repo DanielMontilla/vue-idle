@@ -6,7 +6,7 @@
    import { useInventory, usePlayer } from '@/services/_index';
    import { onMounted } from 'vue';
 
-   const { addEmpties, addRandoms } = useInventory();
+   const { addEmpties, addRandoms, get } = useInventory();
    const { randomize, player } = usePlayer();
 
    onMounted(() => {

@@ -106,7 +106,7 @@ export default class Hero extends Item {
 
       SKILL_ARR.forEach(s => {
          let info: SkillData = {
-            level: randInt(0, 25),
+            level: randInt(0, 5),
             xp: randInt(0, 49),
          };
          skills[s] = info;
@@ -123,12 +123,13 @@ export default class Hero extends Item {
       });
 
       let race = randArrPick(HERO_RACE_ARR);
+      let hClass = randArrPick(HERO_CLASS_ARR);
 
       return new Hero({
          id: HERO_ID_MAP[race],
          name: faker.name.firstName(),
          race: race,
-         class: randArrPick(HERO_CLASS_ARR),
+         class: hClass,
          skills: skills,
          activities: activities,
       });

@@ -71,6 +71,14 @@
    align-items: center;
 }
 
+@mixin grid-center {
+   display: grid;
+   align-content: center;
+   align-items: center;
+   justify-items: center;
+   justify-content: center;
+}
+
 @mixin even-grid($rows, $cols) {
    display: grid;
    align-items: center;

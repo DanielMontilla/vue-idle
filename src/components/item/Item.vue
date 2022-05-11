@@ -17,8 +17,7 @@
    const hover = ref<Boolean>(false);
    const dragging = ref<Boolean>(false);
    const tooltip = ref<HTMLDivElement>();
-   const draggable = computed(() => true);
-   // const draggable = computed(() => item.isDraggable);
+   const draggable = computed(() => item.isDraggable());
    const position = computed(() => {
       if (!tooltip.value) return { x: 0, y: 0 };
       const [height, width] = [tooltip.value.clientHeight, tooltip.value.clientWidth];

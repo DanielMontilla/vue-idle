@@ -1,13 +1,12 @@
 import { Interval } from '@/classes/_index';
 import type { IntervalOptions } from '@/types';
-import { ref } from 'vue';
 
-const getRef = (options: IntervalOptions) => {
-   return ref(new Interval(options));
+const get = (options: IntervalOptions) => {
+   return new Interval(options);
 };
 
 const useInterval = () => ({
-   getRef: getRef,
+   get: get,
 });
 
 export default useInterval;

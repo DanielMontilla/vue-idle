@@ -65,7 +65,7 @@ export interface IntervalOptions {
    time: number;
    onIteration?: (iteration: number) => number | void;
    onCompleted?: () => number | void;
-   iterations?: number;
+   iterations?: number | 'infinite';
    paused?: boolean;
 }
 

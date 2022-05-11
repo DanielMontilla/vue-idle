@@ -2,6 +2,13 @@ import type { HeroRace, ItemInfo, ItemType, Page, Resource } from '@/types';
 import { ACTIVITY_ARR, RESOURCE_ARR, SKILL_ARR, STAT_ARR } from '@/CONST';
 import { constructRelationRec } from '@/utilities';
 
+/* 🎨 Styling  */
+export const resource_color: Record<Resource, string> = {
+   health: 'rgb(161, 50, 50)',
+   stamina: 'rgb(50, 161, 74)',
+   mana: 'rgb(50, 85, 161)',
+};
+
 export const tabs: Record<Page, string> = {
    store: 'hsla(210, 55%, 20%, 1)',
    activities: 'hsla(133, 55%, 20%, 1)',

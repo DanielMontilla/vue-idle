@@ -9,7 +9,7 @@ export default class Interval {
    public completed: boolean = false;
 
    public paused: boolean;
-   public iterations: number | -1;
+   public iterations: number | 'infinite';
    public time: number;
    public remainingTime: number;
    public onIteration?: (iteration: number) => number | void;
@@ -40,7 +40,7 @@ export default class Interval {
                this.remainingTime = step;
             } else {
                // time expired
-               if (this.iterations > 0 || this.iterations === -1) {
+               if (this.iterations > 0 || this.iterations === 'infinite') {
                   // iterations remaining
                   this.iteration++;
                   if (this.onIteration) {
@@ -48,7 +48,7 @@ export default class Interval {
                      if (newTime) this.time = newTime;
                   }
                   this.remainingTime = time + step;
-                  this.iterations--;
+                  if (typeof this.iterations === 'number') this.iterations--;
                } else {
                   if (this.onCompleted) this.onCompleted();
                   this.completed = true;
@@ -61,7 +61,6 @@ export default class Interval {
 
    public destroy() {
       const { remove } = useLoop();
-
       remove(this.loopId);
    }
 

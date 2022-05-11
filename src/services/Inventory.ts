@@ -30,10 +30,15 @@ const addRandoms = (amount: number) => {
    return arr;
 };
 
+const get = (index: number) => {
+   return sockets.value[index];
+};
+
 const useInventory = () => {
    return {
       sockets: sockets,
       add: add,
+      get: get,
       addEmpty: addEmpty,
       addEmpties: addEmpties,
       addRandom: addRandom,

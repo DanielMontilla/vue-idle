@@ -1,4 +1,5 @@
 import type { Activity, PartialRecord, RecKey, Resource, Skill, Stat } from '@/types';
+import type { Ref } from 'vue';
 
 export const rand = (min: number = 0, max: number = 1) =>
    Math.random() * (max - min) + min;
@@ -94,4 +95,27 @@ export const constructRelationRec = <
    }
 
    return rec;
+};
+
+/**
+ * @description vue sometimes throws false error when unwrapping refs in template
+ */
+export const whyVue = <T>(value: Ref<T>) => {
+   return value as unknown as T;
+};
+
+export const forceCast = <T>(value: any) => {
+   return value as unknown as T;
+};
+
+export const formatDistance = (meters: number) => {
+   let sufix: string = `m`;
+
+   return `${meters.toFixed(1)}${sufix}`;
+};
+
+export const formatTime = (seconds: number) => {
+   let sufix: string = `s`;
+
+   return `${seconds.toFixed(1)}${sufix}`;
 };
