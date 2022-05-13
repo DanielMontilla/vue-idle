@@ -1,5 +1,4 @@
 import type { StyleValue } from 'vue';
-import type { Resource, Stat, Skill, Activity } from './types';
 
 // TODO: move to global settings file
 export const CONTENT_SIZE = { WIDTH: 1280, HEIGHT: 900 };

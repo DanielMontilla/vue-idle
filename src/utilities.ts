@@ -50,7 +50,11 @@ export const filledRec = <T extends string | number | symbol, V>(
    ...keys: T[]
 ): Record<T, V> => {
    let res = {} as Record<T, V>;
-   keys.forEach(i => (res[i] = value));
+   if (typeof value === 'object') {
+      keys.forEach(i => (res[i] = JSON.parse(JSON.stringify(value))));
+   } else {
+      keys.forEach(i => (res[i] = value));
+   }
    return res;
 };
 

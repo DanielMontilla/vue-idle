@@ -5,15 +5,17 @@
    import { Tab, Wallet } from '@/components/_index';
    import { useInventory, usePlayer } from '@/services/_index';
    import { onMounted } from 'vue';
+   import { Hero } from '@/classes/_index';
 
-   const { addEmpties, addRandoms, get } = useInventory();
+   const { addEmpties, addRandoms, get, add } = useInventory();
    const { randomize, player } = usePlayer();
 
    onMounted(() => {
       /* 🚀 Booting Global app state */
       // TODO: Fetch player data from save file and set state
       randomize();
-      addRandoms(9 * 6);
+      add(Hero.Random());
+      addEmpties(9 * 6 - 1);
    });
 </script>
 

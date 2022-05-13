@@ -35,7 +35,6 @@ import { rand } from '@vueuse/core';
 
 export default class Hero extends Item {
    /* 🗿 PROPERTIES */
-
    public name: string;
    public readonly race: HeroRace;
    public readonly class: HeroClass;
@@ -93,7 +92,7 @@ export default class Hero extends Item {
       }
 
       this.resources[resource].total = sum;
-      this.resources[resource].amount = rand(0, sum);
+      this.resources[resource].amount = rand(1, sum);
    }
 
    private computeValue() {
@@ -106,7 +105,7 @@ export default class Hero extends Item {
 
       SKILL_ARR.forEach(s => {
          let info: SkillData = {
-            level: randInt(0, 5),
+            level: randInt(1, 10),
             xp: randInt(0, 49),
          };
          skills[s] = info;

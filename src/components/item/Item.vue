@@ -1,6 +1,6 @@
 <script setup lang="ts">
-   import type { Item, Hero } from '@/classes/_index';
-   // import { HeroTooltip } from '@/components/_index';
+   import { type Item, Hero } from '@/classes/_index';
+   import { HeroTooltip } from '@/components/_index';
    import { getPath } from '@/utilities';
    import { ref, computed } from 'vue';
    import { useMouse } from '@vueuse/core';
@@ -14,7 +14,7 @@
    const { item, onDragStart, onDragEnd } = defineProps<ItemProps>();
    const { x, y } = useMouse();
    const dragElem = ref<HTMLElement>();
-   const hover = ref<Boolean>(false);
+   const hover = ref<Boolean>(true);
    const dragging = ref<Boolean>(false);
    const tooltip = ref<HTMLDivElement>();
    const draggable = computed(() => item.isDraggable());
@@ -72,7 +72,7 @@
          :style="{ left: `${position.x}px`, top: `${position.y}px` }"
       >
          <!-- prettier-ignore -->
-         <!-- <HeroTooltip v-if="(item instanceof Hero)" :hero="(item as Hero)" /> -->
+         <HeroTooltip v-if="(item instanceof Hero)" :hero="(item as Hero)" />
       </div>
    </div>
 </template>
