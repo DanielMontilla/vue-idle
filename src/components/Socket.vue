@@ -14,7 +14,6 @@
    const { socket: socketRef, debug, onEnter, onLeave } = defineProps<SocketProps>();
    const { createRef, handleDrop, setSource, clearSource } = useSockets();
    const socket = socketRef ? socketRef : createRef();
-
    const item = computed(() => socket.value.item);
 
    /* 📅 EVENT HANDLERS */

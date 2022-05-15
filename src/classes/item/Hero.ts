@@ -159,6 +159,11 @@ export default class Hero extends Item {
          progress: progress,
       };
    }
+   public getResourceProgress(resource: Resource) {
+      let { amount, total } = this.resources[resource];
+      let progress = mapValue([0, total], [0, 100], amount);
+      return progress;
+   }
 
    public getStatData(stat: Stat) {
       let current = this.stats[stat];
@@ -205,24 +210,5 @@ export default class Hero extends Item {
             this.skills[skill].xp += step;
          }
       }
-   }
-
-   // TODO: streamline
-   public getRaceIcon() {
-      let icon = '';
-
-      switch (this.class) {
-         case 'knight':
-            icon = 'sword';
-            break;
-         case 'archer':
-            icon = 'bow';
-            break;
-         case 'mage':
-            icon = 'wand';
-            break;
-      }
-
-      return `src/assets/icons/${icon}.svg`;
    }
 }

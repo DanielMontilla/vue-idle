@@ -2,7 +2,13 @@
    import { Hero, Item, Quest } from '@/classes/_index';
    import { Socket } from '@/components/_index';
    import useSockets from '@/services/Sockets';
-   import { mapValue, capitalize, formatTime, formatDistance, whyVue } from '@/utilities';
+   import {
+      mapValue,
+      capitalize,
+      formatTime,
+      formatDistance,
+      computeProgress,
+   } from '@/utilities';
    import { computed, ref, type Ref } from 'vue';
 
    interface QuestCardProps {
@@ -15,9 +21,6 @@
    const hero = computed(() => quest.value.hero);
    const time = computed(() => formatTime(quest.value.time));
    const distance = computed(() => formatDistance(quest.value.distance));
-
-   const computeProgress = ({ total, amount }: { total: number; amount: number }) =>
-      mapValue([0, total], [0, 100], amount);
 
    const handleControl = (control: 'play' | 'return' | 'foward') => {
       switch (control) {
@@ -52,7 +55,7 @@
 <template>
    <div class="quest">
       <Socket
-         class="slot"
+         class="socket"
          :socket="createRef('quest')"
          :onEnter="onEnter"
          :onLeave="onLeave"
@@ -179,7 +182,7 @@
                grid-area: distance;
             }
          }
-         .slot {
+         .socket {
             grid-area: slot;
          }
          .resources {

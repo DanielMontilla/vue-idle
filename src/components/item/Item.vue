@@ -14,7 +14,7 @@
    const { item, onDragStart, onDragEnd } = defineProps<ItemProps>();
    const { x, y } = useMouse();
    const dragElem = ref<HTMLElement>();
-   const hover = ref<Boolean>(true);
+   const hover = ref<Boolean>(false);
    const dragging = ref<Boolean>(false);
    const tooltip = ref<HTMLDivElement>();
    const draggable = computed(() => item.isDraggable());

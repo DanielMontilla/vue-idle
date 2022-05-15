@@ -3,7 +3,8 @@
    import { SKILL_ARR, STAT_ARR, RESOURCE_ARR } from '@/CONST';
    import { resource_color } from '@/data';
    import type { Resource, Skill } from '@/types';
-   import { getPath, mapValue } from '@/utilities';
+   import { getPath, mapValue, computeProgress } from '@/utilities';
+   import { ref } from 'vue';
 
    interface HeroToolTip {
       hero: Hero;
@@ -12,12 +13,6 @@
    const { hero } = defineProps<HeroToolTip>();
    const computeSkillWidth = (skill: Skill): number =>
       mapValue([0, hero.skillRequirements[skill]], [0, 100], hero.skills[skill].xp);
-   const computeResourceWidth = (resource: Resource): number =>
-      mapValue(
-         [0, hero.resources[resource].total],
-         [0, 100],
-         hero.resources[resource].amount
-      );
 </script>
 
 <template>
@@ -35,7 +30,7 @@
                   class="amount"
                   :style="{
                      backgroundColor: resource_color[resource],
-                     width: `${computeResourceWidth(resource)}px`,
+                     width: `${hero.getResourceProgress(resource)}px`,
                   }"
                />
             </div>
@@ -109,6 +104,7 @@
             grid-area: name;
             font-size: $t-xl;
             font-weight: bold;
+            justify-self: start;
          }
          .class-n-race {
             grid-area: class-n-race;

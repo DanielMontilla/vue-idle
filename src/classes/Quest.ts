@@ -47,6 +47,7 @@ export default class Quest {
                this.distance.value += 1.4 * dt;
                if (this.foward) {
                   this.distance.value += 1.4 * 2 * dt;
+                  this.hero.resources.stamina.amount -= 10 * dt;
                }
             }
          }

@@ -21,6 +21,9 @@ export const mapValue = (
    return b1 + ((value - a1) * (b2 - b1)) / (a2 - a1);
 };
 
+export const computeProgress = ({ total, amount }: { total: number; amount: number }) =>
+   mapValue([0, total], [0, 100], amount);
+
 export const expCalc = (level: number) => Math.round(10 + 1.1 ** (level * 0.5));
 export const recordLength = <T extends string | number | symbol>(
    record: Record<T, any>
