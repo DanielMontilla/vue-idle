@@ -48,6 +48,7 @@ export const randRecKeyPick = <T extends string | number | symbol>(
 
 export const getPath = (src: string) => `src/assets/${src}.svg`;
 export const capitalize = (word: string) => `${word[0].toUpperCase()}${word.slice(1)}`;
+
 export const filledRec = <T extends string | number | symbol, V>(
    value: V,
    ...keys: T[]
@@ -102,13 +103,6 @@ export const constructRelationRec = <
    }
 
    return rec;
-};
-
-/**
- * @description vue sometimes throws false error when unwrapping refs in template
- */
-export const whyVue = <T>(value: Ref<T>) => {
-   return value as unknown as T;
 };
 
 export const forceCast = <T>(value: any) => {

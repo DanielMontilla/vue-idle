@@ -61,10 +61,12 @@
 }
 
 @mixin item-tooltip {
-   border: solid black 2px;
-   border-radius: 4px;
+   background: rgba(65, 65, 65, 0.3);
+   border-radius: 8px;
+   // box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+   backdrop-filter: blur(3px);
+   border: 1px solid rgba(255, 255, 255, 0.15);
    padding: 8px;
-   background-color: $light-background;
 }
 
 @mixin grid-align {

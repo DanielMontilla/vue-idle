@@ -24,7 +24,13 @@ export const contentStyle: StyleValue = {
    maxWidth: `${CONTENT_SIZE.WIDTH}px`,
 };
 
-export const ZONE_ARR = ['gardens', 'slime fields'] as const;
+export const ZONE_ARR = [
+   'gardens',
+   'slime fields',
+   'caverns',
+   'deep caverns',
+   'spike hills',
+] as const;
 
 export const SOCKET_TYPE_ARR = [
    'none',

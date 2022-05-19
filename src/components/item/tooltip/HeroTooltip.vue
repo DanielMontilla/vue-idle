@@ -74,12 +74,13 @@
 
    .hero-tooltip {
       @include grid-center;
-      background-color: $light-background;
-      font-size: $t-st;
-      padding: 8px;
-      gap: 8px;
+      @include item-tooltip;
 
-      border-radius: 8px;
+      $item-size: 96px;
+      $item-height: 40px;
+
+      font-size: $t-st;
+      gap: 8px;
 
       grid-template-areas:
          'info value'
@@ -160,7 +161,8 @@
             @include this-grid;
             .stat {
                @include flex-label;
-               height: 32px;
+               min-width: $item-size;
+               height: $item-height;
                gap: 4px;
             }
          }
@@ -170,6 +172,8 @@
             @include this-grid;
             .skill {
                @include grid-center;
+               min-width: $item-size;
+               height: $item-height;
                grid-template-areas:
                   'img level'
                   'img bar';

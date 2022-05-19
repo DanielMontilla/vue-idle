@@ -70,7 +70,7 @@ export interface IntervalOptions {
 }
 
 export interface QuestConfig {
-   zone: Zone;
+   zone: Zone | undefined;
    distance: number;
    time: number;
 }

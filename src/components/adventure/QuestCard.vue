@@ -1,7 +1,7 @@
 <script setup lang="ts">
    import { Hero, Item, Quest } from '@/classes/_index';
-   import { Socket } from '@/components/_index';
-   import useSockets from '@/services/Sockets';
+   import { Socket, ZoneSelect } from '@/components/_index';
+   import { useSockets } from '@/services/_index';
    import {
       mapValue,
       capitalize,
@@ -9,6 +9,7 @@
       formatDistance,
       computeProgress,
    } from '@/utilities';
+   import type { Zone } from '@/types';
    import { computed, ref, type Ref } from 'vue';
 
    interface QuestCardProps {
@@ -21,6 +22,7 @@
    const hero = computed(() => quest.value.hero);
    const time = computed(() => formatTime(quest.value.time));
    const distance = computed(() => formatDistance(quest.value.distance));
+   const zone = computed(() => quest.value.zone);
 
    const handleControl = (control: 'play' | 'return' | 'foward') => {
       switch (control) {
@@ -44,11 +46,11 @@
 
    const onEnter = (hero: Item) => {
       if (!(hero instanceof Hero)) return;
-      quest.value.hero = hero;
+      quest.value.setHero(hero);
    };
 
    const onLeave = () => {
-      quest.value.hero = undefined;
+      quest.value.removeHero();
    };
 </script>
 
@@ -84,23 +86,34 @@
                </div>
             </div>
             <div class="zone">
-               <div class="name">{{ capitalize(quest.zone) }}</div>
+               <div class="name">
+                  {{ quest.zone ? capitalize(quest.zone) : `Select zone` }}
+               </div>
+               <ZoneSelect
+                  class="select"
+                  :zone="zone"
+                  :changeZone="(zone: Zone) => quest.zone = zone"
+               />
                <div class="controls">
                   <div
                      @click="handleControl('return')"
-                     :class="{ disabled: !quest.started }"
+                     :class="{ disabled: !quest.started || !quest.zone }"
                      class="return control-btn"
                   >
                      {{ quest.return ? '↪️' : '↩️' }}
                   </div>
-                  <div @click="handleControl('play')" class="play control-btn">
+                  <div
+                     @click="handleControl('play')"
+                     :class="{ disabled: !quest.zone }"
+                     class="play control-btn"
+                  >
                      {{ quest.play ? '⏸︎' : '▶️' }}
                   </div>
                   <div
                      class="foward control-btn"
                      @click="handleControl('foward')"
                      :class="{
-                        disabled: !quest.started,
+                        disabled: !quest.started || !quest.zone,
                         pressed: quest.foward,
                      }"
                   >
@@ -145,7 +158,6 @@
       grid-template-columns: min-content auto;
       grid-template-rows: repeat(2, auto);
       line-height: 1;
-      border: dashed white 1px;
       .pending {
          grid-area: other;
          padding: 4px 8px;
@@ -235,17 +247,23 @@
             @include grid-center;
             justify-items: start;
             grid-template-areas:
-               'name'
-               'controls';
-            grid-template-columns: repeat(1, auto);
+               'select name'
+               'controls controls';
+            grid-template-columns: repeat(2, max-content);
             grid-template-rows: 3fr 2fr;
             height: 100%;
             justify-self: start;
             .name {
                grid-area: name;
-               // height: 100%;
                font-size: $t-xl;
+
+               height: 40px;
             }
+
+            .select {
+               grid-area: select;
+            }
+
             .controls {
                grid-area: controls;
                display: flex;

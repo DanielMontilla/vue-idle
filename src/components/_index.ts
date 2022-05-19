@@ -12,6 +12,7 @@ import Tab from '@/components/Tab.vue';
 import UpgradeCard from '@/components/store/UpgradeCard.vue';
 import ActivityCard from '@/components/activity/ActivityCard.vue';
 import QuestCard from '@/components/adventure/QuestCard.vue';
+import ZoneSelect from '@/components/adventure/ZoneSelect.vue';
 
 export {
    Socket,
@@ -23,4 +24,5 @@ export {
    ActivityCard,
    QuestCard,
    HeroTooltip,
+   ZoneSelect,
 };
