@@ -27,7 +27,13 @@
             <Wallet />
          </div>
          <div class="tab-area">
-            <Tab v-for="(page, i) in PAGES" :name="page" :page="i" :color="tabs[page]" />
+            <Tab
+               v-for="(page, i) in PAGES"
+               :name="page"
+               :page="i"
+               :color="tabs[page]"
+               class="tab"
+            />
          </div>
          <div class="page-area">
             <Store />
@@ -58,12 +64,14 @@
             flex-wrap: wrap;
             min-height: $tab-height;
 
-            &:first-child {
-               border-radius: $window-rad 0 0 0;
-            }
+            .tab {
+               &:first-child {
+                  border-radius: $window-rad 0 0 0;
+               }
 
-            &:last-child {
-               $window-rad: 0 $window-rad 0 0;
+               &:last-child {
+                  border-radius: 0 $window-rad 0 0;
+               }
             }
          }
          .page-area {

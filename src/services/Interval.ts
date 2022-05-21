@@ -1,12 +1,12 @@
 import { Interval } from '@/classes/_index';
 import type { IntervalOptions } from '@/types';
 
-const get = (options: IntervalOptions) => {
+const add = (options: IntervalOptions) => {
    return new Interval(options);
 };
 
 const useInterval = () => ({
-   get: get,
+   add: add,
 });
 
 export default useInterval;

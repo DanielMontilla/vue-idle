@@ -3,7 +3,7 @@
    import { Socket, ZoneSelect } from '@/components/_index';
    import { useSockets } from '@/services/_index';
    import {
-      mapValue,
+      getPath,
       capitalize,
       formatTime,
       formatDistance,
@@ -24,25 +24,8 @@
    const distance = computed(() => formatDistance(quest.value.distance));
    const zone = computed(() => quest.value.zone);
 
-   const handleControl = (control: 'play' | 'return' | 'foward') => {
-      switch (control) {
-         case 'play':
-            if (!quest.value.started) {
-               quest.value.started = true;
-            }
-            quest.value.play = !quest.value.play;
-            if (quest.value.foward) quest.value.foward = false;
-            break;
-         case 'return':
-            if (!quest.value.started) return;
-            quest.value.return = !quest.value.return;
-            break;
-         case 'foward':
-            if (!quest.value.started) return;
-            quest.value.foward = !quest.value.foward;
-            break;
-      }
-   };
+   const handleControl = (control: 'play' | 'return' | 'foward') =>
+      quest.value[control]();
 
    const onEnter = (hero: Item) => {
       if (!(hero instanceof Hero)) return;
@@ -86,38 +69,44 @@
                </div>
             </div>
             <div class="zone">
-               <div class="name">
+               <div class="name" :style="{ fontStyle: quest.zone ? 'normal' : 'italic' }">
                   {{ quest.zone ? capitalize(quest.zone) : `Select zone` }}
                </div>
-               <ZoneSelect
-                  class="select"
-                  :zone="zone"
-                  :changeZone="(zone: Zone) => quest.zone = zone"
-               />
+               <div class="status">
+                  <ZoneSelect
+                     v-if="!quest.started"
+                     :zone="zone"
+                     :changeZone="(zone: Zone) => quest.zone = zone"
+                  />
+                  <img
+                     v-else
+                     :src="getPath(quest.isFoward ? 'icons/sprint' : 'icons/walking')"
+                  />
+               </div>
                <div class="controls">
                   <div
                      @click="handleControl('return')"
                      :class="{ disabled: !quest.started || !quest.zone }"
                      class="return control-btn"
                   >
-                     {{ quest.return ? '↪️' : '↩️' }}
+                     {{ quest.isReturn ? '↪️' : '↩️' }}
                   </div>
                   <div
                      @click="handleControl('play')"
                      :class="{ disabled: !quest.zone }"
                      class="play control-btn"
                   >
-                     {{ quest.play ? '⏸︎' : '▶️' }}
+                     {{ quest.isPlay ? '⏸︎' : '▶️' }}
                   </div>
                   <div
                      class="foward control-btn"
                      @click="handleControl('foward')"
                      :class="{
                         disabled: !quest.started || !quest.zone,
-                        pressed: quest.foward,
+                        pressed: quest.isFoward,
                      }"
                   >
-                     {{ quest.return ? '⏪' : '⏩' }}
+                     {{ quest.isReturn ? '⏪' : '⏩' }}
                   </div>
                </div>
             </div>
@@ -247,12 +236,14 @@
             @include grid-center;
             justify-items: start;
             grid-template-areas:
-               'select name'
+               'status name'
                'controls controls';
             grid-template-columns: repeat(2, max-content);
             grid-template-rows: 3fr 2fr;
             height: 100%;
             justify-self: start;
+
+            column-gap: 4px;
             .name {
                grid-area: name;
                font-size: $t-xl;
@@ -260,8 +251,10 @@
                height: 40px;
             }
 
-            .select {
-               grid-area: select;
+            .status {
+               grid-area: status;
+               image-rendering: optimizeSpeed;
+               @include square(32px);
             }
 
             .controls {

@@ -15,7 +15,11 @@
 
 <template>
    <div class="zone-select">
-      <img :src="getPath('icons/drop_down')" @click="expanded = !expanded" />
+      <img
+         :src="getPath('icons/drop_down')"
+         @click="expanded = !expanded"
+         :class="{ up: expanded }"
+      />
       <div v-if="expanded" class="drop-down">
          <div
             class="item"
@@ -44,8 +48,15 @@
          min-width: 32px;
          color: white;
 
+         transform: rotate(0deg);
+         transition: transform 0.1s ease-in-out;
+
          filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(332deg) brightness(103%)
             contrast(101%);
+      }
+
+      .up {
+         transform: rotate(180deg);
       }
       .drop-down {
          @include grid-center;

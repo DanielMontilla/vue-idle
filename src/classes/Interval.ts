@@ -8,22 +8,24 @@ export default class Interval {
    public iteration: number = 0;
    public completed: boolean = false;
 
-   public paused: boolean;
+   public isPaused: boolean;
    public iterations: number | 'infinite';
    public time: number;
    public remainingTime: number;
+   public onTick?: (dt: number) => void;
    public onIteration?: (iteration: number) => number | void;
    public onCompleted?: () => number | void;
 
    private loopId: number;
 
    public constructor(options: IntervalOptions) {
-      let { time, onIteration, onCompleted, iterations, paused } = options;
+      let { time, onTick, onIteration, onCompleted, iterations, paused } = options;
 
       this.time = time;
 
-      this.paused = paused ? paused : false;
+      this.isPaused = paused ? paused : false;
       this.iterations = iterations ? iterations : 1;
+      this.onTick = onTick;
       this.onIteration = onIteration;
       this.onCompleted = onCompleted;
 
@@ -32,8 +34,9 @@ export default class Interval {
       const { add } = useLoop();
 
       this.loopId = add(dt => {
-         if (!this.paused && !this.completed) {
+         if (!this.isPaused && !this.completed) {
             // not paused
+            if (this.onTick) this.onTick(dt);
             let step = this.remainingTime - dt * 1000;
             if (step > 0) {
                // time remaining
@@ -69,6 +72,14 @@ export default class Interval {
    }
 
    public toggle() {
-      this.paused = !this.paused;
+      this.isPaused = !this.isPaused;
+   }
+
+   public pause() {
+      this.isPaused = true;
+   }
+
+   public unpause() {
+      this.isPaused = false;
    }
 }
