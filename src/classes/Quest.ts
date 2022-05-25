@@ -63,7 +63,10 @@ export default class Quest {
 
    play() {
       if (!this.zone) return;
-      if (!this.started) this.started = true;
+      if (!this.started) {
+         this.started = true;
+         if (this.hero) (this.hero as unknown as Hero).moveable = false; // very gay vue ref unwrapping
+      }
       this.isPlay = !this.isPlay;
       this.interval.isPaused = !this.isPlay;
       if (this.isFoward) this.isFoward = false;

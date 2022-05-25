@@ -9,15 +9,16 @@
       item: Item;
       onDragStart: (e: DragEvent, dragElem?: HTMLElement) => any;
       onDragEnd: (e: DragEvent) => any;
+      locked?: boolean;
    }
 
-   const { item, onDragStart, onDragEnd } = defineProps<ItemProps>();
+   const { item, onDragStart, onDragEnd, locked } = defineProps<ItemProps>();
    const { x, y } = useMouse();
    const dragElem = ref<HTMLElement>();
    const hover = ref<Boolean>(false);
    const dragging = ref<Boolean>(false);
    const tooltip = ref<HTMLDivElement>();
-   const draggable = computed(() => item.isDraggable());
+   const draggable = computed(() => item.moveable && !locked);
    const position = computed(() => {
       if (!tooltip.value) return { x: 0, y: 0 };
       const [height, width] = [tooltip.value.clientHeight, tooltip.value.clientWidth];

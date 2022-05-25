@@ -10,9 +10,9 @@ export default abstract class Item {
 
    public type: ItemType;
    public quantity: number;
-   public socket!: Socket;
 
    public value: number = randInt(1, 300);
+   public moveable: boolean = true;
 
    constructor(type: ItemType, id: number, quantity: number) {
       this.type = type;
@@ -31,17 +31,8 @@ export default abstract class Item {
    }
 
    public isDraggable(): boolean {
-      if (!this.socket) {
-         console.error(`NO SLOT!`);
-         return false;
-      }
+      let moveable = this.moveable;
 
-      let { player } = usePlayer();
-
-      let locked = this.socket.locked;
-      let purcheasable =
-         this.socket.type === 'buy' ? player.value.canPurchase(this.value, 'gold') : true;
-
-      return !locked && purcheasable;
+      return moveable;
    }
 }

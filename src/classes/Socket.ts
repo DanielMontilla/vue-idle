@@ -7,7 +7,7 @@ export default class Socket {
    public item?: Item;
 
    public whitelist: ItemType[] = [];
-   public locked: boolean = false;
+   public isLocked: boolean = false;
    public type: SocketType = 'none';
 
    private static next = 0;
@@ -39,7 +39,6 @@ export default class Socket {
       }
 
       this.id = Socket.next++;
-      if (item) item.socket = this;
       this.item = item;
    }
 
@@ -63,6 +62,12 @@ export default class Socket {
       return !this.isAllowed(item);
    }
 
-   public insert() {}
-   public populate() {}
+   public insert(item: Item) {
+      this.item = item;
+   }
+
+   public lock() {
+      this.isLocked = true;
+      return this;
+   }
 }

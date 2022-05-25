@@ -1,5 +1,3 @@
-   hero stats system
-   drag img fix
    training station swap fix
    training statin switching contex menu
    consumable tooltip

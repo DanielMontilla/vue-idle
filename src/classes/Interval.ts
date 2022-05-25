@@ -1,7 +1,7 @@
 import { useLoop } from '@/services/_index';
 import type { IntervalOptions } from '@/types';
 import { mapValue } from '@/utilities';
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
 export default class Interval {
    public progress = ref(0);
@@ -11,7 +11,7 @@ export default class Interval {
    public isPaused: boolean;
    public iterations: number | 'infinite';
    public time: number;
-   public remainingTime: number;
+   public remaining: Ref<number>;
    public onTick?: (dt: number) => void;
    public onIteration?: (iteration: number) => number | void;
    public onCompleted?: () => number | void;
@@ -29,7 +29,7 @@ export default class Interval {
       this.onIteration = onIteration;
       this.onCompleted = onCompleted;
 
-      this.remainingTime = this.time;
+      this.remaining = ref(this.time);
 
       const { add } = useLoop();
 
@@ -37,10 +37,10 @@ export default class Interval {
          if (!this.isPaused && !this.completed) {
             // not paused
             if (this.onTick) this.onTick(dt);
-            let step = this.remainingTime - dt * 1000;
+            let step = this.remaining.value - dt * 1000;
             if (step > 0) {
                // time remaining
-               this.remainingTime = step;
+               this.remaining.value = step;
             } else {
                // time expired
                if (this.iterations > 0 || this.iterations === 'infinite') {
@@ -50,7 +50,7 @@ export default class Interval {
                      let newTime = this.onIteration(this.iteration);
                      if (newTime) this.time = newTime;
                   }
-                  this.remainingTime = time + step;
+                  this.remaining.value = time + step;
                   if (typeof this.iterations === 'number') this.iterations--;
                } else {
                   if (this.onCompleted) this.onCompleted();
@@ -68,7 +68,7 @@ export default class Interval {
    }
 
    private computeProgress() {
-      this.progress.value = mapValue([0, this.time], [0, 100], this.remainingTime);
+      this.progress.value = mapValue([0, this.time], [0, 100], this.remaining.value);
    }
 
    public toggle() {

@@ -39,7 +39,7 @@ const handleDrop = (destinationRef: Ref<Socket>, debug?: boolean) => {
       return false;
    }
 
-   if (source.locked || destination.locked) {
+   if (source.isLocked || destination.isLocked) {
       // If either slot is locked
       if (debug)
          console.log(`Source o destination socket is locked. Can't take or put items in`);

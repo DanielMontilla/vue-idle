@@ -48,6 +48,7 @@
          :item="item"
          :onDragStart="onDragStart"
          :onDragEnd="onDragEnd"
+         :locked="socket.isLocked"
       />
    </div>
 </template>

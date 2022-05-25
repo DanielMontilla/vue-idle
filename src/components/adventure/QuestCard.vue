@@ -81,6 +81,7 @@
                   <img
                      v-else
                      :src="getPath(quest.isFoward ? 'icons/sprint' : 'icons/walking')"
+                     :style="{ transform: quest.isReturn ? 'scaleX(-1)' : '' }"
                   />
                </div>
                <div class="controls">

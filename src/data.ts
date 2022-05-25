@@ -126,6 +126,3 @@ export const RESOURCE_TO_SKILL = constructRelationRec(
    SKILL_ARR,
    true
 );
-
-// console.log(SKILL_TO_RESOURCE);
-// console.log(RESOURCE_TO_SKILL);
