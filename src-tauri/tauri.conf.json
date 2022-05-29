@@ -12,7 +12,11 @@
    },
    "tauri": {
       "allowlist": {
-         "all": true
+         "all": true,
+         "fs": {
+            "all": true,
+            "scope": ["$DOWNLOAD/*"]
+         }
       },
       "bundle": {
          "active": true,
@@ -57,9 +61,10 @@
          {
             "fullscreen": false,
             "height": 940,
+            "width": 1288,
             "resizable": false,
             "title": "Vue Idle",
-            "width": 1288
+            "fileDropEnabled": false
          }
       ]
    }

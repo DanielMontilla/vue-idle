@@ -6,12 +6,28 @@
    import { useInventory, usePlayer } from '@/services/_index';
    import { onMounted } from 'vue';
    import { Hero } from '@/classes/_index';
+   import { BaseDirectory, writeFile } from '@tauri-apps/api/fs';
+   import faker from '@faker-js/faker';
 
    const { addEmpties, addRandoms, get, add } = useInventory();
    const { randomize, player } = usePlayer();
 
+   const simpleWrite = async () => {
+      console.log(`Writting file...`);
+      try {
+         await writeFile(
+            { contents: faker.name.firstName(), path: 'save.txt' },
+            { dir: BaseDirectory.Download }
+         );
+         console.log(`Wrote file!`);
+      } catch (e) {
+         console.log(`Couldn't write file :(`);
+         console.log(e);
+      }
+   };
+
    onMounted(() => {
-      /* 🚀 Booting Global app state */
+      /* 🚀 Booting Global game state */
       // TODO: Fetch player data from save file and set state
       randomize();
       add(Hero.Random());
@@ -21,7 +37,9 @@
 
 <template>
    <div class="app" :style="appStyle">
-      <div class="app-bar"></div>
+      <div class="app-bar">
+         <div @click="simpleWrite" :style="{ backgroundColor: `red` }">WRITE</div>
+      </div>
       <div class="content-area" :style="contentStyle">
          <div class="wallet-area">
             <Wallet />
@@ -50,6 +68,7 @@
 
    .app {
       @include flex(center, end);
+      flex-direction: column;
 
       min-width: 1280px;
       min-height: 900px;
