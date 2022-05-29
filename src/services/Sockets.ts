@@ -142,12 +142,12 @@ const setSource = (socket: Ref<Socket>) => (sourceRef = socket);
 const clearSource = () => (sourceRef = undefined);
 
 const useSockets = () => ({
-   createRef: createRef,
-   create: create,
-   handleDrop: handleDrop,
-   setSource: setSource,
-   clearSource: clearSource,
-   createRandomRef: createRandomRef,
+   createRef,
+   create,
+   handleDrop,
+   setSource,
+   clearSource,
+   createRandomRef,
 });
 
 export default useSockets;

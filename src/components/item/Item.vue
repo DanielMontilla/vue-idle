@@ -61,7 +61,7 @@
          @mouseover="hover = true"
          @mouseleave="hover = false"
       >
-         <img :src="getPath(item.src)" />
+         <img :src="getPath(item.info.src)" />
          <div class="item-quantity-text">
             {{ item.quantity === 1 ? '' : item.quantity }}
          </div>

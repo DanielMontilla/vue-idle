@@ -1,8 +1,6 @@
 import { ITEMS } from '@/data';
-import { usePlayer } from '@/services/_index';
 import type { ItemInfo, ItemType } from '@/types';
 import { randInt } from '@/utilities';
-import type Socket from '../Socket';
 
 export default abstract class Item {
    public id: number;

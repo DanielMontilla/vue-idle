@@ -1,7 +1,6 @@
 import type { Item } from '@/classes/_index';
 import { ITEM_TYPE_ARR } from '@/CONST';
 import type { ItemType, SocketType } from '@/types';
-import { ref, type Ref } from 'vue';
 
 export default class Socket {
    public item?: Item;
