@@ -1,11 +1,21 @@
 import { Item } from '@/classes/_index';
+import type { ConsumableData } from '@/types';
+import { randInt } from '@/utilities';
 
 export default class Consumable extends Item {
-   constructor(id: number = 1, quantity: number = 1) {
-      super('consumable', id, quantity);
+   constructor(data: ConsumableData) {
+      super(data);
    }
 
    public static Random() {
-      return new Consumable();
+      return new Consumable({ id: 1, quantity: randInt(0, 64), type: 'consumable' });
+   }
+
+   public getRaw(): ConsumableData {
+      return {
+         type: 'consumable',
+         id: this.id,
+         quantity: this.quantity,
+      };
    }
 }

@@ -29,4 +29,10 @@ export default class Player {
          return false;
       }
    }
+
+   public getRaw(): PlayerData {
+      return {
+         wallet: this.wallet,
+      };
+   }
 }

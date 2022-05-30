@@ -1,6 +1,6 @@
-import type { Item } from '@/classes/_index';
+import { type Item, Hero, Consumable } from '@/classes/_index';
 import { ITEM_TYPE_ARR } from '@/CONST';
-import type { ItemType, SocketType } from '@/types';
+import type { ConsumableData, HeroData, ItemData, ItemType, SocketType } from '@/types';
 
 export default class Socket {
    public item?: Item;
@@ -65,8 +65,29 @@ export default class Socket {
       this.item = item;
    }
 
+   public insertRaw(data?: ItemData) {
+      if (!data) return;
+
+      switch (data.type) {
+         case 'hero':
+            this.insert(new Hero(data as HeroData));
+            break;
+         case 'consumable':
+            this.insert(new Consumable(data as ConsumableData));
+            break;
+
+         default:
+            console.error(`YO INSERT RAW FOR ${data.type} ITEM NOT DEFINED!`);
+            break;
+      }
+   }
+
    public lock() {
       this.isLocked = true;
       return this;
+   }
+
+   public getRawItem() {
+      return this.item?.getRaw();
    }
 }

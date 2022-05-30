@@ -48,6 +48,7 @@ export const HERO_CLASS_ARR = [`knight`, `archer`, `mage`] as const;
 export const HERO_RACE_ARR = [`human`, `goblin`] as const;
 
 export const RESOURCE_ARR = ['health', 'stamina', 'mana'] as const;
+export const CURRENCY_ARR = ['gold', 'diamond'] as const;
 
 export const STAT_ARR = [
    'physical_damage',

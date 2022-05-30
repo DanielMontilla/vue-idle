@@ -1,4 +1,4 @@
-import type { Player, Item } from '@/classes/_index';
+import type { ItemData, PlayerData } from '@/types';
 
 /**
  * @description object that holds entire game state
@@ -8,5 +8,8 @@ import type { Player, Item } from '@/classes/_index';
  *    • Player resources
  */
 export default class Save {
-   constructor(public player: Player, public inventory: Array<Item | undefined>) {}
+   constructor(
+      public player: PlayerData,
+      public inventory: Array<ItemData | undefined>
+   ) {}
 }

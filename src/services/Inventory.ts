@@ -1,5 +1,6 @@
 import type { Item, Socket } from '@/classes/_index';
 import { useSockets } from '@/services/_index';
+import type { ItemData } from '@/types';
 import { ref, type Ref } from 'vue';
 
 const sockets = ref<Ref<Socket>[]>([]); // not really sure why I made this a ref of a ref
@@ -35,15 +36,18 @@ const get = (index: number) => {
 };
 
 const getRaw = () => {
-   let arr: Array<Item | undefined> = [];
-   sockets.value.forEach(s => arr.push(s.value.item));
+   let arr: Array<ItemData | undefined> = [];
+   sockets.value.forEach(s => arr.push(s.value.getRawItem()));
    return arr;
 };
 
-const load = (rawItems: Array<Item | undefined>) => {
-   rawItems.forEach(i => {
-      if (i) insert(i);
-   });
+const load = (rawItems: Array<ItemData | undefined>) => {
+   clear();
+   rawItems.forEach((data, i) => sockets.value[i].value.insertRaw(data));
+};
+
+const clear = () => {
+   sockets.value.forEach(s => (s.value.item = undefined));
 };
 
 const insert = (item: Item) => {
@@ -66,6 +70,7 @@ const useInventory = () => ({
    getRaw,
    load,
    insert,
+   clear,
 });
 
 export default useInventory;

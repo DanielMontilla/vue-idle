@@ -18,8 +18,8 @@ const randomize = () => {
    });
 };
 
-const getRaw = (): Player => {
-   return player.value;
+const getRaw = (): PlayerData => {
+   return player.value.getRaw();
 };
 
 const usePlayer = () => ({ player, load, randomize, getRaw });

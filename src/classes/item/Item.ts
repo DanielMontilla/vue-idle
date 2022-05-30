@@ -1,5 +1,5 @@
 import { ITEMS } from '@/data';
-import type { ItemInfo, ItemType } from '@/types';
+import type { ItemData, ItemInfo, ItemType } from '@/types';
 import { randInt } from '@/utilities';
 
 export default abstract class Item {
@@ -12,7 +12,9 @@ export default abstract class Item {
    public value: number = randInt(1, 300);
    public moveable: boolean = true;
 
-   constructor(type: ItemType, id: number, quantity: number) {
+   constructor(data: ItemData) {
+      let { type, id, quantity } = data;
+
       this.type = type;
       this.id = id;
       this.quantity = quantity;
@@ -33,4 +35,6 @@ export default abstract class Item {
 
       return moveable;
    }
+
+   public abstract getRaw(): ItemData;
 }

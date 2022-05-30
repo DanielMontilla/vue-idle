@@ -28,6 +28,7 @@ import type {
    ActivityData,
    HeroData,
    Activity,
+   ItemData,
 } from '@/types';
 import { filledRec, randInt, randArrPick, mapValue } from '@/utilities';
 import { faker } from '@faker-js/faker';
@@ -125,7 +126,10 @@ export default class Hero extends Item {
       let hClass = randArrPick(HERO_CLASS_ARR);
 
       return new Hero({
+         type: 'hero',
          id: HERO_ID_MAP[race],
+         quantity: 1,
+
          name: faker.name.firstName(),
          race: race,
          class: hClass,
@@ -135,9 +139,11 @@ export default class Hero extends Item {
    }
 
    /* 🔨 CONSTRUCTOR */
-   private constructor(data: HeroData) {
-      let { id, name, race, class: hClass, skills, activities } = data;
-      super('hero', id, 1);
+   public constructor(data: HeroData) {
+      super(data);
+
+      let { name, race, class: hClass, skills, activities } = data;
+
       this.name = name;
       this.race = race;
       this.class = hClass;
@@ -210,5 +216,19 @@ export default class Hero extends Item {
             this.skills[skill].xp += step;
          }
       }
+   }
+
+   public getRaw(): HeroData {
+      return {
+         type: 'hero',
+         id: this.id,
+         quantity: 1,
+
+         name: this.name,
+         race: this.race,
+         class: this.class,
+         skills: this.skills,
+         activities: this.activities,
+      };
    }
 }
