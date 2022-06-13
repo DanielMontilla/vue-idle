@@ -126,3 +126,6 @@ export const RESOURCE_TO_SKILL = constructRelationRec(
    SKILL_ARR,
    true
 );
+
+/* 🎨 Preload assets */
+export const SOUNDS: string[] = [`paperflip_1`];

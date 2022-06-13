@@ -1,9 +1,25 @@
-   training station swap fix
-   training statin switching contex menu
-   consumable tooltip
-   
-   add leveling system for activies
+🐜 Bug Fixes
+- training station & quest socket hero swap fix
 
-   look into custom event emit  for onEnter & onLeave callbacks for slot component
+💾 System Requirements
+- Sound ✅
 
-   figure how to have global setting file for ts and js files
+🔨 Features
+- training station buy option
+- training station switching contex menu
+- consumable tooltip
+- armory page + hero equipable
+- computed sell & buy values
+
+🧰 Busy Work
+- more item
+   - sprites
+   - types
+   - tooltips
+
+
+🏹 Item Queue
+- base light chest piece
+- base light legs piece
+- base light helmet piece
+- base light feet piece

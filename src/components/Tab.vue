@@ -1,5 +1,5 @@
 <script setup lang="ts">
-   import usePages from '@/services/Pages';
+   import { usePages, useAudio } from '@/services/_index';
 
    interface TabProps {
       name: string;
@@ -8,11 +8,16 @@
    }
 
    const { set } = usePages();
+   const { play } = useAudio();
    const { name, page } = defineProps<TabProps>();
 </script>
 
 <template>
-   <div @click="set(page)" class="tab" :style="{ backgroundColor: color }">
+   <div
+      @click="[set(page), play('paperflip_1')]"
+      class="tab"
+      :style="{ backgroundColor: color }"
+   >
       {{ name }}
    </div>
 </template>

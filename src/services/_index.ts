@@ -5,5 +5,15 @@ import useInventory from '@/services/Inventory';
 import usePlayer from '@/services/Player';
 import useInterval from '@/services/Interval';
 import useFs from '@/services/Fs';
+import useAudio from '@/services/Audio';
 
-export { useFs, useLoop, usePages, useSockets, useInventory, usePlayer, useInterval };
+export {
+   useAudio,
+   useFs,
+   useLoop,
+   usePages,
+   useSockets,
+   useInventory,
+   usePlayer,
+   useInterval,
+};

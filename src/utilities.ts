@@ -1,5 +1,4 @@
 import type { Activity, PartialRecord, RecKey, Resource, Skill, Stat } from '@/types';
-import type { Ref } from 'vue';
 
 export const rand = (min: number = 0, max: number = 1) =>
    Math.random() * (max - min) + min;
