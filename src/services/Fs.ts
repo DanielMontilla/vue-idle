@@ -2,13 +2,13 @@ import { Save } from '@/system/_index';
 import { usePlayer, useInventory } from '@/services/_index';
 import { BaseDirectory, readTextFile, writeFile } from '@tauri-apps/api/fs';
 
-const { getRaw: getRawPlayer, load: loadPlayer } = usePlayer();
-const { getRaw: getRawInventory, load: loadInventory } = useInventory();
+const { getData: getPlayerData, load: loadPlayer } = usePlayer();
+const { getData: getInventoryData, load: loadInventory } = useInventory();
 
 const save = async () => {
    console.log(`Writting file...`);
    // Create save file object
-   const SAVE = new Save(getRawPlayer(), getRawInventory());
+   const SAVE = new Save(getPlayerData(), getInventoryData());
 
    try {
       await writeFile(

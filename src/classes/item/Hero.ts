@@ -218,7 +218,7 @@ export default class Hero extends Item {
       }
    }
 
-   public getRaw(): HeroData {
+   public getData(): HeroData {
       return {
          type: 'hero',
          id: this.id,

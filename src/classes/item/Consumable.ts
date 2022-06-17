@@ -11,7 +11,7 @@ export default class Consumable extends Item {
       return new Consumable({ id: 1, quantity: randInt(0, 64), type: 'consumable' });
    }
 
-   public getRaw(): ConsumableData {
+   public getData(): ConsumableData {
       return {
          type: 'consumable',
          id: this.id,

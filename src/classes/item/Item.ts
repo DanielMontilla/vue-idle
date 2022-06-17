@@ -1,6 +1,7 @@
 import { ITEMS } from '@/data';
-import type { ItemData, ItemInfo, ItemType } from '@/types';
+import type { ConsumableData, HeroData, ItemData, ItemInfo, ItemType } from '@/types';
 import { randInt } from '@/utilities';
+import { Consumable, Hero } from '@/classes/_index';
 
 export default abstract class Item {
    public id: number;
@@ -36,5 +37,21 @@ export default abstract class Item {
       return moveable;
    }
 
-   public abstract getRaw(): ItemData;
+   public static Create(data: ItemData): Item {
+      let { type } = data;
+      switch (type) {
+         case `hero`:
+            return new Hero(data as HeroData);
+
+         case `consumable`:
+            return new Consumable(data as ConsumableData);
+
+         default:
+            throw new Error(
+               `item type ${type} not registered properly. Create case in Item.Create method`
+            );
+      }
+   }
+
+   public abstract getData(): ItemData;
 }

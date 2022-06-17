@@ -3,15 +3,20 @@
    import { appStyle, contentStyle, PAGES } from '@/CONST';
    import { tabs } from '@/data';
    import { Tab, Wallet } from '@/components/_index';
-   import { useInventory, useFs } from '@/services/_index';
+   import { useInventory, useFs, useAudio } from '@/services/_index';
    import { onMounted } from 'vue';
    import { Hero } from '@/classes/_index';
 
    const { addEmpties, addRandoms, get, add, insert } = useInventory();
    const { load, save } = useFs();
+   const { init: audioInit } = useAudio();
 
    onMounted(() => {
+      /* Asset preloading */
+      audioInit();
+
       /* 🚀 Booting Global game state */
+      // addRandoms(9 * 6);
       addEmpties(9 * 6);
    });
 </script>

@@ -1,5 +1,6 @@
-🐜 Bug Fixes
+🐜 Bug Fixes & Refactor
 - training station & quest socket hero swap fix
+- quest card change hero property to socket property
 
 💾 System Requirements
 - Sound ✅

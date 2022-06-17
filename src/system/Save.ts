@@ -1,4 +1,4 @@
-import type { ItemData, PlayerData } from '@/types';
+import type { InventoryData, ItemData, PlayerData, SocketData } from '@/types';
 
 /**
  * @description object that holds entire game state
@@ -8,8 +8,5 @@ import type { ItemData, PlayerData } from '@/types';
  *    • Player resources
  */
 export default class Save {
-   constructor(
-      public player: PlayerData,
-      public inventory: Array<ItemData | undefined>
-   ) {}
+   constructor(public player: PlayerData, public inventory: InventoryData) {}
 }

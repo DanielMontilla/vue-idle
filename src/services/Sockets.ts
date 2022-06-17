@@ -1,19 +1,39 @@
 import { type Item, Socket, Consumable, Hero } from '@/classes/_index';
-import type { SocketType } from '@/types';
+import type { ItemData, SocketData, SocketType } from '@/types';
 import { rand, randArrPick, randInt } from '@/utilities';
 import { ITEM_TYPE_ARR, SOCKET_TYPE_ARR } from '@/CONST';
 import { ref, type Ref } from 'vue';
 
 let sourceRef: Ref<Socket> | undefined = undefined;
 
-const create = (type?: SocketType, item?: Item): Socket => {
-   let socket = new Socket(type, item);
+const create = (data: SocketData): Socket => {
+   let socket = new Socket(data);
    return socket;
 };
 
-const createRef = (type?: SocketType, item?: Item): Ref<Socket> => {
-   let socket = new Socket(type, item);
+const createRef = (data: SocketData): Ref<Socket> => {
+   let socket = new Socket(data);
    return ref(socket);
+};
+
+const createRandomRef = (socketType?: SocketType, emptyChance = 0.5) => {
+   socketType = socketType ? socketType : randArrPick(SOCKET_TYPE_ARR);
+
+   let item: ItemData | undefined;
+   if (rand() < emptyChance) {
+      let itemType = randArrPick(ITEM_TYPE_ARR);
+      switch (itemType) {
+         case 'consumable':
+            let consumable = Consumable.Random();
+            consumable.quantity = randInt(1, consumable.info.stackLimit);
+            item = consumable.getData();
+            break;
+         case 'hero':
+            item = Hero.Random().getData();
+            break;
+      }
+   }
+   return createRef({ type: socketType, item: item });
 };
 
 const handleDrop = (destinationRef: Ref<Socket>, debug?: boolean) => {
@@ -116,26 +136,6 @@ const handleDrop = (destinationRef: Ref<Socket>, debug?: boolean) => {
    sourceRef.value.item = sourceItem;
    destinationRef.value.item = destinationItem;
    return true;
-};
-
-const createRandomRef = (socketType?: SocketType, emptyChance = 0.5) => {
-   socketType = socketType ? socketType : randArrPick(SOCKET_TYPE_ARR);
-
-   let item: Item | undefined;
-   if (rand() < emptyChance) {
-      let itemType = randArrPick(ITEM_TYPE_ARR);
-      switch (itemType) {
-         case 'consumable':
-            let consumable = Consumable.Random();
-            consumable.quantity = randInt(1, consumable.info.stackLimit);
-            item = consumable;
-            break;
-         case 'hero':
-            item = Hero.Random();
-            break;
-      }
-   }
-   return createRef(socketType, item);
 };
 
 const setSource = (socket: Ref<Socket>) => (sourceRef = socket);

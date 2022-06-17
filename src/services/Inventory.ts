@@ -1,13 +1,13 @@
 import type { Item, Socket } from '@/classes/_index';
 import { useSockets } from '@/services/_index';
-import type { ItemData } from '@/types';
+import type { InventoryData, ItemData } from '@/types';
 import { ref, type Ref } from 'vue';
 
-const sockets = ref<Ref<Socket>[]>([]); // not really sure why I made this a ref of a ref
+const sockets = ref<Ref<Socket>[]>([]); // not really sure why I made this a ref of a ref... | bc inventory may grow...?
 const { createRef, createRandomRef } = useSockets();
 
-const add = (item?: Item) => {
-   let socket = createRef('inventory', item);
+const add = (item?: ItemData) => {
+   let socket = createRef({ type: 'inventory', item: item });
    sockets.value.push(socket);
    return socket;
 };
@@ -35,19 +35,25 @@ const get = (index: number) => {
    return sockets.value[index];
 };
 
-const getRaw = () => {
-   let arr: Array<ItemData | undefined> = [];
-   sockets.value.forEach(s => arr.push(s.value.getRawItem()));
+const getData = () => {
+   let arr: InventoryData = [];
+   sockets.value.forEach(s => arr.push(s.value.getData()));
    return arr;
 };
 
-const load = (rawItems: Array<ItemData | undefined>) => {
-   clear();
-   rawItems.forEach((data, i) => sockets.value[i].value.insertRaw(data));
-};
+const load = (data: InventoryData) => {
+   // Very wonky vue reference behaviour, not really sure how to remedy this
+   for (let i = 0; i < data.length; i++) {
+      let socketData = data[i];
 
-const clear = () => {
-   sockets.value.forEach(s => (s.value.item = undefined));
+      if (sockets.value[i]) {
+         sockets.value[i].value.fromData(socketData);
+      } else {
+         sockets.value.push(createRef(socketData));
+      }
+   }
+
+   sockets.value.push(createRandomRef('inventory'));
 };
 
 const insert = (item: Item) => {
@@ -67,10 +73,9 @@ const useInventory = () => ({
    addEmpties,
    addRandom,
    addRandoms,
-   getRaw,
+   getData,
    load,
    insert,
-   clear,
 });
 
 export default useInventory;

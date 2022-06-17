@@ -7,17 +7,15 @@
       color: string;
    }
 
-   const { set } = usePages();
+   const { set, current } = usePages();
    const { play } = useAudio();
    const { name, page } = defineProps<TabProps>();
+
+   const playFlip = () => (current.value !== page ? play(`paperflip`) : null);
 </script>
 
 <template>
-   <div
-      @click="[set(page), play('paperflip_1')]"
-      class="tab"
-      :style="{ backgroundColor: color }"
-   >
+   <div @click="[playFlip(), set(page)]" class="tab" :style="{ backgroundColor: color }">
       {{ name }}
    </div>
 </template>

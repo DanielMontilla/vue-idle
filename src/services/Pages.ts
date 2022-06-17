@@ -16,9 +16,9 @@ const usePages = (index?: number) => {
    if (index) set(index);
 
    return {
-      current: current,
-      register: register,
-      set: set,
+      current,
+      register,
+      set,
    };
 };
 

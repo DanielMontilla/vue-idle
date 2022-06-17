@@ -18,10 +18,10 @@ const randomize = () => {
    });
 };
 
-const getRaw = (): PlayerData => {
+const getData = (): PlayerData => {
    return player.value.getRaw();
 };
 
-const usePlayer = () => ({ player, load, randomize, getRaw });
+const usePlayer = () => ({ player, load, randomize, getData });
 
 export default usePlayer;

@@ -12,6 +12,7 @@ import type {
    STAT_ARR,
    ZONE_ARR,
 } from '@/CONST';
+import type { Item } from './classes/_index';
 
 /* 🔧  Utility */
 export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
@@ -94,4 +95,17 @@ export interface QuestConfig {
    zone: Zone | undefined;
    distance: number;
    time: number;
+}
+
+export interface SocketData {
+   type?: SocketType;
+   item?: ItemData;
+}
+
+export type InventoryData = SocketData[];
+
+export interface ActivityCardData {
+   activity: Activity;
+   hero_socket: SocketData;
+   inventory: SocketData[];
 }

@@ -1,6 +1,13 @@
-import { type Item, Hero, Consumable } from '@/classes/_index';
+import { Item, Hero, Consumable } from '@/classes/_index';
 import { ITEM_TYPE_ARR } from '@/CONST';
-import type { ConsumableData, HeroData, ItemData, ItemType, SocketType } from '@/types';
+import type {
+   ConsumableData,
+   HeroData,
+   ItemData,
+   ItemType,
+   SocketData,
+   SocketType,
+} from '@/types';
 
 export default class Socket {
    public item?: Item;
@@ -12,7 +19,7 @@ export default class Socket {
    private static next = 0;
    public readonly id: number;
 
-   constructor(type?: SocketType, item?: Item) {
+   constructor({ type, item }: SocketData) {
       if (type) this.type = type;
 
       switch (this.type) {
@@ -38,7 +45,7 @@ export default class Socket {
       }
 
       this.id = Socket.next++;
-      this.item = item;
+      if (item) this.item = Item.Create(item);
    }
 
    public whitelistAll() {
@@ -65,21 +72,9 @@ export default class Socket {
       this.item = item;
    }
 
-   public insertRaw(data?: ItemData) {
-      if (!data) return;
-
-      switch (data.type) {
-         case 'hero':
-            this.insert(new Hero(data as HeroData));
-            break;
-         case 'consumable':
-            this.insert(new Consumable(data as ConsumableData));
-            break;
-
-         default:
-            console.error(`YO INSERT RAW FOR ${data.type} ITEM NOT DEFINED!`);
-            break;
-      }
+   public fromData({ type, item }: SocketData) {
+      this.type = type ? type : 'none';
+      this.item = item ? Item.Create(item) : undefined;
    }
 
    public lock() {
@@ -87,7 +82,10 @@ export default class Socket {
       return this;
    }
 
-   public getRawItem() {
-      return this.item?.getRaw();
+   public getData(): SocketData {
+      return {
+         type: this.type,
+         item: this.item?.getData(),
+      };
    }
 }
