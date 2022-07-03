@@ -39,6 +39,7 @@ export const SOCKET_TYPE_ARR = [
    'inventory',
    'activity',
    'quest',
+   'display',
 ] as const;
 
 export const PAGES = ['store', 'activities', 'adventures'] as const;
