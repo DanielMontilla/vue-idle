@@ -1,5 +1,5 @@
 <script setup lang="ts">
-   import { Hero, Item, Quest } from '@/classes/_index';
+   import { Hero, Item, Journey } from '@/classes/_index';
    import { Socket, ZoneSelect } from '@/components/_index';
    import { useSockets } from '@/services/_index';
    import {
@@ -13,7 +13,7 @@
    import { computed, ref, type Ref } from 'vue';
 
    interface QuestCardProps {
-      quest: Quest;
+      quest: Journey;
    }
    const { quest: q } = defineProps<QuestCardProps>();
    const { createRef } = useSockets();
@@ -38,10 +38,10 @@
 </script>
 
 <template>
-   <div class="quest">
+   <div class="journey-card">
       <Socket
          class="socket"
-         :socket="createRef('quest')"
+         :socket="createRef('journey')"
          :onEnter="onEnter"
          :onLeave="onLeave"
       />
@@ -138,7 +138,7 @@
    .fade-leave-to {
       opacity: 0;
    }
-   .quest {
+   .journey-card {
       @include grid-align;
       width: 100%;
       padding: 6px;

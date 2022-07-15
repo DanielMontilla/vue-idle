@@ -3,7 +3,7 @@ import type { Hero, Interval } from '@/classes/_index';
 import { useInterval } from '@/services/_index';
 import { ref, type Ref } from 'vue';
 
-export default class Quest {
+export default class Journey {
    public zone: Zone | undefined;
    public distance: Ref<number>;
    public time: Ref<number>;

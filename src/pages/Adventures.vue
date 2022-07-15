@@ -1,6 +1,6 @@
 <script setup lang="ts">
-   import { Quest } from '@/classes/_index';
-   import { Inventory, QuestCard } from '@/components/_index';
+   import { Journey } from '@/classes/_index';
+   import { Inventory, JourneyCard } from '@/components/_index';
    import { usePages } from '@/services/_index';
    import { forceCast } from '@/utilities';
    import { onMounted, ref, type Ref } from 'vue';
@@ -8,9 +8,9 @@
    const { register, current } = usePages();
    const index = register();
 
-   const quests: Ref<Quest[]> = ref([]);
+   const quests: Ref<Journey[]> = ref([]);
    onMounted(() => {
-      quests.value.push(new Quest());
+      quests.value.push(new Journey());
    });
 </script>
 
@@ -19,7 +19,7 @@
       <Inventory class="inventory-area" />
       <div class="log-area"></div>
       <div class="quests-area">
-         <QuestCard v-for="quest in quests" :quest="quest" />
+         <JourneyCard v-for="quest in quests" :quest="quest" />
       </div>
    </div>
 </template>

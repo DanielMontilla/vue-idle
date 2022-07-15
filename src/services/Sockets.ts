@@ -11,8 +11,10 @@ const create = (data: SocketData): Socket => {
    return socket;
 };
 
-const createRef = (data: SocketData): Ref<Socket> => {
-   let socket = new Socket(data);
+const createRef = (data?: SocketData | SocketType): Ref<Socket> => {
+   let socket = new Socket(
+      data ? (typeof data === 'string' ? { type: data } : data) : { type: 'none' }
+   );
    return ref(socket);
 };
 

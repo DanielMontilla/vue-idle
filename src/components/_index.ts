@@ -11,7 +11,7 @@ import Tab from '@/components/Tab.vue';
 
 import UpgradeCard from '@/components/store/UpgradeCard.vue';
 import ActivityCard from '@/components/activity/ActivityCard.vue';
-import QuestCard from '@/components/adventure/QuestCard.vue';
+import JourneyCard from '@/components/adventure/JourneyCard.vue';
 import ZoneSelect from '@/components/adventure/ZoneSelect.vue';
 import BarrackCard from '@/components/store/BarrackCard.vue';
 
@@ -23,7 +23,7 @@ export {
    Wallet,
    UpgradeCard,
    ActivityCard,
-   QuestCard,
+   JourneyCard,
    HeroTooltip,
    ZoneSelect,
    BarrackCard,

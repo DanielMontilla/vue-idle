@@ -38,7 +38,7 @@ export const SOCKET_TYPE_ARR = [
    'buy',
    'inventory',
    'activity',
-   'quest',
+   'journey',
    'display',
 ] as const;
 

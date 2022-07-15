@@ -129,3 +129,4 @@ export const RESOURCE_TO_SKILL = constructRelationRec(
 
 /* 🎨 Preload assets */
 export const SOUNDS: string[] = [`paperflip`];
+// export const SPRITES: string[] = [];

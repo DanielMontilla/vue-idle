@@ -27,7 +27,7 @@ export default class Socket {
             this.whitelistAll();
             break;
 
-         case 'quest':
+         case 'journey':
             this.addToWhitelist('hero');
             break;
 

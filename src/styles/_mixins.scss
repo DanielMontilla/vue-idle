@@ -37,8 +37,8 @@
 
 @mixin no-interact {
    user-drag: none;
-   -webkit-user-drag: none;
    user-select: none;
+   -webkit-user-drag: none;
    -moz-user-select: none;
    -webkit-user-select: none;
    -ms-user-select: none;

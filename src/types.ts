@@ -106,6 +106,7 @@ export type InventoryData = SocketData[];
 
 export interface ActivityCardData {
    activity: Activity;
-   hero_socket: SocketData;
+   heroSocket: SocketData;
    inventory: SocketData[];
+   progress: number;
 }
