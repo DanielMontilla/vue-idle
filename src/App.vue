@@ -72,8 +72,8 @@
 </template>
 
 <style lang="scss">
-   @use '@/styles/base' as *;
    @use '@/styles/index' as *;
+   @use '@/styles/base' as *;
    @use '@/styles/reset' as *;
 
    #app {
