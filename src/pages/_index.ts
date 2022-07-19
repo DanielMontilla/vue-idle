@@ -1,5 +1,7 @@
-import Store from '@/pages/Store.vue';
-import Activities from '@/pages/Activities.vue';
-import Adventures from '@/pages/Adventures.vue';
+import Shop from '@/pages/shop/Shop.vue';
+import Barracks from '@/pages/shop/sections/Barracks.vue';
+import Store from '@/pages/shop/sections/Store.vue';
 
-export { Store, Activities, Adventures };
+import Activity from '@/pages/activity/Activity.vue';
+
+export { Shop, Activity, Barracks, Store };

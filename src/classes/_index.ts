@@ -1,9 +1,7 @@
 import Socket from '@/classes/Socket';
-import Player from '@/classes/Player';
-import Interval from '@/classes/Interval';
-import Journey from '@/classes/Journey';
-import Item from '@/classes/item/Item';
-import Hero from '@/classes/item/Hero';
-import Consumable from '@/classes/item/Consumable';
+import Item from '@/classes/Item';
+import Hero from '@/classes/items/Hero';
+import Consumable from '@/classes/items/Consumable';
+import Weapon from '@/classes/items/Weapon';
 
-export { Socket, Player, Interval, Journey, Item, Hero, Consumable };
+export { Socket, Item, Hero, Consumable, Weapon };

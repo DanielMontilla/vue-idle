@@ -1,36 +1,22 @@
 {
-   "name": "vue-idle",
-   "author": "Daniel Montilla",
-   "version": "0.0.1",
-   "main": "electron/electron.js",
+   "name": "vue-idle-new",
+   "private": true,
+   "version": "0.0.0",
+   "type": "module",
    "scripts": {
       "dev": "vite",
       "build": "vue-tsc --noEmit && vite build",
-      "preview": "vite preview --port 5050",
-      "typecheck": "vue-tsc --noEmit",
-      "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-      "tauri": "tauri"
+      "preview": "vite preview"
    },
    "dependencies": {
-      "@tauri-apps/api": "^1.0.0-rc.6",
-      "@vueuse/core": "^8.3.1",
-      "vue": "^3.2.31"
+      "vue": "^3.2.37"
    },
    "devDependencies": {
-      "@faker-js/faker": "^6.1.2",
-      "@rushstack/eslint-patch": "^1.1.0",
-      "@tauri-apps/cli": "^1.0.0-rc.12",
       "@types/node": "^16.11.26",
-      "@vitejs/plugin-vue": "^2.3.1",
-      "@vue/eslint-config-prettier": "^7.0.0",
-      "@vue/eslint-config-typescript": "^10.0.0",
-      "@vue/tsconfig": "^0.1.3",
-      "eslint": "^8.5.0",
-      "eslint-plugin-vue": "^8.2.0",
-      "prettier": "^2.5.1",
-      "sass": "^1.50.0",
-      "typescript": "~4.6.3",
-      "vite": "^2.9.1",
-      "vue-tsc": "^0.33.9"
+      "@vitejs/plugin-vue": "^3.0.0",
+      "sass": "^1.53.0",
+      "typescript": "^4.6.4",
+      "vite": "^3.0.0",
+      "vue-tsc": "^0.38.4"
    }
 }

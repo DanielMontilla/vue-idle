@@ -1,10 +1,9 @@
+import { recordLength } from '#/utilities';
 import type { LoopCallback } from '@/types';
-import { recordLength } from '@/utilities';
 
 let next: number = 0;
 let previousTime: number;
 let raf: number | undefined = undefined;
-let fps: number;
 
 const callbacks: Record<number, LoopCallback> = {};
 
@@ -15,9 +14,8 @@ const begin = () => {
 
 const flush = (currentTime: number) => {
    let timeElapsed = currentTime - previousTime;
-   fps = 1000 / timeElapsed;
 
-   update((timeElapsed *= 0.001));
+   update(timeElapsed);
 
    previousTime = currentTime;
    raf = requestAnimationFrame(flush);
@@ -44,9 +42,6 @@ const remove = (id: number) => {
    if (!recordLength(callbacks)) stop();
 };
 
-const useLoop = () => ({
-   add: add,
-   remove: remove,
-});
+const useLoop = () => ({ add, remove });
 
 export default useLoop;

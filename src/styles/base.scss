@@ -1,0 +1,9 @@
+@forward 'colors';
+@forward 'sizes';
+@forward 'fonts';
+
+* {
+   line-height: 1;
+   font-family: Cabin;
+   font-size: var(--s-base);
+}

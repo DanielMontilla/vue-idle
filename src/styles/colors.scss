@@ -1,0 +1,25 @@
+* {
+   --c-bg-lighter-v: 0, 0%, 30%;
+   --c-bg-lighter: hsla(var(--c-bg-lighter-v), 1);
+
+   --c-bg-light-v: 0, 0%, 25%;
+   --c-bg-light: hsla(var(--c-bg-light-v), 1);
+
+   --c-bg-v: 0, 0%, 20%;
+   --c-bg: hsla(var(--c-bg-v), 1);
+
+   --c-bg-dark-v: 0, 0%, 15%;
+   --c-bg-dark: hsla(var(--c-bg-dark-v), 1);
+
+   --c-bg-darker-v: 0, 0%, 10%;
+   --c-bg-darker: hsla(var(--c-bg-darker-v), 1);
+
+   --c-error-v: 6, 63%, 46%;
+   --c-error: hsla(var(--c-error-v), 1);
+
+   --c-warning-v: 48, 80%, 50%;
+   --c-warning: hsla(var(--c-warning-v), 1);
+
+   --c-neutral-v: 204, 64%, 44%;
+   --c-neutral: hsla(var(--c-neutral-v), 1);
+}

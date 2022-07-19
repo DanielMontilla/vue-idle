@@ -1,22 +1,25 @@
 <script setup lang="ts">
-   import type { Socket, Item } from '@/classes/_index';
-   import { Item as MyItem } from '@/components/_index';
-   import { computed, type Ref } from 'vue';
-   import useSockets from '@/services/Sockets';
+   import { Socket, Item as ItemClass } from '@/classes/_index';
+   import { Item } from '@/components/_index';
+   import { SocketRef } from '@/types';
+   import { ref, computed } from 'vue';
 
-   interface SocketProps {
-      socket?: Ref<Socket>;
+   /* 🎈 props & default values */
+   const { socket, onInsert, onExtract, debug } = defineProps<{
+      socket: SocketRef;
+      onInsert?: (item: ItemClass) => any;
+      onExtract?: () => any;
       debug?: boolean;
-      onEnter?: (item: Item) => any;
-      onLeave?: () => any;
-   }
+   }>();
 
-   const { socket: socketRef, debug, onEnter, onLeave } = defineProps<SocketProps>();
-   const { createRef, handleDrop, setSource, clearSource } = useSockets();
-   const socket = socketRef ? socketRef : createRef();
+   const { setSource, handleDrop, clearSource } = Socket;
+
+   /* 🔗 reactive values */
+
+   /* 💬 computed & parsed values  */
    const item = computed(() => socket.value.item);
 
-   /* 📅 EVENT HANDLERS */
+   /* 📅 event handlers */
    const onDragStart = ({ dataTransfer }: DragEvent) => {
       // CONTEXT: THE SOCKET BEING DRAGGED FROM
       if (!dataTransfer) return;
@@ -28,14 +31,14 @@
    const onDrop = () => {
       // CONTEXT: THE SOCKET BEING DROPPED INTO
       if (!handleDrop(socket, debug)) return;
-      if (onEnter) onEnter(item.value as Item);
+      if (onInsert) onInsert(item.value as ItemClass);
    };
 
    const onDragEnd = ({ dataTransfer }: DragEvent) => {
       // CONTEXT: THE SOCKET BEING DRAGGED FROM
       if (!dataTransfer) return;
       if (dataTransfer.dropEffect !== 'none') {
-         if (onLeave) onLeave();
+         if (onExtract) onExtract();
       }
       clearSource();
    };
@@ -43,23 +46,18 @@
 
 <template>
    <div class="socket" @drop="onDrop" @dragenter.prevent @dragover.prevent>
-      <MyItem
-         v-if="item"
-         :item="item"
-         :onDragStart="onDragStart"
-         :onDragEnd="onDragEnd"
-         :locked="socket.isLocked"
-      />
+      <Item v-if="item" :item="item" :onDragStart="onDragStart" :onDragEnd="onDragEnd" />
    </div>
 </template>
 
 <style scoped lang="scss">
-   @use '@/styles/global' as *;
-   .socket {
-      @include flex-center;
-      @include set-size(64px, 64px);
+   @use '@/styles/index' as *;
 
-      background-color: hsla(0, 0%, 100%, 0.05);
-      border: 1px solid rgb(25, 25, 25);
+   .socket {
+      @include square(var(--s-socket));
+      @include grid;
+
+      border: 1px solid var(--c-bg-darker);
+      background-color: rgba(0, 0, 0, 0.1);
    }
 </style>

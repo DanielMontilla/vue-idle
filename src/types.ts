@@ -1,43 +1,81 @@
-import type { Ref } from 'vue';
-import type {
-   ACTIVITY_ARR,
-   CURRENCY_ARR,
-   HERO_CLASS_ARR,
-   HERO_RACE_ARR,
-   ITEM_TYPE_ARR,
-   PAGES,
-   RESOURCE_ARR,
-   SKILL_ARR,
-   SOCKET_TYPE_ARR,
-   STAT_ARR,
-   ZONE_ARR,
-} from '@/CONST';
-import type { Item } from './classes/_index';
+import {
+   ACTIVITY_LIST,
+   CURRENCY_LIST,
+   HERO_CLASS_LIST,
+   HERO_RACE_LIST,
+   ITEM_TYPE_LIST,
+   RESOURCE_LIST,
+   SKILL_LIST,
+   SOCKET_TYPE_LIST,
+   STAT_LIST,
+   ZONE_LIST,
+} from '#/CONST';
+import { Socket, Item, Hero, Consumable, Weapon } from '@/classes/_index';
+import { Ref } from 'vue';
 
-/* 🔧  Utility */
-export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
-export type PartialRecord<K extends keyof any, T> = Partial<Record<K, T>>;
-export type RecKey = string | number | symbol;
+/* 🧬 Literals constant */
+export type ItemTypes = typeof ITEM_TYPE_LIST[number];
+export type SocketTypes = typeof SOCKET_TYPE_LIST[number];
+export type HeroClasses = typeof HERO_CLASS_LIST[number];
+export type HeroRaces = typeof HERO_RACE_LIST[number];
+export type Resources = typeof RESOURCE_LIST[number];
+export type Stats = typeof STAT_LIST[number];
+export type Skills = typeof SKILL_LIST[number];
+export type Activities = typeof ACTIVITY_LIST[number];
+export type Zones = typeof ZONE_LIST[number];
+export type Currencies = typeof CURRENCY_LIST[number];
 
-/* 🧬 Constant Literals */
-export type Page = typeof PAGES[number];
-export type ItemType = typeof ITEM_TYPE_ARR[number];
-export type SocketType = typeof SOCKET_TYPE_ARR[number];
-export type HeroClass = typeof HERO_CLASS_ARR[number];
-export type HeroRace = typeof HERO_RACE_ARR[number];
-export type Resource = typeof RESOURCE_ARR[number];
-export type Stat = typeof STAT_ARR[number];
-export type Skill = typeof SKILL_ARR[number];
-export type Activity = typeof ACTIVITY_ARR[number];
-export type Zone = typeof ZONE_ARR[number];
-export type Currency = typeof CURRENCY_ARR[number];
+/* 🧰 data for Object Construction */
+export interface SocketData {
+   type: SocketTypes;
+   itemData: ItemData | null;
+}
 
-/* 🆘 Helpers */
-export type PlayerRef = Ref<PlayerData>;
-export type Wallet = Record<Currency, number>;
+export interface ItemData<T extends ItemTypes = 'hero'> {
+   id: number;
+   type: T;
+   quantity?: number;
 
-export type SkillsData = Record<Skill, SkillData>;
-export type ActivitiesData = Record<Activity, ActivityData>;
+   itemData: $ItemTypeToData<T>;
+}
+
+export interface HeroData {
+   name: string;
+}
+export interface ConsumableData {
+   color: number;
+}
+export interface WeaponData {
+   dmg: number;
+}
+
+export interface IntervalOptions {
+   time: number;
+   onTick?: (dt: number) => void;
+   onIteration?: (iteration: number) => number | void;
+   onCompleted?: () => void;
+   iterations?: number | 'infinite';
+   paused?: boolean;
+}
+
+/* 🎯 descriptors */
+export interface Skill {
+   level: number;
+   expirince: number;
+}
+
+export interface Activity {
+   level: number;
+   expirince: number;
+}
+
+/* 🆘 helpers */
+export type SocketRef = Ref<Socket>;
+export type ItemRef = Ref<Item>;
+export type SkillsObject = Record<Skills, Skill>;
+export type StatsObject = Record<Stats, number>;
+export type ActivitiesObject = Record<Activities, Activity>;
+
 export type ItemStackLimit = 1 | 16 | 32 | 64;
 export interface ItemInfo {
    stackLimit: ItemStackLimit;
@@ -45,68 +83,17 @@ export interface ItemInfo {
 }
 
 export type LoopCallback = (dt: number) => any;
+export type Range = { min: number; max: number };
 
-/* 🧰 Constructors • required data for object construction only */
-export interface ItemData {
-   type: ItemType;
-   id: number;
-   quantity: number;
-}
+/** 📏 Helper conditional types */
+export type $ItemTypeToData<T extends ItemTypes> = T extends 'hero'
+   ? HeroData
+   : T extends 'consumable'
+   ? ConsumableData
+   : WeaponData;
 
-export interface HeroData extends ItemData {
-   type: 'hero';
-   id: number;
-   quantity: 1;
-
-   name: string;
-   race: HeroRace;
-   class: HeroClass;
-   skills: SkillsData;
-   activities: ActivitiesData;
-}
-
-export interface ConsumableData extends ItemData {
-   type: 'consumable';
-   id: number;
-   quantity: number;
-}
-
-export interface PlayerData {
-   wallet: Wallet;
-}
-
-export interface SkillData {
-   level: number;
-   xp: number;
-}
-
-export interface ActivityData extends SkillData {}
-
-export interface IntervalOptions {
-   time: number;
-   onTick?: (dt: number) => void;
-   onIteration?: (iteration: number) => number | void;
-   onCompleted?: () => number | void;
-   iterations?: number | 'infinite';
-   paused?: boolean;
-}
-
-export interface QuestConfig {
-   zone: Zone | undefined;
-   distance: number;
-   time: number;
-}
-
-export interface SocketData {
-   type?: SocketType;
-   item?: ItemData;
-}
-
-export type InventoryData = SocketData[];
-
-export interface ActivityCardData {
-   activity: Activity;
-   heroSocket: SocketData;
-   inventory: SocketData[];
-   progress: number;
-}
+export type $ItemTypeToClass<T extends ItemTypes> = T extends 'hero'
+   ? Hero
+   : T extends 'consumable'
+   ? Consumable
+   : Weapon;

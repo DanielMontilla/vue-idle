@@ -1,30 +1,50 @@
 import { useLoop } from '@/services/_index';
-import type { IntervalOptions } from '@/types';
-import { mapValue } from '@/utilities';
-import { ref, type Ref } from 'vue';
+import { IntervalOptions } from '@/types';
+import { mapValue } from '#/utilities';
+import { ref, Ref, watch, WatchStopHandle } from 'vue';
 
 export default class Interval {
-   public progress = ref(0);
-   public iteration: number = 0;
-   public completed: boolean = false;
-
-   public isPaused: boolean;
-   public iterations: number | 'infinite';
-   public time: number;
+   /** @description number ∈ (0, 1) indicating percentage of current interation progress */
+   public progress: Ref<number>;
+   /** @description number of interations completed so far */
+   public iteration: Ref<number>;
+   /** @description indicates whether interval stop condition has been met */
+   public completed: Ref<boolean>;
+   /** @description indicates the amount of remining iterations or if its infinite */
+   public iterations: Ref<number | 'infinite'>;
+   /** @description total time for current iteration */
+   public time: Ref<number>;
+   /** @description remining time in current iteration */
    public remaining: Ref<number>;
+   /** @description indicates if its paused */
+   public isPaused: Ref<boolean>;
+   /** @description function called each animation tick */
    public onTick?: (dt: number) => void;
+   /**
+    * @description funciton called each iteration
+    * @param iteration indicating current iteration
+    * @returns 'number' indicating next iteration time
+    * @returns 'void' indicating next iteration time will remain unchanged
+    */
    public onIteration?: (iteration: number) => number | void;
-   public onCompleted?: () => number | void;
+   /** @description function called when stop condition is reached */
+   public onCompleted?: () => void;
 
+   /** keeps track of loop id for lifecycle operations */
    private loopId: number;
+   private unwatch: WatchStopHandle;
 
    public constructor(options: IntervalOptions) {
       let { time, onTick, onIteration, onCompleted, iterations, paused } = options;
 
-      this.time = time;
+      this.progress = ref(0);
+      this.iteration = ref(0);
+      this.completed = ref(false);
 
-      this.isPaused = paused ? paused : false;
-      this.iterations = iterations ? iterations : 1;
+      this.time = ref(time);
+
+      this.isPaused = paused ? ref(paused) : ref(false);
+      this.iterations = iterations ? ref(iterations) : ref(1);
       this.onTick = onTick;
       this.onIteration = onIteration;
       this.onCompleted = onCompleted;
@@ -34,52 +54,67 @@ export default class Interval {
       const { add } = useLoop();
 
       this.loopId = add(dt => {
-         if (!this.isPaused && !this.completed) {
-            // not paused
+         let {
+            time,
+            isPaused,
+            completed,
+            remaining,
+            iterations,
+            iteration,
+            onIteration,
+            onCompleted,
+         } = this;
+
+         if (!isPaused.value && !completed.value) {
+            // if not paused and not completed
             if (this.onTick) this.onTick(dt);
-            let step = this.remaining.value - dt * 1000;
+            let step = remaining.value - dt;
             if (step > 0) {
-               // time remaining
-               this.remaining.value = step;
+               // if time remaining
+               remaining.value = step;
             } else {
-               // time expired
-               if (this.iterations > 0 || this.iterations === 'infinite') {
+               // if time expired
+               if (iterations.value > 0 || iterations.value === 'infinite') {
                   // iterations remaining
-                  this.iteration++;
-                  if (this.onIteration) {
-                     let newTime = this.onIteration(this.iteration);
-                     if (newTime) this.time = newTime;
+                  iteration.value++;
+                  if (onIteration) {
+                     let newTime = onIteration(iteration.value);
+                     if (newTime) time.value = newTime;
                   }
-                  this.remaining.value = time + step;
-                  if (typeof this.iterations === 'number') this.iterations--;
+                  remaining.value = time.value + step;
+                  if (typeof iterations.value === 'number') iterations.value--;
                } else {
-                  if (this.onCompleted) this.onCompleted();
-                  this.completed = true;
+                  if (onCompleted) onCompleted();
+                  completed.value = true;
                }
             }
-            this.computeProgress();
          }
+      });
+
+      this.unwatch = watch([this.time, this.remaining], ([newTime], [newRemining]) => {
+         this.progress.value = mapValue(
+            newRemining,
+            { min: 0, max: newTime },
+            { min: 0, max: 1 }
+         );
       });
    }
 
    public destroy() {
       const { remove } = useLoop();
       remove(this.loopId);
-   }
-
-   private computeProgress() {
-      this.progress.value = mapValue([0, this.time], [0, 100], this.remaining.value);
+      this.unwatch();
    }
 
    public toggle() {
-      this.isPaused = !this.isPaused;
+      this.isPaused.value = !this.isPaused.value;
    }
 
    public pause() {
-      this.isPaused = true;
+      this.isPaused.value = true;
    }
 
    public unpause() {
-      this.isPaused = false;
+      this.isPaused.value = false;
    }
 }
