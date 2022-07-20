@@ -92,13 +92,6 @@ export interface ItemInfo {
 export type LoopCallback = (dt: number) => any;
 export type Range = { min: number; max: number };
 
-export interface Save {
-   shop: {
-      barracks: {};
-   };
-}
-export type SaveRef = Ref<Save>;
-
 /** 📏 Helper conditional types */
 export type $ItemTypeToData<T extends ItemTypes> = T extends 'hero'
    ? HeroData

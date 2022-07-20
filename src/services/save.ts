@@ -1,11 +1,14 @@
-import { Save } from '@/types';
-
-const save: Save = {
+const saveObject = {
    shop: {
       barracks: {},
    },
 };
 
-const useSave = () => ({ save });
+type Save = typeof saveObject;
+
+const load = (): Save => saveObject;
+const save = () => {};
+
+const useSave = () => ({ load, save });
 
 export default useSave;

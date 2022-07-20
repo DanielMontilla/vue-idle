@@ -1,4 +1,6 @@
 /* 🚧 sizes & unchanging values */
+export const DEF_WINDOW_SIZE = { WIDTH: 1280, HEIGHT: 900 };
+
 export const SOCKET_SIZE = 48;
 export const BAR_HEIGHT = 32;
 export const TAB_HEIGHT = 28;

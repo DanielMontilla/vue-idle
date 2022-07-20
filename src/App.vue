@@ -1,41 +1,42 @@
 <script setup lang="ts">
-   import { WINDOW_SIZE } from '#/settings';
-   import { SOCKET_SIZE, BAR_HEIGHT, TAB_HEIGHT, INV_COLS, INV_ROWS } from '#/CONST';
+   import {
+      SOCKET_SIZE,
+      BAR_HEIGHT,
+      TAB_HEIGHT,
+      INV_COLS,
+      INV_ROWS,
+      DEF_WINDOW_SIZE,
+   } from '#/CONST';
 
    import { Shop, Activity } from '@/pages/_index';
-   import { useInventory, usePlayer } from '@/services/_index';
-   import { onMounted, ref, shallowRef } from 'vue';
-   import { Item } from '@/classes/_index';
+   import { useInit, usePlayer, useTauri } from '@/services/_index';
+   import { ref, shallowRef } from 'vue';
 
    /* 🔧 services */
-   const { addEmpty, insert } = useInventory();
-   const { wallet, purchase } = usePlayer();
+   const { appInit } = useInit();
+   const { wallet } = usePlayer();
+   const { quit, minimize, expand } = useTauri();
+
+   /* 🏁 initialization  */
+   appInit();
 
    /* 🔗 reactive values */
+   const pageIndex = ref(0);
    const pages = shallowRef<{ component: typeof Shop; label: string }[]>([
       { component: Shop, label: 'shop' },
       { component: Activity, label: 'activity' },
    ]);
-   const pageIndex = ref(0);
 
    /* 📅 event handlers */
-   const onQuit = () => {};
-   const onMinimize = () => {};
-   const onExpand = () => {};
+   const onQuit = quit;
+   const onMinimize = minimize;
+   const onExpand = expand;
    const changePage = (i: number) => (pageIndex.value = i);
-
-   /* 🏁 initialization  */
-   onMounted(() => {
-      addEmpty(INV_COLS * 2);
-      insert(
-         Item.fromData({ type: 'hero', id: 1, quantity: 10, itemData: { name: 'x' } })
-      );
-   });
 
    /** Initilizing global style 💅 variables */
    const styleVars = {
-      '--window-height': `${WINDOW_SIZE.HEIGHT}px`,
-      '--window-width': `${WINDOW_SIZE.WIDTH}px`,
+      '--window-height': `${DEF_WINDOW_SIZE.HEIGHT}px`,
+      '--window-width': `${DEF_WINDOW_SIZE.WIDTH}px`,
       '--bar-height': `${BAR_HEIGHT}px`,
       '--tab-height': `${TAB_HEIGHT}px`,
       '--s-socket': `${SOCKET_SIZE}px`,
@@ -46,7 +47,7 @@
 
 <template>
    <main :style="styleVars">
-      <div class="app-bar">
+      <div data-tauri-drag-region class="app-bar">
          <div class="app-actions">
             <div class="bar-btn expand" @click="onExpand" />
             <div class="bar-btn minimize" @click="onMinimize" />

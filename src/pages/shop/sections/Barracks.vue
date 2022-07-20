@@ -6,11 +6,6 @@
    import { computed } from 'vue';
 
    /* 🔧 services */
-   const {
-      save: {
-         shop: { barracks },
-      },
-   } = useSave();
 
    /* 🔗 reactive values */
    const { remaining } = new Interval({ time: DURATION['1d'] + DURATION['10s'] });
