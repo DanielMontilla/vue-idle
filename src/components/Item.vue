@@ -56,8 +56,12 @@
       position: absolute;
       bottom: 0;
       right: 0;
+      border-radius: 50%;
+      background-color: hsla(var(--c-bg-darker-v), 0.75);
+      padding: 2px;
 
-      font-size: var(--s-base);
+      font-size: 14px;
       font-weight: bold;
    }
 </style>
+2

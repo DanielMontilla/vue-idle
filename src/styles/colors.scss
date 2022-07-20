@@ -1,4 +1,7 @@
 * {
+   // template: --[color|filter]-[element]-[modifier]-[?value]
+
+   // 🎨 Background Colors
    --c-bg-lighter-v: 0, 0%, 30%;
    --c-bg-lighter: hsla(var(--c-bg-lighter-v), 1);
 
@@ -14,6 +17,7 @@
    --c-bg-darker-v: 0, 0%, 10%;
    --c-bg-darker: hsla(var(--c-bg-darker-v), 1);
 
+   // 🛒 Other
    --c-error-v: 6, 63%, 46%;
    --c-error: hsla(var(--c-error-v), 1);
 
@@ -22,4 +26,12 @@
 
    --c-neutral-v: 204, 64%, 44%;
    --c-neutral: hsla(var(--c-neutral-v), 1);
+
+   // 📃 Text colors
+   --c-t-primary-v: 0, 0%, 85%;
+   --c-t-primary: hsla(var(--c-t-primary-v), 1);
+
+   // 🎡 filters generated @ https://codepen.io/sosuke/pen/Pjoqqp
+   --f-primary: invert(100%) sepia(0%) saturate(4239%) hue-rotate(100deg) brightness(92%)
+      contrast(84%);
 }

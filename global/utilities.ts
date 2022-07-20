@@ -34,3 +34,13 @@ export const mapValue = (value: number, rangeA: Range, rangeB: Range) => {
 
    return minB + ((value - minA) * (maxB - minB)) / (maxA - minA);
 };
+
+export const wholeDivide = (
+   dividend: number,
+   divisor: number
+): [quotient: number, remainder: number] => {
+   let quotient = Math.floor(dividend / divisor);
+   let remainder = dividend - quotient * divisor;
+
+   return [quotient, remainder];
+};

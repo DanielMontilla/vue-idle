@@ -4,6 +4,14 @@
 
 * {
    line-height: 1;
+   margin: 0;
    font-family: Cabin;
    font-size: var(--s-base);
+   color: var(--c-t-primary);
+}
+
+body {
+   &::-webkit-scrollbar {
+      display: none;
+   }
 }

@@ -1,6 +1,7 @@
 import {
    ACTIVITY_LIST,
    CURRENCY_LIST,
+   DURATION,
    HERO_CLASS_LIST,
    HERO_RACE_LIST,
    ITEM_TYPE_LIST,
@@ -49,13 +50,17 @@ export interface WeaponData {
    dmg: number;
 }
 
-export interface IntervalOptions {
-   time: number;
+export interface IntervalData {
+   time: number | keyof typeof DURATION;
    onTick?: (dt: number) => void;
    onIteration?: (iteration: number) => number | void;
    onCompleted?: () => void;
    iterations?: number | 'infinite';
    paused?: boolean;
+}
+
+export interface PlayerData {
+   wallet: Wallet;
 }
 
 /* 🎯 descriptors */
@@ -76,6 +81,8 @@ export type SkillsObject = Record<Skills, Skill>;
 export type StatsObject = Record<Stats, number>;
 export type ActivitiesObject = Record<Activities, Activity>;
 
+export type Wallet = Record<Currencies, number>;
+
 export type ItemStackLimit = 1 | 16 | 32 | 64;
 export interface ItemInfo {
    stackLimit: ItemStackLimit;
@@ -84,6 +91,13 @@ export interface ItemInfo {
 
 export type LoopCallback = (dt: number) => any;
 export type Range = { min: number; max: number };
+
+export interface Save {
+   shop: {
+      barracks: {};
+   };
+}
+export type SaveRef = Ref<Save>;
 
 /** 📏 Helper conditional types */
 export type $ItemTypeToData<T extends ItemTypes> = T extends 'hero'

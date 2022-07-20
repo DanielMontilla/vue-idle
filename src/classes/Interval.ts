@@ -1,7 +1,8 @@
 import { useLoop } from '@/services/_index';
-import { IntervalOptions } from '@/types';
+import { IntervalData } from '@/types';
 import { mapValue } from '#/utilities';
 import { ref, Ref, watch, WatchStopHandle } from 'vue';
+import { DURATION } from '#/CONST';
 
 export default class Interval {
    /** @description number ∈ (0, 1) indicating percentage of current interation progress */
@@ -12,7 +13,7 @@ export default class Interval {
    public completed: Ref<boolean>;
    /** @description indicates the amount of remining iterations or if its infinite */
    public iterations: Ref<number | 'infinite'>;
-   /** @description total time for current iteration */
+   /** @description total time in miliseconds for current iteration */
    public time: Ref<number>;
    /** @description remining time in current iteration */
    public remaining: Ref<number>;
@@ -31,78 +32,67 @@ export default class Interval {
    public onCompleted?: () => void;
 
    /** keeps track of loop id for lifecycle operations */
-   private loopId: number;
+   private loop: number;
    private unwatch: WatchStopHandle;
 
-   public constructor(options: IntervalOptions) {
+   public constructor(options: IntervalData) {
       let { time, onTick, onIteration, onCompleted, iterations, paused } = options;
 
       this.progress = ref(0);
       this.iteration = ref(0);
       this.completed = ref(false);
 
-      this.time = ref(time);
+      this.time = typeof time === 'string' ? ref(DURATION[time]) : ref(time);
 
       this.isPaused = paused ? ref(paused) : ref(false);
-      this.iterations = iterations ? ref(iterations) : ref(1);
+      this.iterations = iterations ? ref(iterations) : ref('infinite');
       this.onTick = onTick;
       this.onIteration = onIteration;
       this.onCompleted = onCompleted;
 
-      this.remaining = ref(this.time);
+      this.remaining = ref(this.time.value);
 
       const { add } = useLoop();
 
-      this.loopId = add(dt => {
-         let {
-            time,
-            isPaused,
-            completed,
-            remaining,
-            iterations,
-            iteration,
-            onIteration,
-            onCompleted,
-         } = this;
-
-         if (!isPaused.value && !completed.value) {
+      this.loop = add(dt => {
+         if (!this.isPaused.value && !this.completed.value) {
             // if not paused and not completed
             if (this.onTick) this.onTick(dt);
-            let step = remaining.value - dt;
+            let step = this.remaining.value - dt;
             if (step > 0) {
                // if time remaining
-               remaining.value = step;
+               this.remaining.value = step;
             } else {
                // if time expired
-               if (iterations.value > 0 || iterations.value === 'infinite') {
+               if (this.iterations.value > 0 || this.iterations.value === 'infinite') {
                   // iterations remaining
-                  iteration.value++;
-                  if (onIteration) {
-                     let newTime = onIteration(iteration.value);
-                     if (newTime) time.value = newTime;
+                  this.iteration.value++;
+                  if (this.onIteration) {
+                     let newTime = this.onIteration(this.iteration.value);
+                     if (newTime) this.time.value = newTime;
                   }
-                  remaining.value = time.value + step;
-                  if (typeof iterations.value === 'number') iterations.value--;
+                  this.remaining.value = this.time.value + step;
+                  if (typeof this.iterations.value === 'number') this.iterations.value--;
                } else {
-                  if (onCompleted) onCompleted();
-                  completed.value = true;
+                  if (this.onCompleted) this.onCompleted();
+                  this.completed.value = true;
                }
             }
          }
       });
 
-      this.unwatch = watch([this.time, this.remaining], ([newTime], [newRemining]) => {
+      this.unwatch = watch([this.time, this.remaining], ([newTime, newRemining]) => {
          this.progress.value = mapValue(
             newRemining,
             { min: 0, max: newTime },
-            { min: 0, max: 1 }
+            { min: 1, max: 0 }
          );
       });
    }
 
    public destroy() {
       const { remove } = useLoop();
-      remove(this.loopId);
+      remove(this.loop);
       this.unwatch();
    }
 

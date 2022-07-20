@@ -3,12 +3,13 @@
    import { SOCKET_SIZE, BAR_HEIGHT, TAB_HEIGHT, INV_COLS, INV_ROWS } from '#/CONST';
 
    import { Shop, Activity } from '@/pages/_index';
-   import { useInventory } from '@/services/_index';
+   import { useInventory, usePlayer } from '@/services/_index';
    import { onMounted, ref, shallowRef } from 'vue';
    import { Item } from '@/classes/_index';
 
    /* 🔧 services */
    const { addEmpty, insert } = useInventory();
+   const { wallet, purchase } = usePlayer();
 
    /* 🔗 reactive values */
    const pages = shallowRef<{ component: typeof Shop; label: string }[]>([
@@ -17,6 +18,12 @@
    ]);
    const pageIndex = ref(0);
 
+   /* 📅 event handlers */
+   const onQuit = () => {};
+   const onMinimize = () => {};
+   const onExpand = () => {};
+   const changePage = (i: number) => (pageIndex.value = i);
+
    /* 🏁 initialization  */
    onMounted(() => {
       addEmpty(INV_COLS * 2);
@@ -24,13 +31,6 @@
          Item.fromData({ type: 'hero', id: 1, quantity: 10, itemData: { name: 'x' } })
       );
    });
-
-   /* 📅 event handlers */
-   const onQuit = () => {};
-   const onMinimize = () => {};
-   const onExpand = () => {};
-
-   const changePage = (i: number) => (pageIndex.value = i);
 
    /** Initilizing global style 💅 variables */
    const styleVars = {
@@ -46,10 +46,19 @@
 
 <template>
    <main :style="styleVars">
-      <div class="bar">
-         <div class="bar-btn expand" @click="onExpand" />
-         <div class="bar-btn minimize" @click="onMinimize" />
-         <div class="bar-btn quit" @click="onQuit" />
+      <div class="app-bar">
+         <div class="app-actions">
+            <div class="bar-btn expand" @click="onExpand" />
+            <div class="bar-btn minimize" @click="onMinimize" />
+            <div class="bar-btn quit" @click="onQuit" />
+         </div>
+         <div class="player-wallet">
+            <div
+               class="currency-card"
+               v-for="(amount, currency) in wallet"
+               v-text="`${currency}: ${amount}`"
+            />
+         </div>
       </div>
       <div class="tabs">
          <div
@@ -79,12 +88,9 @@
    #app {
       @include grid;
       @include no-interact;
-      overflow: hidden;
-
-      background-color: var(--c-bg-darker);
-
       height: 100vh;
       width: 100vw;
+      background-color: var(--c-bg-darker);
    }
 
    main {
@@ -92,42 +98,53 @@
       @include size(var(--window-width), var(--window-height));
       background-color: var(--c-bg);
       border-radius: var(--s-sm);
+      box-shadow: 0 0 48px rgba(0, 0, 0, 0.8);
 
       @include grid-area(
          1fr,
          var(--bar-height) var(--tab-height) auto,
-         'bar' 'tabs' 'page'
+         'app-bar' 'tabs' 'page'
       );
-
-      box-shadow: 0 0 48px rgba(0, 0, 0, 0.8);
    }
 
-   .bar {
-      grid-area: bar;
+   .app-bar {
+      grid-area: app-bar;
       justify-self: end;
-      @include flex;
-      @include fill;
-      justify-content: end;
-      padding: 0 8px;
-      gap: 8px;
-
       background-color: var(--c-bg-dark);
+      @include fill;
+      @include grid-area(1fr 1fr, 1fr, 'player-wallet app-actions');
+      padding: 0 8px;
 
-      .bar-btn {
-         @include square(16px);
-         border-radius: 50%;
+      .app-actions {
+         grid-area: app-actions;
+         justify-self: end;
+         @include flex;
+         gap: 8px;
+
+         .bar-btn {
+            @include square(16px);
+            border-radius: 50%;
+         }
+
+         .quit {
+            background-color: var(--c-error);
+         }
+
+         .minimize {
+            background-color: var(--c-warning);
+         }
+
+         .expand {
+            background-color: var(--c-neutral);
+         }
       }
 
-      .quit {
-         background-color: var(--c-error);
-      }
-
-      .minimize {
-         background-color: var(--c-warning);
-      }
-
-      .expand {
-         background-color: var(--c-neutral);
+      .player-wallet {
+         justify-self: start;
+         .currency-card {
+            // font-family: Syne Mono;
+            font-size: var(--s-lg);
+         }
       }
    }
 

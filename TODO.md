@@ -1,0 +1,1 @@
+-  implement planned event triggers in interval class
