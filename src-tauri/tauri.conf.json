@@ -55,12 +55,14 @@
       },
       "windows": [
          {
-            "fileDropEnabled": false,
+            "title": "Vue Idle",
             "fullscreen": false,
+            "fileDropEnabled": false,
             "height": 900,
             "width": 1280,
             "resizable": false,
-            "title": "Vue Idle"
+            "decorations": false,
+            "transparent": true
          }
       ]
    }

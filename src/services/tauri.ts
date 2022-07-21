@@ -1,7 +1,7 @@
 import { appWindow } from '@tauri-apps/api/window';
 
 // @ts-ignore for some reason tauri is not defined
-const inTauri = (): boolean => (window.__TAURI__ ? true : false);
+const isApp = (): boolean => (window.__TAURI__ ? true : false);
 
 const warn = (operation?: string) =>
    console.warn(
@@ -10,10 +10,10 @@ const warn = (operation?: string) =>
       }not available`
    );
 
-const quit = () => (inTauri() ? appWindow.close() : warn());
-const minimize = () => (inTauri() ? appWindow.minimize() : warn('minimize'));
-const expand = () => (inTauri() ? appWindow.toggleMaximize() : warn('expand'));
+const quit = () => (isApp() ? appWindow.close() : warn());
+const minimize = () => (isApp() ? appWindow.minimize() : warn('minimize'));
+const expand = () => (isApp() ? appWindow.toggleMaximize() : warn('expand'));
 
-const useTauri = () => ({ inTauri, quit, minimize, expand });
+const useTauri = () => ({ isApp, quit, minimize, expand });
 
 export default useTauri;

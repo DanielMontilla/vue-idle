@@ -10,12 +10,12 @@
 
    import { Shop, Activity } from '@/pages/_index';
    import { useInit, usePlayer, useTauri } from '@/services/_index';
-   import { ref, shallowRef } from 'vue';
+   import { onMounted, ref, shallowRef, StyleValue } from 'vue';
 
    /* 🔧 services */
    const { appInit } = useInit();
    const { wallet } = usePlayer();
-   const { quit, minimize, expand } = useTauri();
+   const { quit, minimize, isApp } = useTauri();
 
    /* 🏁 initialization  */
    appInit();
@@ -30,10 +30,10 @@
    /* 📅 event handlers */
    const onQuit = quit;
    const onMinimize = minimize;
-   const onExpand = expand;
+   const onExpand = minimize;
    const changePage = (i: number) => (pageIndex.value = i);
 
-   /** Initilizing global style 💅 variables */
+   /** 💅 global dynamic styles  */
    const styleVars = {
       '--window-height': `${DEF_WINDOW_SIZE.HEIGHT}px`,
       '--window-width': `${DEF_WINDOW_SIZE.WIDTH}px`,
@@ -46,7 +46,7 @@
 </script>
 
 <template>
-   <main :style="styleVars">
+   <main :style="styleVars" :class="{ 'main-is-app': !isApp() }">
       <div data-tauri-drag-region class="app-bar">
          <div class="app-actions">
             <div class="bar-btn expand" @click="onExpand" />
@@ -66,9 +66,7 @@
             class="tab"
             v-for="(page, i) in pages"
             v-text="page.label"
-            :style="{
-               backgroundColor: pageIndex === i ? 'var(--c-bg-light)' : 'var(--c-bg)',
-            }"
+            :class="{ 'selected-tab': pageIndex === i }"
             @click="changePage(i)"
          />
       </div>
@@ -91,30 +89,37 @@
       @include no-interact;
       height: 100vh;
       width: 100vw;
-      background-color: var(--c-bg-darker);
+
+      background-color: transparent;
    }
 
    main {
       overflow: hidden;
       @include size(var(--window-width), var(--window-height));
-      background-color: var(--c-bg);
       border-radius: var(--s-sm);
-      box-shadow: 0 0 48px rgba(0, 0, 0, 0.8);
 
       @include grid-area(
          1fr,
          var(--bar-height) var(--tab-height) auto,
          'app-bar' 'tabs' 'page'
       );
+
+      border: 1px solid hsla(0, 0%, 50%, 0.5);
+   }
+
+   .main-is-app {
+      box-shadow: 0 0 48px rgba(0, 0, 0, 0.8);
    }
 
    .app-bar {
       grid-area: app-bar;
       justify-self: end;
-      background-color: var(--c-bg-dark);
+      background-color: hsla(var(--c-bg-dark-v), 0.95);
       @include fill;
       @include grid-area(1fr 1fr, 1fr, 'player-wallet app-actions');
       padding: 0 8px;
+
+      border-bottom: 1px solid hsla(0, 0%, 50%, 0.5);
 
       .app-actions {
          grid-area: app-actions;
@@ -143,7 +148,6 @@
       .player-wallet {
          justify-self: start;
          .currency-card {
-            // font-family: Syne Mono;
             font-size: var(--s-lg);
          }
       }
@@ -152,9 +156,8 @@
    .tabs {
       grid-area: tabs;
       justify-self: start;
-      @include flex;
+      @include flex(start, end);
       @include fill;
-      justify-content: start;
       background-color: var(--c-bg-dark);
 
       .tab {
@@ -162,12 +165,17 @@
          font-size: var(--s-lg);
          height: 100%;
          padding: 0 var(--s-sm);
+         background-color: var(--c-bg);
 
          --rad: var(--s-sx);
 
          &:last-child {
             border-top-right-radius: var(--rad);
          }
+      }
+
+      .selected-tab {
+         background-color: var(--c-bg-light);
       }
    }
 

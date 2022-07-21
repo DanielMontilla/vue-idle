@@ -1,14 +1,17 @@
-const saveObject = {
+import { DEF_BARRACK_SLOTS } from '#/CONST';
+import { ref } from 'vue';
+
+const state = ref({
    shop: {
-      barracks: {},
+      barracks: {
+         slots: DEF_BARRACK_SLOTS,
+      },
    },
-};
+});
 
-type Save = typeof saveObject;
-
-const load = (): Save => saveObject;
+const load = () => {};
 const save = () => {};
 
-const useSave = () => ({ load, save });
+const useSave = () => ({ state, load, save });
 
 export default useSave;

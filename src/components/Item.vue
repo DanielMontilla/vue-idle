@@ -15,7 +15,6 @@
    const dragging = ref(false);
 
    /* 💬 computed & parsed values  */
-   const quantity = computed(() => (item.quantity === 1 ? '' : `${item.quantity}`));
    const source = computed(() => getPath(`items/${item.src}`));
 
    /* 📅 event handlers */
@@ -33,7 +32,7 @@
       @mouseleave="[onMouseLeave($event), (hovering = false)]"
    >
       <img class="item-img" :src="source" />
-      <div class="item-quantity">{{ quantity }}</div>
+      <div v-if="item.quantity > 1" class="item-quantity">{{ item.quantity }}</div>
       <!-- <component class="item-tooltip" v-if="hovering" /> -->
    </div>
 </template>
@@ -43,7 +42,6 @@
 
    .item {
       @include square(44px);
-
       position: relative;
    }
 

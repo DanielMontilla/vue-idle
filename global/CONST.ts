@@ -2,11 +2,12 @@
 export const DEF_WINDOW_SIZE = { WIDTH: 1280, HEIGHT: 900 };
 
 export const SOCKET_SIZE = 48;
-export const BAR_HEIGHT = 32;
+export const BAR_HEIGHT = 38;
 export const TAB_HEIGHT = 28;
 export const INV_ROWS = 8;
 export const INV_COLS = 13;
 
+/* 🔢 enumarators */
 export enum DURATION {
    '1s' = 1000,
    '5s' = DURATION['1s'] * 5,
@@ -24,7 +25,10 @@ export enum DURATION {
    '2d' = DURATION['1d'] * 2,
 }
 
-/* lists 📃 */
+/* 🔴 base/starting & default game values */
+export const DEF_BARRACK_SLOTS = 3;
+
+/* 📃 lists */
 export const SOCKET_TYPE_LIST = ['inventory', 'display', 'journey', 'none'] as const;
 
 export const ZONE_LIST = [

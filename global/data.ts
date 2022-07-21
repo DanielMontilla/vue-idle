@@ -1,5 +1,7 @@
 import { ItemInfo, ItemTypes } from '@/types';
 
+// TODO: move to json file
+
 export const ITEM_REGISTRY: Record<ItemTypes, Record<number, ItemInfo>> = {
    hero: {
       1: {

@@ -42,6 +42,9 @@ export interface ItemData<T extends ItemTypes = 'hero'> {
 
 export interface HeroData {
    name: string;
+   race: HeroRaces;
+   class: HeroClasses;
+   level: number;
 }
 export interface ConsumableData {
    color: number;

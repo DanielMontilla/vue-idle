@@ -2,6 +2,9 @@
    // template: --[color|filter]-[element]-[modifier]-[?value]
 
    // 🎨 Background Colors
+   --c-bg-lightest-v: 0, 0%, 35%;
+   --c-bg-lightest: hsla(var(--c-bg-lightest-v), 1);
+
    --c-bg-lighter-v: 0, 0%, 30%;
    --c-bg-lighter: hsla(var(--c-bg-lighter-v), 1);
 

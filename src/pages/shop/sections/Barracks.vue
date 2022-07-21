@@ -6,6 +6,7 @@
    import { computed } from 'vue';
 
    /* 🔧 services */
+   const { state } = useSave();
 
    /* 🔗 reactive values */
    const { remaining } = new Interval({ time: DURATION['1d'] + DURATION['10s'] });
@@ -22,9 +23,9 @@
       let res: string[] = [];
 
       if (d) res.push(`${d}d`);
-      if (res.length || h) res.push(`${h}h`);
-      if (res.length || m) res.push(`${m}m`);
-      res.push(`${s}s`);
+      if (res.length || h) res.push(`${h < 10 ? 0 : ''}${h}h`);
+      if (res.length || m) res.push(`${m < 10 ? 0 : ''}${m}m`);
+      res.push(`${s < 10 ? 0 : ''}${s}s`);
 
       return res.join(' ');
    });
@@ -43,9 +44,7 @@
 <template>
    <div class="barracks">
       <div class="refresh-timer">
-         <div class="timer-text">
-            {{ timer }}
-         </div>
+         <div class="timer-text" v-text="timer" />
          <div class="refresh-button" @click="refreshNow">
             <img :src="getPath('icons/refresh')" />
          </div>
