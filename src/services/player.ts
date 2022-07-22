@@ -1,8 +1,16 @@
-import { Currencies, Wallet } from '@/types';
-import { ref } from 'vue';
+/**
+ * @description manages all player related application state
+ * @type state management service
+ */
+import { DEF_SAVE_FILE } from '#/data';
+import { Currencies, PlayerData, SaveFile, StateService, Wallet } from '@/types';
+import { Ref, ref } from 'vue';
 
-/* 🗿 Properties */
-const wallet = ref<Wallet>({ gold: 0 });
+/* 🏁 initialization  */
+const { player } = DEF_SAVE_FILE;
+
+/* 💬 Data */
+const wallet: Ref<Wallet> = ref(player.wallet);
 
 /* 🔧 Methods */
 /**
@@ -18,6 +26,29 @@ const purchase = (currency: Currencies, amount: number): boolean => {
    return false;
 };
 
-const usePlayer = () => ({ wallet, purchase });
+/* state service implementations */
+const _key = 'player';
+const setData = (file: SaveFile) => {
+   const { player } = file;
+
+   wallet.value = player.wallet;
+};
+const getData = (): PlayerData => ({
+   wallet: wallet.value,
+});
+
+/* for type purposes */
+let props = {
+   wallet,
+   purchase,
+};
+
+const usePlayer = (): StateService<PlayerData> & typeof props => ({
+   _key,
+   setData,
+   getData,
+   wallet,
+   purchase,
+});
 
 export default usePlayer;

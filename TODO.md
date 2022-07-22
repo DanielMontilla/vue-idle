@@ -1,1 +1,4 @@
--  implement planned event triggers in interval class
+-  optimize interval by implementing event triggress on specific times to improve
+-  hero tooltip
+-  hero activity/skill/stat system
+-  tauri fs access

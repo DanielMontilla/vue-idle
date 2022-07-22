@@ -1,15 +1,19 @@
 <script setup lang="ts">
    import { Interval } from '@/classes/_index';
-   import { useSave } from '@/services/_index';
    import { wholeDivide, getPath } from '#/utilities';
    import { DURATION } from '#/CONST';
    import { computed } from 'vue';
+   import { BarracksData } from '@/types';
+
+   /* 🎈 props & default values */
+   const {
+      data: { heros, refreshTime, slots },
+   } = defineProps<{ data: BarracksData }>();
 
    /* 🔧 services */
-   const { state } = useSave();
 
    /* 🔗 reactive values */
-   const { remaining } = new Interval({ time: DURATION['1d'] + DURATION['10s'] });
+   const { remaining } = new Interval(refreshTime);
 
    /* 💬 computed & parsed values  */
    const timer = computed(() => {

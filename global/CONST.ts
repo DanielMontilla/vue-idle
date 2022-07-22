@@ -25,11 +25,16 @@ export enum DURATION {
    '2d' = DURATION['1d'] * 2,
 }
 
-/* 🔴 base/starting & default game values */
-export const DEF_BARRACK_SLOTS = 3;
-
 /* 📃 lists */
-export const SOCKET_TYPE_LIST = ['inventory', 'display', 'journey', 'none'] as const;
+export const SOCKET_TYPE_LIST = [
+   'inventory',
+   'display',
+   'journey',
+   'buy',
+   'none',
+] as const;
+
+export const PAGE_LIST = ['shop', 'activity'] as const;
 
 export const ZONE_LIST = [
    'gardens',

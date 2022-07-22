@@ -1,6 +1,6 @@
 import { DEF_WINDOW_SIZE, INV_COLS } from '#/CONST';
 import { appWindow, LogicalSize } from '@tauri-apps/api/window';
-import { useInventory, useTauri } from '@/services/_index';
+import { useInventory, usePages, usePlayer, useSave, useTauri } from '@/services/_index';
 import { Hero, Item } from '@/classes/_index';
 
 /** @description tauri settings */
@@ -11,15 +11,24 @@ const windowInit = async () => {
       await appWindow.setSize(new LogicalSize(WIDTH, HEIGHT));
    }
 };
-const appInit = () => {
-   const { addEmpty, insert } = useInventory();
-   const { isApp } = useTauri();
 
-   addEmpty(INV_COLS * 2);
-   insert(Hero.generateRandom());
+/** @description calls the neccesary routines/services to load or start app state */
+const appInit = async () => {
+   /* utility services */
+   const { load } = useSave();
+   const { isApp } = useTauri();
 
    let appEl = document.getElementById('app') as HTMLDivElement;
    appEl.style.backgroundColor = isApp() ? 'transparent' : 'var(--c-bg-darker)';
+
+   /* state services */
+   // 1. load save file (or def if missing)
+   await load(...[usePlayer(), useInventory(), usePages()]);
+
+   const { addEmpty, insert } = useInventory();
+
+   addEmpty(INV_COLS * 2);
+   insert(Hero.generateRandom());
 };
 
 const useInit = () => ({ windowInit, appInit });

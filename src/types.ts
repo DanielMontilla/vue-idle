@@ -5,6 +5,7 @@ import {
    HERO_CLASS_LIST,
    HERO_RACE_LIST,
    ITEM_TYPE_LIST,
+   PAGE_LIST,
    RESOURCE_LIST,
    SKILL_LIST,
    SOCKET_TYPE_LIST,
@@ -25,19 +26,20 @@ export type Skills = typeof SKILL_LIST[number];
 export type Activities = typeof ACTIVITY_LIST[number];
 export type Zones = typeof ZONE_LIST[number];
 export type Currencies = typeof CURRENCY_LIST[number];
+export type Pages = typeof PAGE_LIST[number];
 
-/* 🧰 data for Object Construction */
+/* 🧰 data for object construction or state initialization */
 export interface SocketData {
    type: SocketTypes;
    itemData: ItemData | null;
 }
 
-export interface ItemData<T extends ItemTypes = 'hero'> {
+export interface ItemData<I extends ItemTypes = ItemTypes> {
    id: number;
-   type: T;
+   type: I;
    quantity?: number;
 
-   itemData: $ItemTypeToData<T>;
+   itemData: $ItemTypeToData<I>;
 }
 
 export interface HeroData {
@@ -66,6 +68,31 @@ export interface PlayerData {
    wallet: Wallet;
 }
 
+export type InventoryData = SocketData[];
+
+export interface BarracksData {
+   refreshTime: IntervalData;
+   slots: number;
+   heros: SocketData[];
+}
+
+export interface ShopData {
+   barracks: BarracksData;
+}
+
+export type PagesData = {
+   shop: ShopData;
+};
+
+/**
+ * @description represents all game data to be serilized for long term storage
+ */
+export interface SaveFile {
+   player: PlayerData;
+   inventory: InventoryData;
+   pages: PagesData;
+}
+
 /* 🎯 descriptors */
 export interface Skill {
    level: number;
@@ -90,6 +117,18 @@ export type ItemStackLimit = 1 | 16 | 32 | 64;
 export interface ItemInfo {
    stackLimit: ItemStackLimit;
    src: string;
+}
+
+export interface StateService<T> {
+   _key: SaveKey;
+   setData(file: SaveFile): void;
+   getData(): T;
+}
+
+export type SaveKey = keyof SaveFile;
+
+export interface StateClass<T> {
+   getData(): T;
 }
 
 export type LoopCallback = (dt: number) => any;

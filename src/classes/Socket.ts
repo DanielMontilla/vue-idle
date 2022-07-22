@@ -1,8 +1,8 @@
 import { Hero, Item } from '@/classes/_index';
-import { ItemTypes, SocketData, SocketRef, SocketTypes } from '@/types';
+import { ItemTypes, SocketData, SocketRef, SocketTypes, StateClass } from '@/types';
 import { ref } from 'vue';
 
-export default class Socket {
+export default class Socket implements StateClass<SocketData> {
    private static next: number = 0;
    public readonly id: number;
 
@@ -51,16 +51,16 @@ export default class Socket {
          case 'journey':
             this.whitelist = ['hero'];
             break;
+         case 'buy':
+            this.whitelist = null;
+            break;
          default:
+            console.warn(`socket of type ${this.type} is not registered`);
             this.whitelist = 'all';
             break;
       }
 
       this.id = Socket.next++;
-   }
-
-   public static createRef(data?: SocketData): SocketRef {
-      return ref(new Socket(data));
    }
 
    public insert(item: Item) {
@@ -89,7 +89,15 @@ export default class Socket {
       return !this.isAllowed(item);
    }
 
-   /* 🎭 global members & methods */
+   public getData(): SocketData {
+      return {
+         type: this.type,
+         itemData: this.item ? this.item.getData() : null,
+      };
+   }
+
+   /* ⚡ static/global members & methods */
+   public static createRef = (data?: SocketData): SocketRef => ref(new Socket(data));
    public static source: SocketRef | null;
    public static setSource = (socket: SocketRef) => (this.source = socket);
    public static clearSource = () => (Socket.source = null);

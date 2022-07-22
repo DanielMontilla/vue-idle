@@ -1,8 +1,14 @@
 import { ITEM_REGISTRY } from '#/data';
-import { $ItemTypeToClass, ItemData, ItemInfo, ItemTypes } from '@/types';
+import { $ItemTypeToClass, ItemData, ItemInfo, ItemTypes, StateClass } from '@/types';
 import { Hero, Consumable } from '@/classes/_index';
 
-export default abstract class Item {
+/**
+ * TODO: add jsdoc
+ */
+
+export default abstract class Item<I extends ItemTypes = ItemTypes>
+   implements StateClass<ItemData<I>>
+{
    public id: number;
    public value: number;
    public quantity: number;
@@ -29,7 +35,6 @@ export default abstract class Item {
       return this.info.stackLimit;
    }
 
-   /* 🎭 Abstract memebrs & methods */
    public static fromData<T extends ItemTypes>(data: ItemData<T>): $ItemTypeToClass<T> {
       switch (data.type) {
          case 'hero':
@@ -40,4 +45,7 @@ export default abstract class Item {
             throw new Error('Item type is not registered');
       }
    }
+
+   /* 🎭 Abstract memebrs & methods */
+   public abstract getData(): ItemData<I>;
 }

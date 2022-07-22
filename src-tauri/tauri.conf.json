@@ -12,6 +12,10 @@
    },
    "tauri": {
       "allowlist": {
+         "fs": {
+            "all": true,
+            "scope": ["$CONFIG/vue-idle/*"]
+         },
          "all": true
       },
       "bundle": {
@@ -29,7 +33,7 @@
             "icons/icon.icns",
             "icons/icon.ico"
          ],
-         "identifier": "com.tauri.dev",
+         "identifier": "com.vue-idle0",
          "longDescription": "",
          "macOS": {
             "entitlements": null,

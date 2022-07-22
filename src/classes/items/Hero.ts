@@ -37,7 +37,7 @@ export default class Hero extends Item {
       this.race = race;
    }
 
-   /* 🎭 Abstract memebrs & methods */
+   /* ⚡ static members & methods */
    /**
     * TODO: implement better/worst hero generation based on normal distribution to match current player level
     */
@@ -54,5 +54,20 @@ export default class Hero extends Item {
       };
 
       return new Hero(data);
+   }
+
+   /* 🎭 abstract implementations */
+   public getData(): ItemData<'hero'> {
+      return {
+         type: 'hero',
+         id: this.id,
+         itemData: {
+            name: this.name,
+            class: this.class,
+            level: this.level,
+            race: this.race,
+         },
+         quantity: this.quantity,
+      };
    }
 }
