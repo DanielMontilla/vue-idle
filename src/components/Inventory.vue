@@ -1,6 +1,7 @@
 <script setup lang="ts">
    import { useInventory } from '@/services/_index';
    import { Socket } from '@/components/_index';
+   import { isRef } from 'vue';
 
    const { sockets } = useInventory();
 </script>

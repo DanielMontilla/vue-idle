@@ -47,6 +47,7 @@ export const ZONE_LIST = [
 export const ITEM_TYPE_LIST = ['hero', 'consumable', 'weapon'] as const;
 export const HERO_CLASS_LIST = [`knight`, `archer`, `mage`] as const;
 export const HERO_RACE_LIST = [`human`, `goblin`] as const;
+export const HERO_GENDER_LIST = ['female', 'male', '?'] as const;
 
 export const RESOURCE_LIST = ['health', 'stamina', 'mana'] as const;
 export const CURRENCY_LIST = ['gold'] as const;

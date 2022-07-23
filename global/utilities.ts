@@ -76,4 +76,5 @@ export const randRecKeyPick = <T extends string | number>(record: Record<T, any>
 };
 
 /* 💬 dummy data generation */
-export const randName = (): string => faker.name.firstName();
+export const randName = (gender?: 'male' | 'female'): string =>
+   faker.name.firstName(gender);

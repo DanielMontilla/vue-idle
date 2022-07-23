@@ -65,6 +65,7 @@ export default class Socket implements StateClass<SocketData> {
 
    public insert(item: Item) {
       this.item = item;
+      return this;
    }
 
    public lock() {

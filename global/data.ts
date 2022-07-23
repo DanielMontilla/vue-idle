@@ -31,15 +31,14 @@ export const DEF_SAVE_FILE: SaveFile = {
          gold: 0,
       },
    },
-   inventory: [],
+   inventory: new Array(26).fill(undefined),
    pages: {
       shop: {
          barracks: {
-            refreshTime: {
+            interval: {
                time: '5m',
             },
-            heros: [],
-            slots: 3,
+            sockets: new Array(3).fill(undefined),
          },
       },
    },

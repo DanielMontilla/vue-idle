@@ -1,10 +1,10 @@
 import { useLoop } from '@/services/_index';
-import { IntervalData } from '@/types';
+import { IntervalData, StateClass } from '@/types';
 import { mapValue } from '#/utilities';
 import { ref, Ref, watch, WatchStopHandle } from 'vue';
 import { DURATION } from '#/CONST';
 
-export default class Interval {
+export default class Interval implements StateClass<IntervalData> {
    /** @description number ∈ (0, 1) indicating percentage of current interation progress */
    public progress: Ref<number>;
    /** @description number of interations completed so far */
@@ -36,7 +36,8 @@ export default class Interval {
    private unwatch: WatchStopHandle;
 
    public constructor(options: IntervalData) {
-      let { time, onTick, onIteration, onCompleted, iterations, paused } = options;
+      let { time, onTick, onIteration, onCompleted, iterations, paused, remaining } =
+         options;
 
       this.progress = ref(0);
       this.iteration = ref(0);
@@ -50,7 +51,7 @@ export default class Interval {
       this.onIteration = onIteration;
       this.onCompleted = onCompleted;
 
-      this.remaining = ref(this.time.value);
+      this.remaining = remaining ? ref(remaining) : ref(this.time.value);
 
       const { add } = useLoop();
 
@@ -88,6 +89,15 @@ export default class Interval {
             { min: 1, max: 0 }
          );
       });
+   }
+
+   public getData(): IntervalData {
+      return {
+         time: this.time.value,
+         iterations: this.iterations.value,
+         paused: this.isPaused.value,
+         remaining: this.remaining.value,
+      };
    }
 
    public destroy() {

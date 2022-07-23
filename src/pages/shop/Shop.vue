@@ -1,14 +1,11 @@
 <script setup lang="ts">
    import { Inventory } from '@/components/_index';
    import { Barracks, Store } from '@/pages/_index';
-   import { usePages } from '@/services/_index';
-
-   const { shop } = usePages();
 </script>
 
 <template>
    <div class="page-shop">
-      <Barracks class="barracks" :data="shop.barracks" />
+      <Barracks class="barracks" />
       <Store class="store" />
       <Inventory class="inventory" />
    </div>

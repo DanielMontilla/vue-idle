@@ -5,6 +5,8 @@ let next: number = 0;
 let previousTime: number;
 let raf: number | undefined = undefined;
 
+// TODO: maybe add more efficient way of storing/IDing callbacks for better update iterartion
+
 const callbacks: Record<number, LoopCallback> = {};
 
 const begin = () => {

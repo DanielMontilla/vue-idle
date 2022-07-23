@@ -3,6 +3,7 @@ import {
    CURRENCY_LIST,
    DURATION,
    HERO_CLASS_LIST,
+   HERO_GENDER_LIST,
    HERO_RACE_LIST,
    ITEM_TYPE_LIST,
    PAGE_LIST,
@@ -12,7 +13,7 @@ import {
    STAT_LIST,
    ZONE_LIST,
 } from '#/CONST';
-import { Socket, Item, Hero, Consumable, Weapon } from '@/classes/_index';
+import { Socket, Item, Hero, Consumable, Weapon, Interval } from '@/classes/_index';
 import { Ref } from 'vue';
 
 /* 🧬 Literals constant */
@@ -20,6 +21,7 @@ export type ItemTypes = typeof ITEM_TYPE_LIST[number];
 export type SocketTypes = typeof SOCKET_TYPE_LIST[number];
 export type HeroClasses = typeof HERO_CLASS_LIST[number];
 export type HeroRaces = typeof HERO_RACE_LIST[number];
+export type HeroGenders = typeof HERO_GENDER_LIST[number];
 export type Resources = typeof RESOURCE_LIST[number];
 export type Stats = typeof STAT_LIST[number];
 export type Skills = typeof SKILL_LIST[number];
@@ -46,6 +48,7 @@ export interface HeroData {
    name: string;
    race: HeroRaces;
    class: HeroClasses;
+   gender: HeroGenders;
    level: number;
 }
 export interface ConsumableData {
@@ -62,18 +65,19 @@ export interface IntervalData {
    onCompleted?: () => void;
    iterations?: number | 'infinite';
    paused?: boolean;
+   remaining?: number;
 }
 
 export interface PlayerData {
    wallet: Wallet;
 }
 
-export type InventoryData = SocketData[];
+/** @description undifined = empty socket */
+export type InventoryData = (SocketData | undefined)[];
 
 export interface BarracksData {
-   refreshTime: IntervalData;
-   slots: number;
-   heros: SocketData[];
+   interval: IntervalData;
+   sockets: (SocketData | undefined)[];
 }
 
 export interface ShopData {
@@ -110,6 +114,7 @@ export type ItemRef = Ref<Item>;
 export type SkillsObject = Record<Skills, Skill>;
 export type StatsObject = Record<Stats, number>;
 export type ActivitiesObject = Record<Activities, Activity>;
+export type SocketSet = Ref<SocketRef[]>;
 
 export type Wallet = Record<Currencies, number>;
 
@@ -146,3 +151,13 @@ export type $ItemTypeToClass<T extends ItemTypes> = T extends 'hero'
    : T extends 'consumable'
    ? Consumable
    : Weapon;
+
+/* 📃 Page state keeping types */
+export interface BarracksElements {
+   refreshInterval: Interval;
+   sockets: SocketSet;
+}
+
+export interface ShopElements {
+   barracks: BarracksElements;
+}

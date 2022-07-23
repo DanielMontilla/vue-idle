@@ -4,20 +4,26 @@
  */
 import { DEF_SAVE_FILE } from '#/data';
 import { Item, Socket } from '@/classes/_index';
-import { InventoryData, SaveFile, SocketRef, StateService } from '@/types';
+import {
+   InventoryData,
+   SaveFile,
+   SocketData,
+   SocketRef,
+   SocketSet,
+   StateService,
+} from '@/types';
 import { Ref, ref } from 'vue';
 
-/* 🏁 initialization  */
-const { inventory } = DEF_SAVE_FILE;
-
 /* 💬 Data */
-const sockets: Ref<SocketRef[]> = ref(inventory.map(d => Socket.createRef(d)));
+const sockets = ref([]) as SocketSet;
 
 /* 🔧 Methods */
-const addEmpty = (amount: number) => {
-   for (let i = 0; i < amount; i++) {
-      sockets.value.push(Socket.createRef());
-   }
+const add = (data?: SocketData) => {
+   sockets.value.push(Socket.createRef(data));
+};
+
+const addEmpty = (amount: number = 1) => {
+   for (let i = 0; i < amount; i++) add();
 };
 
 const insert = (item: Item) => {
@@ -29,16 +35,21 @@ const insert = (item: Item) => {
    }
 };
 
+const clear = () => {
+   sockets.value.splice(0, sockets.value.length);
+};
+
 /* state service implementations */
 const _key = 'inventory';
 const setData = (file: SaveFile) => {
    const { inventory } = file;
 
-   sockets.value.splice(0, sockets.value.length);
-   sockets.value = inventory.map(d => Socket.createRef(d));
+   clear();
+
+   inventory.forEach(d => add(d));
 };
 const getData = (): InventoryData => {
-   return sockets.value.map(s => s.value.getData());
+   return sockets.value.map(s => (s.value.item ? s.value.getData() : undefined));
 };
 
 /* for type purposes */
@@ -46,6 +57,7 @@ let props = {
    sockets,
    addEmpty,
    insert,
+   clear,
 };
 
 const useInventory = (): StateService<InventoryData> & typeof props => ({
@@ -55,6 +67,7 @@ const useInventory = (): StateService<InventoryData> & typeof props => ({
    sockets,
    addEmpty,
    insert,
+   clear,
 });
 
 export default useInventory;

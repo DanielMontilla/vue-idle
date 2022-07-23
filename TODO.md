@@ -2,3 +2,5 @@
 -  hero tooltip
 -  hero activity/skill/stat system
 -  tauri fs access
+-  create class serializer with function support
+-  evaluate advantages of IntervalRef
